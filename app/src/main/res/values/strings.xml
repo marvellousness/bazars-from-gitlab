@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Bazar Books</string>
+    <string name="sign_in">Sign in</string>
+    <string name="get_started">Get Started</string>
+    <string name="skip">Skip</string>
+    <string name="continue_text">Continue</string>
+
+    <string name="intro_1_title">Now reading books will be easier</string>
+    <string name="intro_1_subtitle">Discover new worlds, join a vibrant reading community. Start your reading adventure effortlessly with us.</string>
+    <string name="intro_2_title">Your Bookish Soulmate Awaits</string>
+    <string name="intro_2_subtitle">Let us be your guide to the perfect read. Discover books tailored to your tastes for a truly rewarding experience.</string>
+    <string name="intro_3_title">Start Your Adventure</string>
+    <string name="intro_3_subtitle">Ready to embark on a quest for inspiration and knowledge? Your adventure begins now. Let\'s go!</string>
+
+    <string name="home">Home</string>
+    <string name="category">Category</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
 </resources>
