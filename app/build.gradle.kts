@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.dagger.hilt.plugin)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -36,7 +38,19 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
+//    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+//        kotlinOptions {
+//            freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+//            freeCompilerArgs += "-opt-in=kotlin.Experimental"
+//        }
+//    }
 }
 
 dependencies {
@@ -49,7 +63,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.dagger.hilt)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.dagger.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
