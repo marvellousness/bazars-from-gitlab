@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.dagger.hilt)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.material.icons.extended.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
