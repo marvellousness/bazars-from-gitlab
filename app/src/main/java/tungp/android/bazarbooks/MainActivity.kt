@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import tungp.android.bazarbooks.navigation.graphs.RootNavGraph
-import tungp.android.bazarbooks.ui.theme.BazarBooksTheme
+import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BazarBooksTheme {
+            BazarTheme {
                 RootNavGraph(isAuth = false)
             }
         }
