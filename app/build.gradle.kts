@@ -73,23 +73,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.material.icons.extended.android)
-
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(platform(libs.okhttp.bom))
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
-    implementation(libs.converter.gson)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.retrofit.kotlinx.serialization.converter)
-    implementation(libs.kotlinx.coroutines.core)
-
-    implementation(libs.coil.kt)
-    implementation(libs.coil.kt.compose)
-    implementation(libs.coil.kt.svg)
-    implementation(libs.landscapist.coil)
-    implementation(libs.landscapist.glide)
-
+    implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
