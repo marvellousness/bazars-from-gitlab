@@ -51,4 +51,9 @@ object BazarTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalBazarShapes.current
+
+    val spacing: BazarSpacing
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalBazarSpacing.current
 }
