@@ -1,0 +1,19 @@
+package tungp.android.bazarbooks.data.remote.network.model.response
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import tungp.android.bazarbooks.domain.model.Author
+import tungp.android.bazarbooks.domain.model.Book
+import tungp.android.bazarbooks.domain.model.Vendor
+
+@Serializable
+data class HomeFeedsResponse(
+    @SerialName("topOfWeek")
+    val topOfWeek: List<Book> = emptyList(),
+
+    @SerialName("bestVendors")
+    val bestVendors: List<Vendor> = emptyList(),
+
+    @SerialName("authors")
+    val authors: List<Author> = emptyList(),
+) : BaseResponse()
