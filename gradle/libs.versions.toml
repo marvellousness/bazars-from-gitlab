@@ -18,8 +18,13 @@ hiltVersion = "2.54"
 hiltNavigationCompose = "1.2.0"
 kaptVersion = "1.6.20"
 coil = "2.7.0"
+landscapistCoil = "2.4.4"
 kotlinxCoroutines = "1.9.0"
-kotlinxSerializationJson = "1.7.3"
+kotlinxSerializationJson = "1.8.0"
+okhttpBom = "4.12.0"
+retrofit = "2.11.0"
+retrofit-kotlinx-serialization-converter = "1.0.0"
+converterGson = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,7 +51,7 @@ androidx-dataStore-preferences = { group = "androidx.datastore", name = "datasto
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
@@ -54,12 +59,21 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+landscapist-coil = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapistCoil" }
+landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapistCoil" }
+
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
+okhttp = { module = "com.squareup.okhttp3:okhttp" }
+okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttpBom" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kotlinx-serialization-converter" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version = "2.1.0" }
 
 dagger-hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kaptVersion" }
