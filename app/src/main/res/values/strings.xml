@@ -16,4 +16,6 @@
     <string name="category">Category</string>
     <string name="cart">Cart</string>
     <string name="profile">Profile</string>
+    <string name="text_no_data_found">No data found</string>
+    <string name="text_retry">Retry</string>
 </resources>
