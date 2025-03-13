@@ -6,7 +6,7 @@
       {
         "isbn": "9780062315007",
         "title": "The Alchemist",
-        "cover": "https://example.com/covers/alchemist.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/13151170-L.jpg",
         "author": "Paulo Coelho",
         "price": 14.99,
         "genre": ["Fiction", "Philosophy", "Adventure"],
@@ -19,7 +19,7 @@
       {
         "isbn": "9781400033416",
         "title": "The Kite Runner",
-        "cover": "https://example.com/covers/kite_runner.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/12634691-L.jpg",
         "author": "Khaled Hosseini",
         "price": 16.99,
         "genre": ["Fiction", "Historical Fiction", "Drama"],
@@ -32,7 +32,7 @@
       {
         "isbn": "9780143127550",
         "title": "The Nightingale",
-        "cover": "https://example.com/covers/nightingale.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/14416194-L.jpg",
         "author": "Kristin Hannah",
         "price": 18.99,
         "genre": ["Historical Fiction", "War", "Drama"],
@@ -47,19 +47,19 @@
       {
         "id": "v1001",
         "title": "Bookworm Paradise",
-        "cover": "https://example.com/vendors/bookworm_paradise.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/9171544-L.jpg",
         "authorName": "Emma Johnson"
       },
       {
         "id": "v1002",
         "title": "Literary Haven",
-        "cover": "https://example.com/vendors/literary_haven.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/12816871-L.jpg",
         "authorName": "David Garcia"
       },
       {
         "id": "v1003",
         "title": "Page Turner Books",
-        "cover": "https://example.com/vendors/page_turner.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/14407898-L.jpg",
         "authorName": "Sarah Williams"
       }
     ],
@@ -67,19 +67,19 @@
       {
         "id": "a1001",
         "title": "Master Storyteller",
-        "cover": "https://example.com/authors/stephen_king.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/471953-L.jpg",
         "authorName": "Stephen King"
       },
       {
         "id": "a1002",
         "title": "Mystery Novelist",
-        "cover": "https://example.com/authors/agatha_christie.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/505653-M.jpg",
         "authorName": "Agatha Christie"
       },
       {
         "id": "a1003",
         "title": "Contemporary Fiction",
-        "cover": "https://example.com/authors/colleen_hoover.jpg",
+        "cover": "https://covers.openlibrary.org/b/id/505653-M.jpg",
         "authorName": "Colleen Hoover"
       }
     ]
