@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import tungp.android.bazarbooks.ui.theme.LocalBazarSpacing
 import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
 
 @Composable
@@ -20,11 +22,9 @@ fun SectionTitle(
     onSeeAll: (Int) -> Unit,
 ) {
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(bottom = 17.dp, start = 23.dp, end = 23.dp)
-            .fillMaxWidth()
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().padding(horizontal = LocalBazarSpacing.current.medium)
     ) {
         Text(
             text = title,
@@ -40,4 +40,10 @@ fun SectionTitle(
             }
         )
     }
+}
+
+@Preview
+@Composable
+private fun PreviewSectionTitle() {
+    SectionTitle("Title") { id -> }
 }

@@ -1,5 +1,6 @@
 package tungp.android.bazarbooks.data.remote.network.model
 
+import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import java.util.UUID
 
@@ -130,4 +131,6 @@ object ApiData {
             price = 14.99
         ),
     )
+
+    val authors = listOf(Author("1", "title", "cover", "authorName"))
 }

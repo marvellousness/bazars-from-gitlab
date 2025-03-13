@@ -90,7 +90,6 @@ dependencies {
     implementation(libs.landscapist.coil)
     implementation(libs.landscapist.glide)
 
-    implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
