@@ -22,7 +22,6 @@ import tungp.android.bazarbooks.components.LoadingView
 import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Vendor
-import tungp.android.bazarbooks.extension.cast
 import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 
@@ -38,16 +37,15 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun HomeContent(uiState: BaseViewState<*>) {
+fun HomeContent(uiState: BaseViewState<HomeState>) {
     when (uiState) {
-        is BaseViewState.Data -> HomeContentDetail(uiState.cast<BaseViewState.Data<HomeState>>().value)
-        is BaseViewState.Empty -> EmptyView()
+        is BaseViewState.Data -> HomeContentDetail(uiState.value)
+        BaseViewState.Empty -> EmptyView()
         is BaseViewState.Error -> ErrorView(
-            e = uiState.cast<BaseViewState.Error>().throwable,
+            e = uiState.throwable,
             action = {}
         )
-
-        is BaseViewState.Loading -> LoadingView()
+        BaseViewState.Loading -> LoadingView()
     }
 }
 

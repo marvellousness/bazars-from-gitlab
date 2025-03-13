@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getHomeFeedsUseCase: GetHomeFeedsUseCase,
-) : MviViewModel<BaseViewState<HomeState>, HomeEvent>() {
+) : MviViewModel<HomeState, HomeEvent>() {
     override fun onTriggerEvent(eventType: HomeEvent) {
         when (eventType) {
             HomeEvent.LoadHomeFeeds -> onLoadHomeFeeds()
@@ -20,13 +20,11 @@ class HomeViewModel @Inject constructor(
     private fun onLoadHomeFeeds() = safeLaunch {
         setState(BaseViewState.Loading)
         execute(getHomeFeedsUseCase(params = NoParams)) { dto ->
-            setState(
-                BaseViewState.Data(
-                    HomeState(
-                        topOfWeeks = dto.topOfWeek,
-                        bestVendors = dto.bestVendors,
-                        authors = dto.authors
-                    )
+            setData(
+                HomeState(
+                    topOfWeeks = dto.topOfWeek,
+                    bestVendors = dto.bestVendors,
+                    authors = dto.authors
                 )
             )
         }

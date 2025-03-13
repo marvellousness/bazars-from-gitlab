@@ -1,17 +1,28 @@
 package tungp.android.bazarbooks.mvi
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-abstract class MviViewModel<STATE : BaseViewState<*>, EVENT> : MvvmViewModel() {
+/**
+ * Base ViewModel for MVI architecture pattern.
+ * 
+ * @param STATE The type of data that will be wrapped in BaseViewState.Data
+ * @param EVENT The type of events this ViewModel will handle
+ */
+abstract class MviViewModel<STATE, EVENT> : MvvmViewModel() {
 
-    private val _uiState = MutableStateFlow<BaseViewState<*>>(BaseViewState.Empty)
-    val uiState = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<BaseViewState<STATE>>(BaseViewState.Empty)
+    val uiState: StateFlow<BaseViewState<STATE>> = _uiState.asStateFlow()
 
     abstract fun onTriggerEvent(eventType: EVENT)
 
-    protected fun setState(state: STATE) = safeLaunch {
+    protected fun setState(state: BaseViewState<STATE>) = safeLaunch {
         _uiState.emit(state)
+    }
+
+    protected fun setData(data: STATE) = safeLaunch {
+        _uiState.emit(BaseViewState.Data(data))
     }
 
     override fun startLoading() {
