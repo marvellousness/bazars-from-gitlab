@@ -39,7 +39,6 @@ fun ErrorView(modifier: Modifier = Modifier, e: Throwable, action: () -> Unit) {
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.Center)
         )
-        SmallSpacer()
         Text(
             text = "${e.localizedMessage}",
             modifier = modifier
@@ -47,7 +46,6 @@ fun ErrorView(modifier: Modifier = Modifier, e: Throwable, action: () -> Unit) {
                 .wrapContentHeight(),
             textAlign = TextAlign.Center
         )
-        SmallSpacer()
         Button(
             modifier = modifier
                 .fillMaxWidth()

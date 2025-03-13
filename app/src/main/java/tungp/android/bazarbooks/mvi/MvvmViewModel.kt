@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import tungp.android.bazarbooks.data.model.base.BazaResult
 
 abstract class MvvmViewModel : ViewModel() {
 
@@ -35,16 +36,17 @@ abstract class MvvmViewModel : ViewModel() {
     }
 
     protected suspend fun <T> execute(
-        callFlow: Flow<Result<T>>,
+        callFlow: Flow<BazaResult<T>>,
         completionHandler: (collect: T) -> Unit = {},
     ) {
         callFlow
             .onStart { startLoading() }
             .catch { handleError(it) }
             .collect { state ->
-                state.onSuccess { completionHandler.invoke(it) }
-                state.onFailure {
-                    handleError(it)
+                when (state) {
+                    is BazaResult.Success -> completionHandler.invoke(state.data)
+                    is BazaResult.Error -> handleError(state.exception)
+                    BazaResult.Loading -> { /* Loading state is handled by onStart */ }
                 }
             }
     }

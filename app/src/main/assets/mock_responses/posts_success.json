@@ -1,0 +1,31 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": [
+    {
+      "id": "1",
+      "name": "Introduction to MVI Architecture",
+      "description": "Model-View-Intent (MVI) is a unidirectional data flow architecture that provides high predictability and testability."
+    },
+    {
+      "id": "2",
+      "name": "Jetpack Compose Fundamentals",
+      "description": "Learn the fundamentals of Jetpack Compose, Android's modern toolkit for building native UI."
+    },
+    {
+      "id": "3",
+      "name": "Kotlin Coroutines",
+      "description": "Explore how Kotlin Coroutines simplify asynchronous programming with a more concise and readable code."
+    },
+    {
+      "id": "4",
+      "name": "Dependency Injection with Hilt",
+      "description": "Hilt is a dependency injection library for Android that reduces the boilerplate of manual dependency injection."
+    },
+    {
+      "id": "5",
+      "name": "Room Database Implementation",
+      "description": "Room provides an abstraction layer over SQLite to allow more robust database access while harnessing SQLite's full power."
+    }
+  ]
+}

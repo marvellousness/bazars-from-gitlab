@@ -1,0 +1,87 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "topOfWeek": [
+      {
+        "isbn": "9780062315007",
+        "title": "The Alchemist",
+        "cover": "https://example.com/covers/alchemist.jpg",
+        "author": "Paulo Coelho",
+        "price": 14.99,
+        "genre": ["Fiction", "Philosophy", "Adventure"],
+        "publishedYear": 1988,
+        "description": "A magical story about following your dreams and listening to your heart.",
+        "publisher": "HarperOne",
+        "numberOfPages": 208,
+        "quantityInStock": 42
+      },
+      {
+        "isbn": "9781400033416",
+        "title": "The Kite Runner",
+        "cover": "https://example.com/covers/kite_runner.jpg",
+        "author": "Khaled Hosseini",
+        "price": 16.99,
+        "genre": ["Fiction", "Historical Fiction", "Drama"],
+        "publishedYear": 2003,
+        "description": "A story of friendship, betrayal, and redemption set against the backdrop of Afghanistan's tumultuous history.",
+        "publisher": "Riverhead Books",
+        "numberOfPages": 371,
+        "quantityInStock": 27
+      },
+      {
+        "isbn": "9780143127550",
+        "title": "The Nightingale",
+        "cover": "https://example.com/covers/nightingale.jpg",
+        "author": "Kristin Hannah",
+        "price": 18.99,
+        "genre": ["Historical Fiction", "War", "Drama"],
+        "publishedYear": 2015,
+        "description": "A tale of two sisters in France during World War II.",
+        "publisher": "St. Martin's Press",
+        "numberOfPages": 440,
+        "quantityInStock": 15
+      }
+    ],
+    "bestVendors": [
+      {
+        "id": "v1001",
+        "title": "Bookworm Paradise",
+        "cover": "https://example.com/vendors/bookworm_paradise.jpg",
+        "authorName": "Emma Johnson"
+      },
+      {
+        "id": "v1002",
+        "title": "Literary Haven",
+        "cover": "https://example.com/vendors/literary_haven.jpg",
+        "authorName": "David Garcia"
+      },
+      {
+        "id": "v1003",
+        "title": "Page Turner Books",
+        "cover": "https://example.com/vendors/page_turner.jpg",
+        "authorName": "Sarah Williams"
+      }
+    ],
+    "authors": [
+      {
+        "id": "a1001",
+        "title": "Master Storyteller",
+        "cover": "https://example.com/authors/stephen_king.jpg",
+        "authorName": "Stephen King"
+      },
+      {
+        "id": "a1002",
+        "title": "Mystery Novelist",
+        "cover": "https://example.com/authors/agatha_christie.jpg",
+        "authorName": "Agatha Christie"
+      },
+      {
+        "id": "a1003",
+        "title": "Contemporary Fiction",
+        "cover": "https://example.com/authors/colleen_hoover.jpg",
+        "authorName": "Colleen Hoover"
+      }
+    ]
+  }
+}

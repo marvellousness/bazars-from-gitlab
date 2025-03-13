@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.data.remote.network.model.response
+package tungp.android.bazarbooks.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,4 +16,4 @@ data class HomeFeedsResponse(
 
     @SerialName("authors")
     val authors: List<Author> = emptyList(),
-) : BaseResponse()
+)
