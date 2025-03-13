@@ -1,5 +1,6 @@
 package tungp.android.bazarbooks.screens.main
 
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -73,7 +74,11 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-        BazarSurface(modifier = Modifier.padding(innerPadding)) {
+        BazarSurface(
+            modifier = Modifier
+                .padding(innerPadding)
+                .consumeWindowInsets(paddingValues = innerPadding),
+        ) {
             MainNavGraph(
                 rootNavController = rootNavController,
                 homeNavController = homeNavController

@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.material.icons.extended.android)
+<<<<<<< HEAD
 
     // Retrofit
     implementation(libs.retrofit)
@@ -90,7 +91,9 @@ dependencies {
     implementation(libs.landscapist.coil)
     implementation(libs.landscapist.glide)
 
+=======
     implementation(libs.gson)
+>>>>>>> 16a0375 (Implement Onboarding screen)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

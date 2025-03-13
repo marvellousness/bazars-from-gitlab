@@ -28,31 +28,32 @@ import tungp.android.bazarbooks.ui.theme.BazarTheme
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    HomeContent(uiState)
-
     LaunchedEffect(key1 = Unit) {
         viewModel.onTriggerEvent(HomeEvent.LoadHomeFeeds)
     }
+    HomeContent(uiState)
 }
 
 @Composable
 fun HomeContent(uiState: BaseViewState<HomeState>) {
-    when (uiState) {
-        is BaseViewState.Data -> HomeContentDetail(uiState.value)
-        BaseViewState.Empty -> EmptyView()
-        is BaseViewState.Error -> ErrorView(
-            e = uiState.throwable,
-            action = {}
-        )
-        BaseViewState.Loading -> LoadingView()
+    Column(modifier = Modifier.fillMaxSize()) {
+        when (uiState) {
+            is BaseViewState.Data -> HomeContentContainer(uiState.value)
+            BaseViewState.Empty -> EmptyView()
+            is BaseViewState.Error -> ErrorView(
+                e = uiState.throwable,
+                action = {}
+            )
+
+            BaseViewState.Loading -> LoadingView()
+        }
     }
 }
 
 @Composable
-fun HomeContentDetail(homeState: HomeState, modifier: Modifier = Modifier) {
+fun HomeContentContainer(homeState: HomeState, modifier: Modifier = Modifier) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(BazarTheme.spacing.extraMedium),
         contentPadding = PaddingValues(vertical = BazarTheme.spacing.extraMedium)
     ) {
@@ -66,7 +67,7 @@ fun HomeContentDetail(homeState: HomeState, modifier: Modifier = Modifier) {
         }
 
         item {
-            AuthorsContainer(homeState.authors)
+            TopAuthorsContainer(homeState.authors)
         }
     }
 }
@@ -76,10 +77,7 @@ fun TopOfWeekContainer(
     books: List<Book>,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
+    Column(modifier = modifier) {
         SectionTitle(
             title = "Top of Week",
             onSeeAll = {
@@ -92,21 +90,51 @@ fun TopOfWeekContainer(
 }
 
 @Composable
-fun AuthorsContainer(authors: List<Author>) {
-    SectionTitle(
-        title = "Authors",
-        onSeeAll = {
-            // TODO: Navigate to the top of week list screen
-        })
+fun TopAuthorsContainer(authors: List<Author>, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        SectionTitle(
+            title = "Authors",
+            onSeeAll = {
+                // TODO: Navigate to the top of week list screen
+            })
+        AuthorsContainer(
+            authors = authors,
+            onAuthorItemClick = { author ->
+                // TODO: Navigate to the author details screen
+            },
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
-fun BestVendorsContainer(bestVendors: List<Vendor>) {
-    SectionTitle(
-        title = "Best Vendors",
-        onSeeAll = {
-            // TODO: Navigate to the top of week list screen
-        })
+fun AuthorsContainer(
+    authors: List<Author>,
+    onAuthorItemClick: (Author) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ContainerContent(
+        modifier = modifier,
+        items = authors,
+        itemContent = { book ->
+            HorizontalAuthorItem(
+                author = book,
+                onAuthorItemClick = onAuthorItemClick
+            )
+        },
+        placeholderContent = { HorizontalItemPlaceholder() }
+    )
+}
+
+@Composable
+fun BestVendorsContainer(bestVendors: List<Vendor>, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        SectionTitle(
+            title = "Best Vendors",
+            onSeeAll = {
+                // TODO: Navigate to the top of week list screen
+            })
+    }
 }
 
 @Composable
@@ -118,7 +146,12 @@ fun BooksContainer(
     ContainerContent(
         modifier = modifier,
         items = books,
-        itemContent = { book -> HorizontalBookItem(book = book, onBookItemClick = onShowBookDetail) },
+        itemContent = { book ->
+            HorizontalBookItem(
+                book = book,
+                onBookItemClick = onShowBookDetail
+            )
+        },
         placeholderContent = { HorizontalItemPlaceholder() }
     )
 }
