@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -89,7 +91,6 @@ dependencies {
     implementation(libs.coil.kt.svg)
     implementation(libs.landscapist.coil)
     implementation(libs.landscapist.glide)
-
     implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

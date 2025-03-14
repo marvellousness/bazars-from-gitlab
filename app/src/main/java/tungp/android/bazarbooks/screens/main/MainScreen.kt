@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -18,6 +19,7 @@ import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.navigation.BottomNavigationBar
 import tungp.android.bazarbooks.navigation.bottomNavigationItemsList
 import tungp.android.bazarbooks.navigation.graphs.MainNavGraph
+import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,9 +46,17 @@ fun MainScreen(
     }
     Scaffold(
         topBar = {
-            TopAppBar(title = {
-                Text(text = topBarTitle)
-            })
+            TopAppBar(
+                colors = TopAppBarColors(
+                    containerColor = BazarTheme.colors.surfaceContainerLowest,
+                    scrolledContainerColor = BazarTheme.colors.primary,
+                    actionIconContentColor = BazarTheme.colors.primary,
+                    navigationIconContentColor = BazarTheme.colors.primary,
+                    titleContentColor = BazarTheme.colors.primary,
+                ),
+                title = {
+                    Text(text = topBarTitle)
+                })
         },
         bottomBar = {
             BottomNavigationBar(
