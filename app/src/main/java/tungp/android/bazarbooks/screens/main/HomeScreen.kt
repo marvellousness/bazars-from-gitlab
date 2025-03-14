@@ -28,7 +28,7 @@ import tungp.android.bazarbooks.screens.main.components.AuthorItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalBookItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalItemPlaceholder
 import tungp.android.bazarbooks.screens.main.components.SectionTitle
-import tungp.android.bazarbooks.screens.main.components.SpecialOfferItem
+import tungp.android.bazarbooks.screens.main.components.SpecialOffersCarousel
 import tungp.android.bazarbooks.screens.main.components.VendorItem
 import tungp.android.bazarbooks.screens.main.components.VendorItemPlaceholder
 import tungp.android.bazarbooks.ui.theme.BazarTheme
@@ -89,7 +89,7 @@ fun SpecialOffersContainer(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        OffersContainer(offers = offers, onOfferItemClick = {
+        OffersContainer(specialOffers = offers, onOfferItemClick = {
             // TODO: Navigate to the book details screen
         })
     }
@@ -172,20 +172,14 @@ fun BestVendorsContainer(bestVendors: List<Vendor>, modifier: Modifier = Modifie
 
 @Composable
 fun OffersContainer(
-    offers: List<Book>,
+    specialOffers: List<Book>,
     onOfferItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    ContainerContent(
-        modifier = modifier,
-        items = offers,
-        itemContent = { book ->
-            SpecialOfferItem(
-                offerBook = book,
-                onOfferItemClick = onOfferItemClick
-            )
-        },
-        placeholderContent = { HorizontalItemPlaceholder() }
+    SpecialOffersCarousel(
+        specialOffers = specialOffers,
+        onOfferItemClick = onOfferItemClick,
+        modifier = modifier
     )
 }
 
