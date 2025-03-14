@@ -82,6 +82,33 @@ object PreviewData {
             author = "Diane Whiteside",
             cover = "https://covers.openlibrary.org/b/id/505653-M.jpg",
             price = 14.99
+        ), Book(
+            isbn = UUID.randomUUID().toString(),
+            title = "Fifty Shades of Grey",
+            author = "E. L. James",
+            cover = "https://covers.openlibrary.org/b/id/10740111-L.jpg",
+            price = 14.99
+        ),
+        Book(
+            isbn = UUID.randomUUID().toString(),
+            title = "Court of Mist and Fury",
+            author = "Sarah J. Maas",
+            cover = "https://covers.openlibrary.org/b/id/14416194-L.jpg",
+            price = 14.99
+        ),
+        Book(
+            isbn = UUID.randomUUID().toString(),
+            title = "Surrendered Single",
+            author = "Laura Doyle",
+            cover = "https://covers.openlibrary.org/b/id/471953-L.jpg",
+            price = 14.99
+        ),
+        Book(
+            isbn = UUID.randomUUID().toString(),
+            title = "The River Devil",
+            author = "Diane Whiteside",
+            cover = "https://covers.openlibrary.org/b/id/505653-M.jpg",
+            price = 14.99
         )
     )
 

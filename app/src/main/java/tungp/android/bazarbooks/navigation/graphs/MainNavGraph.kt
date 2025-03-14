@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.navigation.MainRouteScreen
 import tungp.android.bazarbooks.screens.main.HomeScreen
-import tungp.android.bazarbooks.screens.main.CategoryScreen
+import tungp.android.bazarbooks.screens.category.CategoryScreen
 import tungp.android.bazarbooks.screens.main.ProfileScreen
 import tungp.android.bazarbooks.screens.main.CardScreen
 
@@ -19,7 +19,7 @@ fun MainNavGraph(
     NavHost(
         navController = homeNavController,
         route = Graph.MainScreenGraph,
-        startDestination = MainRouteScreen.Home.route
+        startDestination = MainRouteScreen.Category.route
     ) {
         composable(route = MainRouteScreen.Home.route) {
             HomeScreen()

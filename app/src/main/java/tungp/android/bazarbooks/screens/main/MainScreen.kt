@@ -46,7 +46,7 @@ fun MainScreen(
     Scaffold(
         topBar = {
             BazarAppBar(
-                pageTitle = stringResource(R.string.home),
+                pageTitle = topBarTitle,
                 onSearchClick = {},
                 onNotificationClick = {}
             )
