@@ -9,7 +9,7 @@ import tungp.android.bazarbooks.navigation.MainRouteScreen
 import tungp.android.bazarbooks.screens.main.HomeScreen
 import tungp.android.bazarbooks.screens.category.CategoryScreen
 import tungp.android.bazarbooks.screens.main.ProfileScreen
-import tungp.android.bazarbooks.screens.main.CardScreen
+import tungp.android.bazarbooks.screens.main.CartScreen
 
 @Composable
 fun MainNavGraph(
@@ -30,8 +30,8 @@ fun MainNavGraph(
         composable(route = MainRouteScreen.Profile.route) {
             ProfileScreen()
         }
-        composable(route = MainRouteScreen.Card.route) {
-            CardScreen(navController = rootNavController)
+        composable(route = MainRouteScreen.Cart.route) {
+            CartScreen(navController = rootNavController)
         }
     }
 }

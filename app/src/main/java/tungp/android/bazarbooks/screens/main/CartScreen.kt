@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.card
+package tungp.android.bazarbooks.screens.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,12 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import tungp.android.bazarbooks.navigation.AuthRouteScreen
-import tungp.android.bazarbooks.navigation.Graph
+import tungp.android.bazarbooks.navigation.CartRouteScreen
 
 @Composable
-fun CardDetailScreen(
-    rootNavController: NavController
+fun CartScreen(
+    navController: NavController,
 ) {
     Column(
         modifier = Modifier
@@ -29,25 +28,20 @@ fun CardDetailScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Card Details Screen",
+            text = "Cart Screen",
             fontSize = 40.sp,
             color = Color.Black
         )
         Button(onClick = {
-            rootNavController.navigate(AuthRouteScreen.Login.route){
-                popUpTo(Graph.MainScreenGraph) {
-                    inclusive = true
-                }
-                launchSingleTop = true
-            }
+            navController.navigate(CartRouteScreen.CartDetail.route)
         }) {
-            Text("Go to Login")
+            Text("Go to Cart Detail Page")
         }
     }
 }
 
 @Preview
 @Composable
-private fun CardDetailScreenPreview() {
-    CardDetailScreen(rememberNavController())
+private fun CartScreenPreview() {
+    CartScreen(rememberNavController())
 }

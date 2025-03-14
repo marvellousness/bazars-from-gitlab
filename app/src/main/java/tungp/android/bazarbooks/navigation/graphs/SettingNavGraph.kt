@@ -5,16 +5,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import tungp.android.bazarbooks.navigation.Graph
-import tungp.android.bazarbooks.navigation.CardRouteScreen
-import tungp.android.bazarbooks.screens.card.CardDetailScreen
+import tungp.android.bazarbooks.navigation.CartRouteScreen
+import tungp.android.bazarbooks.screens.cart.CartDetailScreen
 
-fun NavGraphBuilder.cardNavGraph(rootNavController: NavHostController) {
+fun NavGraphBuilder.cartNavGraph(rootNavController: NavHostController) {
     navigation(
-        route = Graph.CardGraph,
-        startDestination = CardRouteScreen.CardDetail.route
+        route = Graph.CartGraph,
+        startDestination = CartRouteScreen.CartDetail.route
     ) {
-        composable(route = CardRouteScreen.CardDetail.route) {
-            CardDetailScreen(rootNavController = rootNavController)
+        composable(route = CartRouteScreen.CartDetail.route) {
+            CartDetailScreen(rootNavController = rootNavController)
         }
     }
 }

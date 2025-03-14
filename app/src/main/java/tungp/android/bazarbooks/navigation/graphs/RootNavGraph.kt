@@ -23,6 +23,6 @@ fun RootNavGraph(isAuth: Boolean) {
             MainScreen(rootNavController = rootNavController)
         }
         categoryNavGraph(rootNavController)
-        cardNavGraph(rootNavController)
+        cartNavGraph(rootNavController)
     }
 }

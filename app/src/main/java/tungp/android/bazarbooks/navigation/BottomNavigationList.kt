@@ -25,7 +25,7 @@ val bottomNavigationItemsList = listOf(
     ),
     NavigationItem(
         title = "Cart",
-        route = MainRouteScreen.Card.route,
+        route = MainRouteScreen.Cart.route,
         selectedIcon = Icons.Filled.ShoppingCart,
         unSelectedIcon = Icons.Outlined.ShoppingCart,
         hasBadgeDot = true
