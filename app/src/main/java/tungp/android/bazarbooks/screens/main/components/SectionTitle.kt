@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.main
+package tungp.android.bazarbooks.screens.main.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,10 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.LocalBazarSpacing
-import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
+import tungp.android.bazarbooks.ui.theme.PreviewTheme
 
 @Composable
 fun SectionTitle(
@@ -24,17 +24,23 @@ fun SectionTitle(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = LocalBazarSpacing.current.medium)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = LocalBazarSpacing.current.medium,
+                vertical = LocalBazarSpacing.current.small
+            )
     ) {
         Text(
             text = title,
+            style = BazarTheme.typography.titleMedium,
             color = Color(0xFF121212),
             fontSize = 18.sp,
         )
         Text(
             "See all",
             color = Color(0xFF54408C),
-            fontSize = MyFontSize.body_medium,
+            style = BazarTheme.typography.titleSmall,
             modifier = Modifier.clickable {
                 onSeeAll(1)
             }
@@ -42,8 +48,10 @@ fun SectionTitle(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PreviewSectionTitle() {
-    SectionTitle("Title") { id -> }
+    PreviewTheme {
+        SectionTitle("Title") { id -> }
+    }
 }

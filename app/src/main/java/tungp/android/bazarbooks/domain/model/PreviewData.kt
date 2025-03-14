@@ -1,10 +1,8 @@
-package tungp.android.bazarbooks.data.remote.network.model
+package tungp.android.bazarbooks.domain.model
 
-import tungp.android.bazarbooks.domain.model.Author
-import tungp.android.bazarbooks.domain.model.Book
 import java.util.UUID
 
-object ApiData {
+object PreviewData {
     val topOfWeek = listOf(
         Book(
             isbn = UUID.randomUUID().toString(),
@@ -133,4 +131,5 @@ object ApiData {
     )
 
     val authors = listOf(Author("1", "title", "cover", "authorName"))
+    val vendors = listOf(Vendor("1", "title", "cover", "vendorName", 10, 2))
 }

@@ -22,6 +22,7 @@ class HomeViewModel @Inject constructor(
         execute(getHomeFeedsUseCase(params = NoParams)) { dto ->
             setData(
                 HomeState(
+                    specialOffers = dto.specialOffers,
                     topOfWeeks = dto.topOfWeek,
                     bestVendors = dto.bestVendors,
                     authors = dto.authors

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
-import tungp.android.bazarbooks.ui.theme.BazarPreviewTheme
+import tungp.android.bazarbooks.ui.theme.PreviewTheme
 import tungp.android.bazarbooks.ui.theme.constants.MyColors
 import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
 
@@ -531,7 +531,7 @@ fun HomeTemp() {
 @Preview
 @Composable
 fun HomeTempPreview() {
-    BazarPreviewTheme {
+    PreviewTheme {
         HomeTemp()
     }
 }

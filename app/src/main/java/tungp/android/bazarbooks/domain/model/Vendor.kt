@@ -8,4 +8,6 @@ data class Vendor(
     val title: String,
     val cover: String,
     val authorName: String,
+    val booksCount: Int,
+    val rating: Int,
 )

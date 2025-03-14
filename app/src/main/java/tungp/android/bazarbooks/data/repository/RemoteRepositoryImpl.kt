@@ -19,6 +19,7 @@ class RemoteRepositoryImpl @Inject constructor(
             if (response.statusCode == 200 && response.data != null) {
                 // Convert API response to domain model
                 val domainModel = HomeFeedsDomainModel(
+                    specialOffers = response.data.specialOffers,
                     topOfWeek = response.data.topOfWeek,
                     bestVendors = response.data.bestVendors,
                     authors = response.data.authors

@@ -5,6 +5,7 @@ import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Vendor
 
 data class HomeState(
+    val specialOffers: List<Book> = emptyList(),
     val topOfWeeks: List<Book> = emptyList(),
     val bestVendors: List<Vendor> = emptyList(),
     val authors: List<Author> = emptyList(),

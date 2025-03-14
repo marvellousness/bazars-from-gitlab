@@ -18,4 +18,10 @@
     <string name="profile">Profile</string>
     <string name="text_no_data_found">No data found</string>
     <string name="text_retry">Retry</string>
+    <string name="best_vendors_title_section">Best Vendors</string>
+    <string name="top_of_week_title_section">Top of Week</string>
+    <string name="authors_tittle_section">Authors</string>
+    <string name="special_offer">Special Offer</string>
+    <string name="discount_percent">Discount 25%</string>
+    <string name="order_now">Order Now</string>
 </resources>

@@ -8,6 +8,9 @@ import tungp.android.bazarbooks.domain.model.Vendor
 
 @Serializable
 data class HomeFeedsResponse(
+    @SerialName("specialOffers")
+    val specialOffers: List<Book> = emptyList(),
+
     @SerialName("topOfWeek")
     val topOfWeek: List<Book> = emptyList(),
 
