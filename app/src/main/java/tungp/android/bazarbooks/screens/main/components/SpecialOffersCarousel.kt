@@ -58,10 +58,11 @@ fun SpecialOffersCarousel(
             repeat(specialOffers.size) { iteration ->
                 val color = if (pagerState.currentPage == iteration)
                     BazarTheme.colors.primary else BazarTheme.colors.surfaceDim
+                val size = if (pagerState.currentPage == iteration) 8.dp else 4.dp
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
-                        .size(8.dp)
+                        .size(size)
                         .clip(CircleShape)
                         .background(color)
                 )
