@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.LocalBazarSpacing
-import tungp.android.bazarbooks.ui.theme.PreviewTheme
+import tungp.android.bazarbooks.ui.theme.ThemedPreview
 
 @Composable
 fun SectionTitle(
@@ -28,7 +28,7 @@ fun SectionTitle(
             .fillMaxWidth()
             .padding(
                 horizontal = LocalBazarSpacing.current.medium,
-                vertical = LocalBazarSpacing.current.small
+                vertical = LocalBazarSpacing.current.extraMedium
             )
     ) {
         Text(
@@ -51,7 +51,7 @@ fun SectionTitle(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSectionTitle() {
-    PreviewTheme {
+    ThemedPreview {
         SectionTitle("Title") { id -> }
     }
 }

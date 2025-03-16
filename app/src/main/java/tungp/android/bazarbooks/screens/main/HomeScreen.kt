@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
@@ -24,6 +25,7 @@ import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.mvi.BaseViewState
+import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.screens.main.components.AuthorItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalBookItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalItemPlaceholder
@@ -34,19 +36,25 @@ import tungp.android.bazarbooks.screens.main.components.VendorItemPlaceholder
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = Unit) {
         viewModel.onTriggerEvent(HomeEvent.LoadHomeFeeds)
     }
-    HomeContent(uiState)
+    HomeContent(uiState, navController)
 }
 
 @Composable
-fun HomeContent(uiState: BaseViewState<HomeState>) {
+fun HomeContent(
+    uiState: BaseViewState<HomeState>,
+    navController: NavController
+) {
     Column(modifier = Modifier.fillMaxSize()) {
         when (uiState) {
-            is BaseViewState.Data -> HomeContentContainer(uiState.value)
+            is BaseViewState.Data -> HomeContentContainer(uiState.value, navController)
             BaseViewState.Empty -> EmptyView()
             is BaseViewState.Error -> ErrorView(
                 e = uiState.throwable,
@@ -59,13 +67,8 @@ fun HomeContent(uiState: BaseViewState<HomeState>) {
 }
 
 @Composable
-fun HomeContentContainer(homeState: HomeState, modifier: Modifier = Modifier) {
-    LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(BazarTheme.spacing.extraMedium),
-        contentPadding = PaddingValues(vertical = BazarTheme.spacing.extraMedium)
-    ) {
-
+fun HomeContentContainer(homeState: HomeState, navController: NavController) {
+    LazyColumn {
         item {
             SpecialOffersContainer(homeState.specialOffers)
         }
@@ -74,7 +77,10 @@ fun HomeContentContainer(homeState: HomeState, modifier: Modifier = Modifier) {
         }
 
         item {
-            BestVendorsContainer(homeState.bestVendors)
+            BestVendorsContainer(
+                bestVendors = homeState.bestVendors,
+                navController = navController
+            )
         }
 
         item {
@@ -153,12 +159,16 @@ fun AuthorsContainer(
 }
 
 @Composable
-fun BestVendorsContainer(bestVendors: List<Vendor>, modifier: Modifier = Modifier) {
+fun BestVendorsContainer(
+    bestVendors: List<Vendor>, 
+    modifier: Modifier = Modifier,
+    navController: NavController
+) {
     Column(modifier = modifier) {
         SectionTitle(
             title = stringResource(R.string.best_vendors_title_section),
             onSeeAll = {
-                // TODO: Navigate to the top of week list screen
+                navController.navigate(Graph.VendorGraph)
             })
         ContainerContent(
             modifier = modifier,

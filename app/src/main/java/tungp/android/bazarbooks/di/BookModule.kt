@@ -7,6 +7,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
 import tungp.android.bazarbooks.domain.usecase.GetCategoriesUseCase
 import tungp.android.bazarbooks.domain.usecase.GetHomeFeedsUseCase
+import tungp.android.bazarbooks.domain.usecase.GetVendorsUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -20,5 +21,10 @@ object BookModule {
     @Provides
     fun providesGetCategoriesUseCase(repository: RemoteRepository): GetCategoriesUseCase {
         return GetCategoriesUseCase(repository = repository)
+    }
+    
+    @Provides
+    fun providesGetVendorsUseCase(repository: RemoteRepository): GetVendorsUseCase {
+        return GetVendorsUseCase(repository = repository)
     }
 }

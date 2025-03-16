@@ -7,6 +7,7 @@ object Graph {
     const val MainScreenGraph = "mainScreenGraph"
     const val CategoryGraph = "categoryGraph"
     const val CartGraph = "cartGraph"
+    const val VendorGraph = "vendorGraph"
 }
 
 sealed class OnboardingRouteScreen(val route: String) {
@@ -32,4 +33,8 @@ sealed class CartRouteScreen(val route: String) {
 
 sealed class CategoryRouteScreen(val route: String) {
     object CategoryDetail : CategoryRouteScreen("categoryDetail")
+}
+
+sealed class VendorRouteScreen(val route: String) {
+    object BestVendors : VendorRouteScreen("bestVendors")
 }

@@ -1,0 +1,116 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "vendors": [
+      {
+        "id": "v1001",
+        "title": "Bookworm Paradise",
+        "cover": "https://covers.openlibrary.org/b/id/9171544-L.jpg",
+        "authorName": "Emma Johnson",
+        "booksCount": 145,
+        "rating": 5,
+        "category": "Books"
+      },
+      {
+        "id": "v1002",
+        "title": "Literary Haven",
+        "cover": "https://covers.openlibrary.org/b/id/12816871-L.jpg",
+        "authorName": "David Garcia",
+        "booksCount": 132,
+        "rating": 4,
+        "category": "Books"
+      },
+      {
+        "id": "v1003",
+        "title": "Poetic Dreams",
+        "cover": "https://covers.openlibrary.org/b/id/12645178-L.jpg",
+        "authorName": "Sophia Martinez",
+        "booksCount": 156,
+        "rating": 5,
+        "category": "Poems"
+      },
+      {
+        "id": "v1004",
+        "title": "Verse Valley",
+        "cover": "https://covers.openlibrary.org/b/id/12713304-L.jpg",
+        "authorName": "Michael Brown",
+        "booksCount": 120,
+        "rating": 4,
+        "category": "Poems"
+      },
+      {
+        "id": "v1005",
+        "title": "Stationery Stars",
+        "cover": "https://covers.openlibrary.org/b/id/12740772-L.jpg",
+        "authorName": "Olivia Wilson",
+        "booksCount": 98,
+        "rating": 4,
+        "category": "Stationery"
+      },
+      {
+        "id": "v1006",
+        "title": "Paper Paradise",
+        "cover": "https://covers.openlibrary.org/b/id/12577577-L.jpg",
+        "authorName": "James Taylor",
+        "booksCount": 111,
+        "rating": 5,
+        "category": "Stationery"
+      },
+      {
+        "id": "v1007",
+        "title": "Special Selections",
+        "cover": "https://covers.openlibrary.org/b/id/12851679-L.jpg",
+        "authorName": "Emily Adams",
+        "booksCount": 87,
+        "rating": 3,
+        "category": "Special for you"
+      },
+      {
+        "id": "v1008",
+        "title": "Paperback Palace",
+        "cover": "https://covers.openlibrary.org/b/id/12810671-L.jpg",
+        "authorName": "Daniel Lee",
+        "booksCount": 124,
+        "rating": 4,
+        "category": "Books"
+      },
+      {
+        "id": "v1009",
+        "title": "Poetic Wonders",
+        "cover": "https://covers.openlibrary.org/b/id/12810709-L.jpg",
+        "authorName": "Ava Wright",
+        "booksCount": 104,
+        "rating": 5,
+        "category": "Poems"
+      },
+      {
+        "id": "v1010",
+        "title": "Premium Picks",
+        "cover": "https://covers.openlibrary.org/b/id/12697617-L.jpg",
+        "authorName": "Noah Parker",
+        "booksCount": 92,
+        "rating": 4,
+        "category": "Special for you"
+      },
+      {
+        "id": "v1011",
+        "title": "Stationery Shop",
+        "cover": "https://covers.openlibrary.org/b/id/13293386-L.jpg",
+        "authorName": "Isabella King",
+        "booksCount": 135,
+        "rating": 5,
+        "category": "Stationery"
+      },
+      {
+        "id": "v1012",
+        "title": "Chapter Corner",
+        "cover": "https://covers.openlibrary.org/b/id/10543646-L.jpg",
+        "authorName": "William Green",
+        "booksCount": 117,
+        "rating": 4,
+        "category": "Books"
+      }
+    ]
+  }
+} 

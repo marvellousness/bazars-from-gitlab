@@ -24,5 +24,6 @@ fun RootNavGraph(isAuth: Boolean) {
         }
         categoryNavGraph(rootNavController)
         cartNavGraph(rootNavController)
+        vendorNavGraph(rootNavController)
     }
 }

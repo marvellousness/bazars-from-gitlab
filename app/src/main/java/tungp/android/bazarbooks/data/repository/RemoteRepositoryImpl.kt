@@ -7,6 +7,7 @@ import tungp.android.bazarbooks.data.remote.network.service.ApiService
 import tungp.android.bazarbooks.domain.model.Categories
 import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
+import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
 import javax.inject.Inject
 
@@ -53,6 +54,20 @@ class RemoteRepositoryImpl @Inject constructor(
                     }
                 )
                 emit(BazaResult.Success(domainModel))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+    
+    override suspend fun getVendors(): Flow<BazaResult<List<Vendor>>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.getVendors()
+            if (response.statusCode == 200 && response.data != null) {
+                emit(BazaResult.Success(response.data.vendors))
             } else {
                 emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
             }

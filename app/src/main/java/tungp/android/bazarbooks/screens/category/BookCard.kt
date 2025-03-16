@@ -18,7 +18,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.PreviewData
-import tungp.android.bazarbooks.ui.theme.PreviewTheme
+import tungp.android.bazarbooks.ui.theme.ThemedPreview
 import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
 
 @Composable
@@ -57,7 +57,7 @@ fun BookCard(
 @Preview(showBackground = true)
 @Composable
 private fun BookCardPreview() {
-    PreviewTheme {
+    ThemedPreview {
         BookCard(
             book = PreviewData.popular.first(),
             onClick = { /* todo: add click handler */ },

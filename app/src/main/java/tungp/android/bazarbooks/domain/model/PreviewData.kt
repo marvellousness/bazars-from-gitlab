@@ -158,5 +158,16 @@ object PreviewData {
     )
 
     val authors = listOf(Author("1", "title", "cover", "authorName"))
-    val vendors = listOf(Vendor("1", "title", "cover", "vendorName", 10, 2))
+    
+    // List of vendor categories for filtering
+    val categories = listOf("All", "Books", "Poems", "Stationery", "Magazines")
+    
+    val vendors = listOf(
+        Vendor("1", "Oxford Bookstore", "https://covers.openlibrary.org/b/id/12634691-L.jpg", "John Oxford", 45, 4, "Books"),
+        Vendor("2", "Poems & Co", "https://covers.openlibrary.org/b/id/14416194-L.jpg", "Emily Dickinson", 28, 5, "Poems"),
+        Vendor("3", "Paper Trail", "https://covers.openlibrary.org/b/id/9171544-L.jpg", "Mark Stationers", 62, 3, "Stationery"),
+        Vendor("4", "Literary Haven", "https://covers.openlibrary.org/b/id/12816871-L.jpg", "Sarah Bookworm", 53, 4, "Books"),
+        Vendor("5", "Verse Universe", "https://covers.openlibrary.org/b/id/14407898-L.jpg", "Robert Frost", 31, 5, "Poems"),
+        Vendor("6", "Magazine Rack", "https://covers.openlibrary.org/b/id/471953-L.jpg", "James Editor", 40, 3, "Magazines")
+    )
 }

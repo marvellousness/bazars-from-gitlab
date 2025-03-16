@@ -20,7 +20,7 @@ import coil.compose.AsyncImage
 import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.PreviewData
 import tungp.android.bazarbooks.ui.theme.BazarTheme
-import tungp.android.bazarbooks.ui.theme.PreviewTheme
+import tungp.android.bazarbooks.ui.theme.ThemedPreview
 
 @Composable
 fun AuthorItem(
@@ -59,7 +59,7 @@ fun AuthorItem(
 @Preview(showBackground = true)
 @Composable
 private fun HorizontalBookItemPreview() {
-    PreviewTheme {
+    ThemedPreview {
         AuthorItem(author = PreviewData.authors.first(), onAuthorItemClick = {})
     }
 }

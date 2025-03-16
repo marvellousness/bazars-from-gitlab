@@ -19,10 +19,10 @@ fun MainNavGraph(
     NavHost(
         navController = homeNavController,
         route = Graph.MainScreenGraph,
-        startDestination = MainRouteScreen.Category.route
+        startDestination = MainRouteScreen.Home.route
     ) {
         composable(route = MainRouteScreen.Home.route) {
-            HomeScreen()
+            HomeScreen(navController = rootNavController)
         }
         composable(route = MainRouteScreen.Category.route) {
             CategoryScreen(navController = rootNavController)

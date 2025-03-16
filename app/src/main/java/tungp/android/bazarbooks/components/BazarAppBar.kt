@@ -15,18 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import tungp.android.bazarbooks.ui.theme.BazarTheme
-import tungp.android.bazarbooks.ui.theme.PreviewTheme
+import tungp.android.bazarbooks.ui.theme.ThemedPreview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BazarAppBar(
-    pageTitle: String,
+    title: String,
     onSearchClick: () -> Unit,
     onNotificationClick: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(text = pageTitle)
+            Text(text = title)
         },
         navigationIcon = {
             IconButton(onClick = onSearchClick) {
@@ -67,9 +67,9 @@ fun BazarAppBar(
 @Preview(showBackground = true)
 @Composable
 fun CustomAppBarPreview() {
-    PreviewTheme {
+    ThemedPreview {
         BazarAppBar(
-            pageTitle = "Custom App Bar Title",
+            title = "Custom App Bar Title",
             onSearchClick = { /* Handle search click */ },
             onNotificationClick = { /* Handle notification click */ }
         )

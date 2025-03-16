@@ -10,4 +10,5 @@ data class Vendor(
     val authorName: String,
     val booksCount: Int,
     val rating: Int,
+    val category: String = "Books" // Default category
 )

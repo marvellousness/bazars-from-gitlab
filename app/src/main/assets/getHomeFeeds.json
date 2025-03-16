@@ -188,7 +188,7 @@
       {
         "id": "a1001",
         "title": "Writer",
-        "cover": "https://covers.openlibrary.org/b/id/471953-L.jpg",
+        "cover": "https://covers.openlibrary.org/a/id/7127409-M.jpg",
         "authorName": "Stephen King",
         "booksCount": 10,
         "rating": 5
@@ -196,16 +196,16 @@
       {
         "id": "a1002",
         "title": "Novelist",
-        "cover": "https://covers.openlibrary.org/b/id/505653-M.jpg",
-        "authorName": "Agatha Christie",
+        "cover": "https://covers.openlibrary.org/a/id/6387401-M.jpg",
+        "authorName": "George R. Martin",
         "booksCount": 10,
         "rating": 5
       },
       {
         "id": "a1003",
         "title": "Writer",
-        "cover": "https://covers.openlibrary.org/b/id/471953-L.jpg",
-        "authorName": "Stephen King",
+        "cover": "https://covers.openlibrary.org/a/id/14362742-M.jpg",
+        "authorName": "E. L. James",
         "booksCount": 10,
         "rating": 5
       },
@@ -220,8 +220,16 @@
       {
         "id": "a1005",
         "title": "Writer",
-        "cover": "https://covers.openlibrary.org/b/id/471953-L.jpg",
-        "authorName": "Stephen King",
+        "cover": "https://covers.openlibrary.org/a/id/6390049-M.jpg",
+        "authorName": "E. B. White",
+        "booksCount": 10,
+        "rating": 2
+      },
+      {
+        "id": "a1006",
+        "title": "Writer",
+        "cover": "https://covers.openlibrary.org/a/id/7277125-M.jpg",
+        "authorName": "Neil Gaiman",
         "booksCount": 10,
         "rating": 2
       }

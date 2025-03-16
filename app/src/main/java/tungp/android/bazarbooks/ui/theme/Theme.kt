@@ -20,11 +20,17 @@ fun BazarTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+    
+    val extendedColorScheme = when {
+        darkTheme -> defaultExtendedDarkColorScheme
+        else -> defaultExtendedLightColorScheme
+    }
 
     CompositionLocalProvider(
         LocalBazarColors provides colorScheme,
         LocalBazarTypography provides typography,
-        LocalBazarShapes provides shapes
+        LocalBazarShapes provides shapes,
+        LocalExtendedColors provides extendedColorScheme
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
@@ -56,4 +62,9 @@ object BazarTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalBazarSpacing.current
+        
+    val extendedColors: ExtendedColorScheme
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalExtendedColors.current
 }

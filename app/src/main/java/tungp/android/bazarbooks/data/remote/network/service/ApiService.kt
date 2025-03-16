@@ -3,6 +3,7 @@ package tungp.android.bazarbooks.data.remote.network.service
 import retrofit2.http.GET
 import tungp.android.bazarbooks.data.model.CategoriesResponse
 import tungp.android.bazarbooks.data.model.HomeFeedsResponse
+import tungp.android.bazarbooks.data.model.VendorsResponse
 import tungp.android.bazarbooks.data.model.base.BaseResponse
 
 interface ApiService {
@@ -12,4 +13,7 @@ interface ApiService {
     
     @GET("mock/getCategories")
     suspend fun getCategories(): BaseResponse<CategoriesResponse>
+    
+    @GET("mock/getVendors")
+    suspend fun getVendors(): BaseResponse<VendorsResponse>
 }

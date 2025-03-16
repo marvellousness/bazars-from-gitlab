@@ -9,11 +9,9 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.navigation.BottomNavigationBar
@@ -46,7 +44,7 @@ fun MainScreen(
     Scaffold(
         topBar = {
             BazarAppBar(
-                pageTitle = topBarTitle,
+                title = topBarTitle,
                 onSearchClick = {},
                 onNotificationClick = {}
             )
