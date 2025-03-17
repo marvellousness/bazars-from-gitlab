@@ -28,6 +28,8 @@ import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView
+import tungp.android.bazarbooks.components.RatingStarStyle
+import tungp.android.bazarbooks.components.RatingDisplay
 import tungp.android.bazarbooks.domain.model.PreviewData
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.mvi.BaseViewState
@@ -217,7 +219,7 @@ fun VendorGridItem(
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
 
-            RatingStars(
+            RatingDisplay(
                 value = vendor.rating,
                 size = 12.dp,
                 spaceBetween = 2.dp,
@@ -325,7 +327,7 @@ fun VendorDetailItem(
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                RatingStars(
+                RatingDisplay(
                     value = vendor.rating,
                     style = RatingStarStyle.DEFAULT,
                     size = 16.dp

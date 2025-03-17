@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.vendor
+package tungp.android.bazarbooks.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +46,7 @@ enum class RatingStarStyle {
  * @param modifier Additional modifier for the component
  */
 @Composable
-fun RatingStars(
+fun RatingDisplay(
     value: Int,
     numberOfStars: Int = 5,
     size: Dp = 16.dp,
@@ -116,7 +115,7 @@ fun RatingStars(
 @Composable
 fun RatingStarsDefaultPreview() {
     ThemedPreview {
-        RatingStars(
+        RatingDisplay(
             value = 2,
             style = RatingStarStyle.FILL
         )
@@ -127,7 +126,7 @@ fun RatingStarsDefaultPreview() {
 @Composable
 fun RatingStarsCustomPreview() {
     ThemedPreview {
-        RatingStars(
+        RatingDisplay(
             value = 4,
             numberOfStars = 6,
             size = 24.dp,
@@ -143,7 +142,7 @@ fun RatingStarsCustomPreview() {
 @Composable
 fun RatingStarsStrokePreview() {
     ThemedPreview {
-        RatingStars(
+        RatingDisplay(
             value = 2,
             style = RatingStarStyle.STROKE,
             filledStarColor = BazarTheme.extendedColors.green,
@@ -156,7 +155,7 @@ fun RatingStarsStrokePreview() {
 @Composable
 fun RatingStarsZeroPreview() {
     ThemedPreview {
-        RatingStars(
+        RatingDisplay(
             value = 0,
             style = RatingStarStyle.DEFAULT
         )
@@ -167,7 +166,7 @@ fun RatingStarsZeroPreview() {
 @Composable
 fun RatingStarsFullPreview() {
     ThemedPreview {
-        RatingStars(
+        RatingDisplay(
             value = 5,
             style = RatingStarStyle.DEFAULT
         )

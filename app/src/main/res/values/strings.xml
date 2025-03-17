@@ -24,4 +24,7 @@
     <string name="special_offer">Special Offer</string>
     <string name="discount_percent">Discount 25%</string>
     <string name="order_now">Order Now</string>
+
+    <string name="filled_star">Filled rating star</string>
+    <string name="empty_star">Empty rating star</string>
 </resources>

@@ -11,6 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import tungp.android.bazarbooks.components.RatingStarStyle
+import tungp.android.bazarbooks.components.RatingDisplay
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.ThemedPreview
 
@@ -138,8 +140,8 @@ fun RatingStyleItem(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        
-        RatingStars(
+
+        RatingDisplay(
             value = value,
             style = style
         )
@@ -161,8 +163,8 @@ fun RatingValuesRow() {
                     text = "Value: $value",
                     style = MaterialTheme.typography.bodyMedium
                 )
-                
-                RatingStars(
+
+                RatingDisplay(
                     value = value,
                     style = RatingStarStyle.FILL
                 )
@@ -201,8 +203,8 @@ fun RatingSizesRow() {
                     text = label,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                
-                RatingStars(
+
+                RatingDisplay(
                     value = 3,
                     size = size,
                     style = RatingStarStyle.FILL
@@ -229,8 +231,8 @@ fun RatingStarsCountRow() {
                     text = "$count stars",
                     style = MaterialTheme.typography.bodyMedium
                 )
-                
-                RatingStars(
+
+                RatingDisplay(
                     value = count / 2,
                     numberOfStars = count,
                     style = RatingStarStyle.FILL,
@@ -263,8 +265,8 @@ fun RatingColorsRow() {
                     text = label,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                
-                RatingStars(
+
+                RatingDisplay(
                     value = 3,
                     filledStarColor = filledColor,
                     emptyStarColor = emptyColor,
@@ -294,8 +296,8 @@ fun RatingExamplesColumn() {
                     text = "Product Rating",
                     style = MaterialTheme.typography.titleMedium
                 )
-                
-                RatingStars(
+
+                RatingDisplay(
                     value = 4,
                     numberOfStars = 5,
                     size = 24.dp,
@@ -325,8 +327,8 @@ fun RatingExamplesColumn() {
                     text = "Difficulty Level",
                     style = MaterialTheme.typography.titleMedium
                 )
-                
-                RatingStars(
+
+                RatingDisplay(
                     value = 3,
                     numberOfStars = 3,
                     size = 32.dp,

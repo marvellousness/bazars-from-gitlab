@@ -1,7 +1,16 @@
 package tungp.android.bazarbooks.screens.bookdetail
 
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -10,9 +19,20 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -25,9 +45,8 @@ import coil.compose.AsyncImage
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView
+import tungp.android.bazarbooks.components.Rating
 import tungp.android.bazarbooks.mvi.BaseViewState
-import androidx.compose.ui.graphics.Color
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +54,7 @@ import androidx.compose.ui.graphics.Color
 fun BookDetailScreen(
     bookId: String,
     navController: NavController,
-    viewModel: BookDetailViewModel = hiltViewModel()
+    viewModel: BookDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -60,11 +79,13 @@ fun BookDetailScreen(
                 state = (uiState as BaseViewState.Data<BookDetailState>).value,
                 modifier = Modifier.padding(paddingValues)
             )
+
             BaseViewState.Empty -> EmptyView()
             is BaseViewState.Error -> ErrorView(
                 e = (uiState as BaseViewState.Error).throwable,
                 action = {}
             )
+
             BaseViewState.Loading -> LoadingView()
         }
     }
@@ -73,7 +94,7 @@ fun BookDetailScreen(
 @Composable
 private fun BookDetailContent(
     state: BookDetailState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -95,7 +116,7 @@ private fun BookDetailContent(
 
         // Book Title
         Text(
-            text = state.book.title ?: "",
+            text = state.book.title,
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -110,29 +131,7 @@ private fun BookDetailContent(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-
-        // Rating
-        state.book.rating?.let { rating ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 4.dp)
-            ) {
-                repeat(5) { index ->
-                    Icon(
-                        imageVector = if (index < rating) Icons.Filled.Star else Icons.Filled.StarBorder,
-                        contentDescription = "Rating star",
-                        tint = if (index < rating) Color(0xFFFFC107) else Color.Gray,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-                Text(
-                    text = " $rating/5",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
-        }
-
+        Rating(rating = state.book.rating, maxRating = 5) {}
         Spacer(modifier = Modifier.height(16.dp))
 
         // Price and Rating Row
@@ -212,4 +211,3 @@ private fun BookDetailContent(
         }
     }
 }
-
