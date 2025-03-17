@@ -16,7 +16,7 @@ import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.PreviewData
 import tungp.android.bazarbooks.mvi.BaseViewState
-import tungp.android.bazarbooks.navigation.CategoryRouteScreen
+import tungp.android.bazarbooks.navigation.BookRouteScreen
 
 @Composable
 fun CategoryScreen(
@@ -47,7 +47,9 @@ fun CategoryScreen(
                 onBookClicked = { book ->
                     Log.d(TAG, "CategoryScreen: 1")
                     // Navigate to book detail screen
-                    navController.navigate(CategoryRouteScreen.CategoryDetail.route)
+                    book.bookId?.let { bookId ->
+                        navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId.toString()))
+                    }
                 }
             )
         }
@@ -67,8 +69,9 @@ fun CategoryScreen(
                     // Navigate to book detail screen
                     Log.d(TAG, "CategoryScreen: 2")
 
-                    navController.navigate(CategoryRouteScreen.CategoryDetail.route)
-
+                    book.bookId?.let { bookId ->
+                        navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId.toString()))
+                    }
                 }
             )
         }
@@ -88,8 +91,9 @@ fun CategoryScreen(
                     Log.d(TAG, "CategoryScreen: 3")
 
                     // Navigate to book detail screen
-                    navController.navigate(CategoryRouteScreen.CategoryDetail.route)
-
+                    book.bookId?.let { bookId ->
+                        navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId))
+                    }
                 }
             )
         }
@@ -109,8 +113,9 @@ fun CategoryScreen(
                     Log.d(TAG, "CategoryScreen: 4")
 
                     // Navigate to book detail screen
-                    navController.navigate(CategoryRouteScreen.CategoryDetail.route)
-
+                    book.bookId?.let { bookId ->
+                        navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId))
+                    }
                 }
             )
         }

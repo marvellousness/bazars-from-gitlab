@@ -8,6 +8,9 @@ object Graph {
     const val CategoryGraph = "categoryGraph"
     const val CartGraph = "cartGraph"
     const val VendorGraph = "vendorGraph"
+
+    // Book Graph is used to navigate to the book detail screen    
+    const val BookGraph = "bookGraph"
 }
 
 sealed class OnboardingRouteScreen(val route: String) {
@@ -37,4 +40,10 @@ sealed class CategoryRouteScreen(val route: String) {
 
 sealed class VendorRouteScreen(val route: String) {
     object BestVendors : VendorRouteScreen("bestVendors")
+}
+
+sealed class BookRouteScreen(val route: String) {
+    object BookDetail : BookRouteScreen("bookDetail/{bookId}") {
+        fun createRoute(bookId: String) = "bookDetail/$bookId"
+    }
 }

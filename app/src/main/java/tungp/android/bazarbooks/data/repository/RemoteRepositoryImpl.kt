@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import tungp.android.bazarbooks.data.model.base.BazaResult
 import tungp.android.bazarbooks.data.remote.network.service.ApiService
+import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Categories
 import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
@@ -70,6 +71,21 @@ class RemoteRepositoryImpl @Inject constructor(
                 emit(BazaResult.Success(response.data.vendors))
             } else {
                 emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+
+    override suspend fun getBookDetail(bookId: String): Flow<BazaResult<Book>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            //val response = apiService.getBookDetails(bookId)
+            val response = apiService.getBookDetails()
+            if (response.statusCode == 200 && response.data != null) {
+                emit(BazaResult.Success(response.data.book))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage)))
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))

@@ -1,6 +1,5 @@
 package tungp.android.bazarbooks.screens.main
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +24,7 @@ import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.mvi.BaseViewState
+import tungp.android.bazarbooks.navigation.BookRouteScreen
 import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.screens.main.components.AuthorItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalBookItem
@@ -38,7 +38,7 @@ import tungp.android.bazarbooks.ui.theme.BazarTheme
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = Unit) {
@@ -50,7 +50,7 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     uiState: BaseViewState<HomeState>,
-    navController: NavController
+    navController: NavController,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         when (uiState) {
@@ -70,10 +70,16 @@ fun HomeContent(
 fun HomeContentContainer(homeState: HomeState, navController: NavController) {
     LazyColumn {
         item {
-            SpecialOffersContainer(homeState.specialOffers)
+            SpecialOffersContainer(
+                offers = homeState.specialOffers,
+                navController = navController
+            )
         }
         item {
-            TopOfWeekContainer(homeState.topOfWeeks)
+            TopOfWeekContainer(
+                books = homeState.topOfWeeks,
+                navController = navController
+            )
         }
 
         item {
@@ -93,10 +99,11 @@ fun HomeContentContainer(homeState: HomeState, navController: NavController) {
 fun SpecialOffersContainer(
     offers: List<Book>,
     modifier: Modifier = Modifier,
+    navController: NavController,
 ) {
     Column(modifier = modifier) {
-        OffersContainer(specialOffers = offers, onOfferItemClick = {
-            // TODO: Navigate to the book details screen
+        OffersContainer(specialOffers = offers, onOfferItemClick = { bookId ->
+            navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId))
         })
     }
 }
@@ -105,6 +112,7 @@ fun SpecialOffersContainer(
 fun TopOfWeekContainer(
     books: List<Book>,
     modifier: Modifier = Modifier,
+    navController: NavController,
 ) {
     Column(modifier = modifier) {
         SectionTitle(
@@ -112,8 +120,8 @@ fun TopOfWeekContainer(
             onSeeAll = {
                 // TODO: Navigate to the top of week list screen
             })
-        BooksContainer(books = books, onShowBookDetail = {
-            // TODO: Navigate to the book details screen
+        BooksContainer(books = books, onShowBookDetail = { bookId ->
+            navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId))
         })
     }
 }
@@ -160,9 +168,9 @@ fun AuthorsContainer(
 
 @Composable
 fun BestVendorsContainer(
-    bestVendors: List<Vendor>, 
+    bestVendors: List<Vendor>,
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
 ) {
     Column(modifier = modifier) {
         SectionTitle(
