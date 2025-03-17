@@ -58,7 +58,7 @@ fun AuthorItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun HorizontalBookItemPreview() {
+private fun AuthorItemPreview() {
     ThemedPreview {
         AuthorItem(author = PreviewData.authors.first(), onAuthorItemClick = {})
     }
