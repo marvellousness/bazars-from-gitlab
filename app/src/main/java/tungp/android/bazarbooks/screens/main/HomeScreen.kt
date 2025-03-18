@@ -8,9 +8,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,6 +31,7 @@ import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.navigation.BookRouteScreen
 import tungp.android.bazarbooks.navigation.Graph
+import tungp.android.bazarbooks.screens.main.booksheet.BookDetailBottomSheet
 import tungp.android.bazarbooks.screens.main.components.AuthorItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalBookItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalItemPlaceholder
@@ -47,14 +53,26 @@ fun HomeScreen(
     HomeContent(uiState, navController)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
     uiState: BaseViewState<HomeState>,
     navController: NavController,
 ) {
+    // State for the selected book and bottom sheet visibility
+    var selectedBook by remember { mutableStateOf<Book?>(null) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     Column(modifier = Modifier.fillMaxSize()) {
         when (uiState) {
-            is BaseViewState.Data -> HomeContentContainer(uiState.value, navController)
+            is BaseViewState.Data -> HomeContentContainer(
+                uiState.value,
+                navController,
+                onBookSelected = { book ->
+                    selectedBook = book
+                }
+            )
+
             BaseViewState.Empty -> EmptyView()
             is BaseViewState.Error -> ErrorView(
                 e = uiState.throwable,
@@ -64,10 +82,23 @@ fun HomeContent(
             BaseViewState.Loading -> LoadingView()
         }
     }
+
+    // Show bottom sheet if a book is selected
+    selectedBook?.let { book ->
+        BookDetailBottomSheet(
+            book = book,
+            onDismiss = { selectedBook = null },
+            sheetState = sheetState
+        )
+    }
 }
 
 @Composable
-fun HomeContentContainer(homeState: HomeState, navController: NavController) {
+fun HomeContentContainer(
+    homeState: HomeState,
+    navController: NavController,
+    onBookSelected: (Book) -> Unit,
+) {
     LazyColumn {
         item {
             SpecialOffersContainer(
@@ -78,7 +109,8 @@ fun HomeContentContainer(homeState: HomeState, navController: NavController) {
         item {
             TopOfWeekContainer(
                 books = homeState.topOfWeeks,
-                navController = navController
+                navController = navController,
+                onBookSelected = onBookSelected
             )
         }
 
@@ -113,6 +145,7 @@ fun TopOfWeekContainer(
     books: List<Book>,
     modifier: Modifier = Modifier,
     navController: NavController,
+    onBookSelected: (Book) -> Unit,
 ) {
     Column(modifier = modifier) {
         SectionTitle(
@@ -121,7 +154,12 @@ fun TopOfWeekContainer(
                 // TODO: Navigate to the top of week list screen
             })
         BooksContainer(books = books, onShowBookDetail = { bookId ->
-            navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId))
+//            navController.navigate(BookRouteScreen.BookDetail.createRoute(bookId))
+//             Find the book with the given ID and show details
+            val book = books.find { it.bookId == bookId }
+            book?.let {
+                onBookSelected(it)
+            }
         })
     }
 }

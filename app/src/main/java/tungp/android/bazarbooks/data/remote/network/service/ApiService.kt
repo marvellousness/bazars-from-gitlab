@@ -19,7 +19,7 @@ interface ApiService {
     @GET("mock/getVendors")
     suspend fun getVendors(): BaseResponse<VendorsResponse>
 
-//    @GET("mock/getBookDetails/{bookId}")
+    //@GET("mock/getBookDetails/{bookId}")
 //    suspend fun getBookDetails(@Path("bookId") bookId: String): BaseResponse<BookDetailResponse>
 
     @GET("mock/getBookDetails")
