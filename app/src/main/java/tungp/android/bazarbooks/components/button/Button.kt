@@ -59,6 +59,7 @@ fun SecondaryButton(
     modifier: Modifier = Modifier,
     icon: Painter? = null,
     shape: ButtonShape = ButtonShape.Rounded,
+    textColor: Color = BazarTheme.colors.primary,
 ) {
     FilledTonalButton(
         onClick = onClick,
@@ -72,7 +73,7 @@ fun SecondaryButton(
             )
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(text = text)
+        Text(text = text, color = textColor)
     }
 }
 
