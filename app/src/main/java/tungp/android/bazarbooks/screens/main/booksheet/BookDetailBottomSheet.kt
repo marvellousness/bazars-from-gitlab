@@ -18,6 +18,8 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,14 +31,19 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
 import tungp.android.bazarbooks.R
+import tungp.android.bazarbooks.components.LoadingView
 import tungp.android.bazarbooks.components.QuantityPicker
 import tungp.android.bazarbooks.components.Rating
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SecondaryButton
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.PreviewData
+import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.ui.theme.ThemedPreview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,23 +54,141 @@ fun BookDetailBottomSheet(
     onContinueShopping: () -> Unit,
     onAddToCart: (bookId: String, amount: Int) -> Unit,
     sheetState: SheetState = rememberModalBottomSheetState(),
+    viewModel: BookDetailBottomSheetViewModel = hiltViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    
+    // Load book detail when the sheet is shown - with a safe null check
+    LaunchedEffect(key1 = Unit) {
+        book.bookId?.let { bookId ->
+            viewModel.onTriggerEvent(BookDetailBottomSheetEvent.LoadBookDetail(bookId))
+        }
+    }
+    
+    // Handle add to cart result
+    LaunchedEffect(key1 = Unit) {
+        viewModel.addToCartResult.collect { result ->
+            if (result == true) {
+                // Cart addition was successful, dismiss the sheet in a coroutine
+                coroutineScope.launch {
+                    try {
+                        sheetState.hide()
+                    } finally {
+                        onDismiss()
+                    }
+                }
+            }
+        }
+    }
 
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            // Use a single callback for dismissal to avoid multiple calls
+            onDismiss()
+        },
         sheetState = sheetState
     ) {
-        BookDetailSheetContent(
-            book = book,
-            onContinueShopping = onContinueShopping,
-            onAddToCart = onAddToCart
-        )
+        when (uiState) {
+            is BaseViewState.Loading -> {
+                LoadingView()
+            }
+            is BaseViewState.Data -> {
+                val state = (uiState as BaseViewState.Data<BookDetailBottomSheetState>).value
+                BookDetailSheetContent(
+                    book = state.book ?: book,
+                    quantity = state.quantity,
+                    isAddingToCart = state.isAddingToCart,
+                    onQuantityChanged = { newQuantity ->
+                        viewModel.onTriggerEvent(BookDetailBottomSheetEvent.UpdateQuantity(newQuantity))
+                    },
+                    onContinueShopping = {
+                        coroutineScope.launch {
+                            try {
+                                sheetState.hide()
+                            } finally {
+                                onContinueShopping()
+                            }
+                        }
+                    },
+                    onAddToCart = { bookId, quantity ->
+                        viewModel.onTriggerEvent(BookDetailBottomSheetEvent.AddToCart(bookId, quantity))
+                    }
+                )
+            }
+            else -> {
+                // Show fallback content with the book passed to the composable
+                BookDetailSheetContentFallback(
+                    book = book,
+                    onContinueShopping = {
+                        coroutineScope.launch {
+                            try {
+                                sheetState.hide()
+                            } finally {
+                                onContinueShopping()
+                            }
+                        }
+                    },
+                    onAddToCart = { bookId, amount ->
+                        coroutineScope.launch {
+                            try {
+                                sheetState.hide()
+                            } finally {
+                                onAddToCart(bookId, amount)
+                            }
+                        }
+                    }
+                )
+            }
+        }
     }
 }
 
 @Composable
 private fun BookDetailSheetContent(
+    book: Book,
+    quantity: Int,
+    isAddingToCart: Boolean,
+    onQuantityChanged: (Int) -> Unit,
+    onContinueShopping: () -> Unit,
+    onAddToCart: (bookId: String, amount: Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
+            .padding(16.dp)
+    ) {
+        BookCoverImage(book.cover)
+        Spacer(modifier = Modifier.height(16.dp))
+        BookHeader(book.title)
+        Spacer(modifier = Modifier.height(8.dp))
+        BookAuthor(book.author)
+        Spacer(modifier = Modifier.height(8.dp))
+        BookDescription(book.description ?: "")
+        Spacer(modifier = Modifier.height(8.dp))
+        BookRating(book.rating)
+        Spacer(modifier = Modifier.height(8.dp))
+        PriceAndQuantitySection(
+            price = book.price ?: 0.00,
+            quantity = quantity,
+            onQuantityChanged = onQuantityChanged,
+            enabled = !isAddingToCart
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        ActionButtons(
+            onContinueShopping = onContinueShopping,
+            onViewCart = { book.bookId?.let { onAddToCart(it, quantity) } },
+            isLoading = isAddingToCart
+        )
+    }
+}
+
+@Composable
+private fun BookDetailSheetContentFallback(
     book: Book,
     onContinueShopping: () -> Unit,
     onAddToCart: (bookId: String, amount: Int) -> Unit,
@@ -90,13 +215,14 @@ private fun BookDetailSheetContent(
         Spacer(modifier = Modifier.height(8.dp))
         PriceAndQuantitySection(
             price = book.price ?: 0.00,
-            initialQuantity = 1,
+            quantity = quantity.intValue,
             onQuantityChanged = { newQuantity -> quantity.intValue = newQuantity }
         )
         Spacer(modifier = Modifier.height(24.dp))
         ActionButtons(
             onContinueShopping = onContinueShopping,
-            onViewCart = { book.bookId?.let { onAddToCart(it, quantity.intValue) } }
+            onViewCart = { book.bookId?.let { onAddToCart(it, quantity.intValue) } },
+            isLoading = false
         )
     }
 }
@@ -167,8 +293,9 @@ private fun BookRating(rating: Int) {
 @Composable
 private fun PriceAndQuantitySection(
     price: Double,
-    initialQuantity: Int = 0,
+    quantity: Int = 1,
     onQuantityChanged: (Int) -> Unit,
+    enabled: Boolean = true
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -176,10 +303,11 @@ private fun PriceAndQuantitySection(
         verticalAlignment = Alignment.CenterVertically
     ) {
         QuantityPicker(
-            initialAmount = initialQuantity,
+            initialAmount = quantity,
             maxAmount = 10,
             modifier = Modifier.width(100.dp),
-            onAmountChanged = onQuantityChanged
+            onAmountChanged = onQuantityChanged,
+            //enabled = enabled
         )
         Text(
             text = "$$price",
@@ -193,6 +321,7 @@ private fun PriceAndQuantitySection(
 private fun ActionButtons(
     onContinueShopping: () -> Unit,
     onViewCart: () -> Unit,
+    isLoading: Boolean = false
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -201,13 +330,15 @@ private fun ActionButtons(
         PrimaryButton(
             text = "Continue Shopping",
             onClick = onContinueShopping,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            //enabled = !isLoading
         )
         Spacer(modifier = Modifier.width(16.dp))
         SecondaryButton(
-            text = "View Cart",
+            text = if (isLoading) "Adding..." else "Add to Cart",
             onClick = onViewCart,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            //enabled = !isLoading
         )
     }
 }
@@ -217,7 +348,7 @@ private fun ActionButtons(
 @Composable
 fun BookDetailBottomSheetPreview() {
     ThemedPreview {
-        BookDetailSheetContent(
+        BookDetailSheetContentFallback(
             book = PreviewData.topOfWeek.first(),
             onContinueShopping = {},
             onAddToCart = { _, _ -> }

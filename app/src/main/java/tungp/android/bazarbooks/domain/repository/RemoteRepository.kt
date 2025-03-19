@@ -12,4 +12,5 @@ interface RemoteRepository {
     suspend fun getCategories(): Flow<BazaResult<Categories>>
     suspend fun getVendors(): Flow<BazaResult<List<Vendor>>>
     suspend fun getBookDetail(bookId: String): Flow<BazaResult<Book>>
+    suspend fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<Boolean>>
 }

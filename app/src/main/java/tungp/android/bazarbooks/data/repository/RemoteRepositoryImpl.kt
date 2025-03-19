@@ -91,4 +91,17 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(BazaResult.Error(e))
         }
     }
+    
+    override suspend fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<Boolean>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            // In a real implementation, this would call an API endpoint
+            // For now, just simulate a successful addition to cart
+            // Add delay to simulate network call
+            kotlinx.coroutines.delay(500)
+            emit(BazaResult.Success(true))
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
 }
