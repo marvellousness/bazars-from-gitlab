@@ -1,12 +1,10 @@
 package tungp.android.bazarbooks.screens.main.booksheet
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.QuantityPicker
 import tungp.android.bazarbooks.components.Rating
@@ -47,6 +44,8 @@ import tungp.android.bazarbooks.ui.theme.ThemedPreview
 fun BookDetailBottomSheet(
     book: Book,
     onDismiss: () -> Unit,
+    onContinueShopping: () -> Unit,
+    onAddToCart: (bookId: String, amount: Int) -> Unit,
     sheetState: SheetState = rememberModalBottomSheetState(),
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -57,126 +56,159 @@ fun BookDetailBottomSheet(
     ) {
         BookDetailSheetContent(
             book = book,
-            onAddToCart = { bookId, amount ->
-                // Handle add to cart
-                coroutineScope.launch {
-                    sheetState.hide()
-                    onDismiss()
-                }
-
-                Log.d("~~~TAG", "BookDetailBottomSheet: amount=$amount")
-            }
+            onContinueShopping = onContinueShopping,
+            onAddToCart = onAddToCart
         )
     }
 }
 
-
 @Composable
 private fun BookDetailSheetContent(
     book: Book,
+    onContinueShopping: () -> Unit,
     onAddToCart: (bookId: String, amount: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var amount = remember { mutableIntStateOf(1) }
+    val quantity = remember { mutableIntStateOf(1) }
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
-        // Book Cover Image
-        AsyncImage(
-            model = book.cover,
-            contentDescription = "Book cover",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp),
-            contentScale = ContentScale.Fit
-        )
+        BookCoverImage(book.cover)
         Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = book.title,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-            )
-
-            Image(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_love_fill),
-                contentDescription = "Love icon",
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(24.dp)
-            )
-        }
+        BookHeader(book.title)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "By ${book.author}",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+        BookAuthor(book.author)
+        Spacer(modifier = Modifier.height(8.dp))
+        BookDescription(book.description ?: "")
+        Spacer(modifier = Modifier.height(8.dp))
+        BookRating(book.rating)
+        Spacer(modifier = Modifier.height(8.dp))
+        PriceAndQuantitySection(
+            price = book.price ?: 0.00,
+            initialQuantity = 1,
+            onQuantityChanged = { newQuantity -> quantity.intValue = newQuantity }
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = book.description ?: "",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Review",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
-        )
-        Rating(rating = book.rating, maxRating = 5) {}
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Price and Rating Row
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            QuantityPicker(
-                initialAmount = 1, maxAmount = 10, modifier = Modifier.width(100.dp),
-                onAmountChanged = { amountChanged ->
-                    amount.intValue = amountChanged
-                })
-            Text(
-                text = "$${book.price}",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
         Spacer(modifier = Modifier.height(24.dp))
+        ActionButtons(
+            onContinueShopping = onContinueShopping,
+            onViewCart = { book.bookId?.let { onAddToCart(it, quantity.intValue) } }
+        )
+    }
+}
 
-        // Action Buttons
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            PrimaryButton(
-                text = "Continue Shopping",
-                onClick = { /* TODO: Add to cart */ },
-                modifier = Modifier.weight(1f)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
+@Composable
+private fun BookCoverImage(coverUrl: String?) {
+    AsyncImage(
+        model = coverUrl,
+        contentDescription = "Book cover",
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp),
+        contentScale = ContentScale.Fit
+    )
+}
 
-            SecondaryButton(
-                text = "View Cart",
-                onClick = {
-                    book.bookId?.let {
-                        onAddToCart(book.bookId, amount.intValue)
-                    }
-                },
-                modifier = Modifier.weight(1f)
-            )
-        }
+@Composable
+private fun BookHeader(title: String) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+        )
+
+        Image(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_love_fill),
+            contentDescription = "Favorite",
+            modifier = Modifier
+                .width(24.dp)
+                .height(24.dp)
+        )
+    }
+}
+
+@Composable
+private fun BookAuthor(author: String) {
+    Text(
+        text = "By $author",
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant
+    )
+}
+
+@Composable
+private fun BookDescription(description: String) {
+    Text(
+        text = description,
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialTheme.colorScheme.onSurfaceVariant
+    )
+}
+
+@Composable
+private fun BookRating(rating: Int) {
+    Text(
+        text = "Review",
+        style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Bold
+    )
+    Rating(rating = rating, maxRating = 5) {}
+}
+
+@Composable
+private fun PriceAndQuantitySection(
+    price: Double,
+    initialQuantity: Int = 0,
+    onQuantityChanged: (Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        QuantityPicker(
+            initialAmount = initialQuantity,
+            maxAmount = 10,
+            modifier = Modifier.width(100.dp),
+            onAmountChanged = onQuantityChanged
+        )
+        Text(
+            text = "$$price",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Composable
+private fun ActionButtons(
+    onContinueShopping: () -> Unit,
+    onViewCart: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        PrimaryButton(
+            text = "Continue Shopping",
+            onClick = onContinueShopping,
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        SecondaryButton(
+            text = "View Cart",
+            onClick = onViewCart,
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 
@@ -185,6 +217,10 @@ private fun BookDetailSheetContent(
 @Composable
 fun BookDetailBottomSheetPreview() {
     ThemedPreview {
-        BookDetailSheetContent(book = PreviewData.topOfWeek.first(), onAddToCart = { _, _ -> })
+        BookDetailSheetContent(
+            book = PreviewData.topOfWeek.first(),
+            onContinueShopping = {},
+            onAddToCart = { _, _ -> }
+        )
     }
 }

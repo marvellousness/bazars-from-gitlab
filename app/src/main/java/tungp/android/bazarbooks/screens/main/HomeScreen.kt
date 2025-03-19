@@ -88,6 +88,13 @@ fun HomeContent(
         BookDetailBottomSheet(
             book = book,
             onDismiss = { selectedBook = null },
+            onContinueShopping = { selectedBook = null },
+            onAddToCart = { bookId, amount ->
+                // Handle adding to cart functionality here
+                // For example, call a ViewModel method to add to cart
+                // viewModel.addToCart(bookId, amount)
+                selectedBook = null
+            },
             sheetState = sheetState
         )
     }
