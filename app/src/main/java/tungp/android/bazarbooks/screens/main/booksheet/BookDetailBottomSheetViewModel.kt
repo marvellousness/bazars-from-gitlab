@@ -4,6 +4,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.domain.usecase.AddToCartParams
 import tungp.android.bazarbooks.domain.usecase.AddToCartUseCase
 import tungp.android.bazarbooks.domain.usecase.GetBookDetailUseCase
@@ -20,8 +21,8 @@ class BookDetailBottomSheetViewModel @Inject constructor(
     private val _quantity = MutableStateFlow(1)
     val quantity: StateFlow<Int> = _quantity.asStateFlow()
 
-    private val _addToCartResult = MutableStateFlow<Boolean?>(null)
-    val addToCartResult: StateFlow<Boolean?> = _addToCartResult.asStateFlow()
+    private val _addToCartResult = MutableStateFlow<CartItem?>(null)
+    val addToCartResult: StateFlow<CartItem?> = _addToCartResult.asStateFlow()
 
     override fun onTriggerEvent(eventType: BookDetailBottomSheetEvent) {
         when (eventType) {
@@ -83,19 +84,19 @@ class BookDetailBottomSheetViewModel @Inject constructor(
             )
         }
 
-        execute(addToCartUseCase(params = AddToCartParams(bookId, quantity))) { success ->
+        execute(addToCartUseCase(params = AddToCartParams(bookId, quantity))) { cardItem ->
             // Update state with result
             (uiState.value as? BaseViewState.Data)?.let {
                 val currentState = it.value
                 setData(
                     currentState.copy(
                         isAddingToCart = false,
-                        addToCartSuccess = success
+                        addToCartSuccess = cardItem
                     )
                 )
             }
 
-            _addToCartResult.value = success
+            _addToCartResult.value = cardItem
         }
     }
 

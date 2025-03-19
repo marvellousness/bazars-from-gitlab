@@ -6,11 +6,12 @@ import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.data.model.base.*
 import tungp.android.bazarbooks.domain.model.Book
+import tungp.android.bazarbooks.domain.model.CartItem
 
 interface RemoteRepository {
     suspend fun getHomeFeeds(): Flow<BazaResult<HomeFeedsDomainModel>>
     suspend fun getCategories(): Flow<BazaResult<Categories>>
     suspend fun getVendors(): Flow<BazaResult<List<Vendor>>>
     suspend fun getBookDetail(bookId: String): Flow<BazaResult<Book>>
-    suspend fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<Boolean>>
+    suspend fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<CartItem>>
 }

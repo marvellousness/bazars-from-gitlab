@@ -2,6 +2,7 @@ package tungp.android.bazarbooks.domain.usecase
 
 import kotlinx.coroutines.flow.FlowCollector
 import tungp.android.bazarbooks.data.model.base.BazaResult
+import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
 import javax.inject.Inject
 
@@ -12,8 +13,8 @@ data class AddToCartParams(
 
 class AddToCartUseCase @Inject constructor(
     private val repository: RemoteRepository
-) : DataStateUseCase<AddToCartParams, Boolean>() {
-    override suspend fun FlowCollector<BazaResult<Boolean>>.execute(params: AddToCartParams) {
+) : DataStateUseCase<AddToCartParams, CartItem>() {
+    override suspend fun FlowCollector<BazaResult<CartItem>>.execute(params: AddToCartParams) {
         repository.addToCart(bookId = params.bookId, quantity = params.quantity).collect { result ->
             emit(result)
         }

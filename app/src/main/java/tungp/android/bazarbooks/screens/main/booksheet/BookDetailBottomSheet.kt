@@ -69,7 +69,7 @@ fun BookDetailBottomSheet(
     // Handle add to cart result
     LaunchedEffect(key1 = Unit) {
         viewModel.addToCartResult.collect { result ->
-            if (result == true) {
+            if (result != null) {
                 // Cart addition was successful, dismiss the sheet in a coroutine
                 coroutineScope.launch {
                     try {

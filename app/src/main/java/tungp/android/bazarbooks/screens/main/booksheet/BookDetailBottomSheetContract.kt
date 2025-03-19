@@ -1,13 +1,14 @@
 package tungp.android.bazarbooks.screens.main.booksheet
 
 import tungp.android.bazarbooks.domain.model.Book
+import tungp.android.bazarbooks.domain.model.CartItem
 
 
 data class BookDetailBottomSheetState(
     val book: Book? = null,
     val quantity: Int = 1,
     val isAddingToCart: Boolean = false,
-    val addToCartSuccess: Boolean? = null
+    val addToCartSuccess: CartItem? = null
 )
 
 sealed class BookDetailBottomSheetEvent {
