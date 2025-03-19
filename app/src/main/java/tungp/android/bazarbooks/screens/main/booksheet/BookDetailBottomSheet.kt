@@ -81,7 +81,7 @@ private fun BookDetailSheetContent(
 
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
