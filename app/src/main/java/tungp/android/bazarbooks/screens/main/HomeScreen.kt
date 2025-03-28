@@ -122,7 +122,7 @@ fun HomeContentContainer(
         }
 
         item {
-            TopAuthorsContainer(homeState.authors)
+            TopAuthorsContainer(homeState.authors, navController)
         }
     }
 }
@@ -167,13 +167,14 @@ fun TopOfWeekContainer(
 @Composable
 fun TopAuthorsContainer(
     authors: List<Author>,
+    navController: NavController,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         SectionTitle(
             title = stringResource(R.string.authors_tittle_section),
             onSeeAll = {
-                // TODO: Navigate to the top of week list screen
+                navController.navigate(Graph.AuthorGraph)
             })
         AuthorsContainer(
             authors = authors,

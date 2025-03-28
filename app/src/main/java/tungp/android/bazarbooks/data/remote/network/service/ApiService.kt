@@ -6,6 +6,7 @@ import tungp.android.bazarbooks.data.model.BookDetailResponse
 import tungp.android.bazarbooks.data.model.CategoriesResponse
 import tungp.android.bazarbooks.data.model.HomeFeedsResponse
 import tungp.android.bazarbooks.data.model.VendorsResponse
+import tungp.android.bazarbooks.data.model.AuthorsResponse
 import tungp.android.bazarbooks.data.model.base.BaseResponse
 
 interface ApiService {
@@ -18,6 +19,9 @@ interface ApiService {
     
     @GET("mock/getVendors")
     suspend fun getVendors(): BaseResponse<VendorsResponse>
+
+    @GET("mock/getAuthors")
+    suspend fun getAuthors(): BaseResponse<AuthorsResponse>
 
     //@GET("mock/getBookDetails/{bookId}")
 //    suspend fun getBookDetails(@Path("bookId") bookId: String): BaseResponse<BookDetailResponse>

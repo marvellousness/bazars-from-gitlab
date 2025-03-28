@@ -8,6 +8,7 @@ object Graph {
     const val CategoryGraph = "categoryGraph"
     const val CartGraph = "cartGraph"
     const val VendorGraph = "vendorGraph"
+    const val AuthorGraph = "authorGraph"
 
     // Book Graph is used to navigate to the book detail screen    
     const val BookGraph = "bookGraph"
@@ -46,4 +47,8 @@ sealed class BookRouteScreen(val route: String) {
     object BookDetail : BookRouteScreen("bookDetail/{bookId}") {
         fun createRoute(bookId: String) = "bookDetail/$bookId"
     }
+}
+
+sealed class AuthorRouteScreen(val route: String) {
+    object Authors : AuthorRouteScreen("authors")
 }
