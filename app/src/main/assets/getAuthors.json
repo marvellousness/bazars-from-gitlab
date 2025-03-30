@@ -10,7 +10,7 @@
         "authorName": "Stephen King",
         "booksCount": 10,
         "rating": 5,
-        "category": "Book"
+        "category": "Poetry"
       },
       {
         "id": "a1002",
@@ -19,7 +19,7 @@
         "authorName": "George R. Martin",
         "booksCount": 10,
         "rating": 5,
-        "category": "Book"
+        "category": "Poetry"
       },
       {
         "id": "a1003",
@@ -28,7 +28,7 @@
         "authorName": "E. L. James",
         "booksCount": 10,
         "rating": 5,
-        "category": "Book"
+        "category": "Thriller"
       },
       {
         "id": "a1004",
@@ -37,7 +37,7 @@
         "authorName": "Agatha Christie",
         "booksCount": 10,
         "rating": 5,
-        "category": "Book"
+        "category": "Thriller"
       },
       {
         "id": "a1005",
@@ -46,7 +46,7 @@
         "authorName": "E. B. White",
         "booksCount": 10,
         "rating": 2,
-        "category": "Book"
+        "category": "Romance"
       },
       {
         "id": "a1006",
@@ -55,7 +55,7 @@
         "authorName": "Neil Gaiman",
         "booksCount": 10,
         "rating": 2,
-        "category": "Book"
+        "category": "Romance"
       }
     ]
   }
