@@ -51,8 +51,7 @@ fun HomeScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.onTriggerEvent(HomeEvent.LoadHomeFeeds)
     }
-    //HomeContent(uiState, navController)
-    AccordionDemo()
+    HomeContent(uiState, navController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
