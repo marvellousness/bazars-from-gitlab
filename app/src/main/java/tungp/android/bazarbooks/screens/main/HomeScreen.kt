@@ -25,6 +25,7 @@ import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView
+import tungp.android.bazarbooks.components.accordion.AccordionDemo
 import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Vendor
@@ -50,7 +51,8 @@ fun HomeScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.onTriggerEvent(HomeEvent.LoadHomeFeeds)
     }
-    HomeContent(uiState, navController)
+    //HomeContent(uiState, navController)
+    AccordionDemo()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

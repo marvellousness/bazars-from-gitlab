@@ -1,0 +1,25 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "book": {
+      "bookId": "2",
+      "isbn": "9780062315007",
+      "title": "The Alchemist",
+      "cover": "https://covers.openlibrary.org/b/id/13151170-L.jpg",
+      "author": "Paulo Coelho",
+      "price": 14.99,
+      "genre": [
+        "Fiction",
+        "Philosophy",
+        "Adventure"
+      ],
+      "publishedYear": 1988,
+      "description": "A magical story about following your dreams and listening to your heart.",
+      "publisher": "HarperOne",
+      "numberOfPages": 208,
+      "quantityInStock": 42,
+      "rating": 4
+    }
+  }
+} 

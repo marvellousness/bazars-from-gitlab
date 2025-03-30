@@ -95,8 +95,7 @@ class RemoteRepositoryImpl @Inject constructor(
     override suspend fun getBookDetail(bookId: String): Flow<BazaResult<Book>> = flow {
         emit(BazaResult.Loading)
         try {
-            //val response = apiService.getBookDetails(bookId)
-            val response = apiService.getBookDetails()
+            val response = apiService.getBookDetails(bookId)
             if (response.statusCode == 200 && response.data != null) {
                 emit(BazaResult.Success(response.data.book))
             } else {
