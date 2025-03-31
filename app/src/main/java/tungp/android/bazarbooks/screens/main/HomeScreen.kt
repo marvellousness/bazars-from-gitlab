@@ -15,12 +15,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
@@ -33,6 +35,7 @@ import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.navigation.BookRouteScreen
 import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.screens.main.booksheet.BookDetailBottomSheet
+import tungp.android.bazarbooks.screens.main.booksheet.BookDetailBottomSheetViewModel
 import tungp.android.bazarbooks.screens.main.components.AuthorItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalBookItem
 import tungp.android.bazarbooks.screens.main.components.HorizontalItemPlaceholder
@@ -64,6 +67,9 @@ fun HomeContent(
     var selectedBook by remember { mutableStateOf<Book?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    // Create a ViewModel instance for the bottom sheet
+    val bottomSheetViewModel: BookDetailBottomSheetViewModel = hiltViewModel()
+
     Column(modifier = Modifier.fillMaxSize()) {
         when (uiState) {
             is BaseViewState.Data -> HomeContentContainer(
@@ -88,8 +94,18 @@ fun HomeContent(
     selectedBook?.let { book ->
         BookDetailBottomSheet(
             book = book,
-            onDismiss = { selectedBook = null },
-            sheetState = sheetState
+            onDismiss = { 
+                selectedBook = null 
+            },
+            onContinueShopping = { 
+                selectedBook = null 
+            },
+            onAddToCart = { _, _ ->
+                // Now handled directly by the ViewModel
+                selectedBook = null
+            },
+            sheetState = sheetState,
+            viewModel = bottomSheetViewModel
         )
     }
 }

@@ -2,9 +2,11 @@ package tungp.android.bazarbooks.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import tungp.android.bazarbooks.data.model.AddToCartRequest
 import tungp.android.bazarbooks.data.model.base.BazaResult
 import tungp.android.bazarbooks.data.remote.network.service.ApiService
 import tungp.android.bazarbooks.domain.model.Book
+import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.domain.model.Categories
 import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
@@ -100,6 +102,23 @@ class RemoteRepositoryImpl @Inject constructor(
                 emit(BazaResult.Success(response.data.book))
             } else {
                 emit(BazaResult.Error(Exception(response.statusMessage)))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+    
+    override suspend fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val request = AddToCartRequest(bookId = bookId, quantity = quantity)
+            val response = apiService.addToCart(request)
+            
+            if (response.statusCode == 200 && response.data != null) {
+                // Return success flag from response
+                emit(BazaResult.Success(response.data.cartItem))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to add to cart")))
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))

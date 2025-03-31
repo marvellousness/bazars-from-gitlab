@@ -5,6 +5,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
+import tungp.android.bazarbooks.domain.usecase.AddToCartUseCase
+import tungp.android.bazarbooks.domain.usecase.GetBookDetailUseCase
 import tungp.android.bazarbooks.domain.usecase.GetCategoriesUseCase
 import tungp.android.bazarbooks.domain.usecase.GetHomeFeedsUseCase
 import tungp.android.bazarbooks.domain.usecase.GetVendorsUseCase
@@ -26,5 +28,15 @@ object BookModule {
     @Provides
     fun providesGetVendorsUseCase(repository: RemoteRepository): GetVendorsUseCase {
         return GetVendorsUseCase(repository = repository)
+    }
+    
+    @Provides
+    fun providesGetBookDetailUseCase(repository: RemoteRepository): GetBookDetailUseCase {
+        return GetBookDetailUseCase(repository = repository)
+    }
+    
+    @Provides
+    fun providesAddToCartUseCase(repository: RemoteRepository): AddToCartUseCase {
+        return AddToCartUseCase(repository = repository)
     }
 }

@@ -1,7 +1,11 @@
 package tungp.android.bazarbooks.data.remote.network.service
 
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
+import tungp.android.bazarbooks.data.model.AddToCartRequest
+import tungp.android.bazarbooks.data.model.AddToCartResponse
 import tungp.android.bazarbooks.data.model.BookDetailResponse
 import tungp.android.bazarbooks.data.model.CategoriesResponse
 import tungp.android.bazarbooks.data.model.HomeFeedsResponse
@@ -24,8 +28,11 @@ interface ApiService {
     suspend fun getAuthors(): BaseResponse<AuthorsResponse>
 
     //@GET("mock/getBookDetails/{bookId}")
-//    suspend fun getBookDetails(@Path("bookId") bookId: String): BaseResponse<BookDetailResponse>
+    //suspend fun getBookDetails(@Path("bookId") bookId: String): BaseResponse<BookDetailResponse>
 
     @GET("mock/getBookDetails_{bookId}")
     suspend fun getBookDetails(bookId: String): BaseResponse<BookDetailResponse>
+    
+    @POST("mock/addToCart")
+    suspend fun addToCart(@Body request: AddToCartRequest): BaseResponse<AddToCartResponse>
 }
