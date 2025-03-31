@@ -129,12 +129,12 @@ fun BookDetailBottomSheet(
                             }
                         }
                     },
-                    onAddToCart = { bookId, amount ->
+                    onAddToCart = { bookId, quantity ->
                         coroutineScope.launch {
                             try {
                                 sheetState.hide()
                             } finally {
-                                onAddToCart(bookId, amount)
+                                onAddToCart(bookId, quantity)
                             }
                         }
                     }

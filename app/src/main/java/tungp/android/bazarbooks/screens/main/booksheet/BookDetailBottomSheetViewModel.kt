@@ -1,9 +1,12 @@
 package tungp.android.bazarbooks.screens.main.booksheet
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.domain.usecase.AddToCartParams
 import tungp.android.bazarbooks.domain.usecase.AddToCartUseCase
@@ -18,11 +21,12 @@ class BookDetailBottomSheetViewModel @Inject constructor(
     private val addToCartUseCase: AddToCartUseCase,
 ) : MviViewModel<BookDetailBottomSheetState, BookDetailBottomSheetEvent>() {
 
-    private val _quantity = MutableStateFlow(1)
-    val quantity: StateFlow<Int> = _quantity.asStateFlow()
-
     private val _addToCartResult = MutableStateFlow<CartItem?>(null)
-    val addToCartResult: StateFlow<CartItem?> = _addToCartResult.asStateFlow()
+    val addToCartResult: StateFlow<CartItem?> = _addToCartResult.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000, replayExpirationMillis = 0),
+        initialValue = null
+    )
 
     override fun onTriggerEvent(eventType: BookDetailBottomSheetEvent) {
         when (eventType) {
@@ -47,7 +51,7 @@ class BookDetailBottomSheetViewModel @Inject constructor(
             setData(
                 BookDetailBottomSheetState(
                     book = bookDetail,
-                    quantity = _quantity.value
+                    quantity = 1 // Default quantity
                 )
             )
         }
@@ -56,7 +60,6 @@ class BookDetailBottomSheetViewModel @Inject constructor(
     private fun onUpdateQuantity(quantity: Int) {
         if (quantity < 1 || quantity > 10) return // Validate quantity range
 
-        _quantity.value = quantity
         (uiState.value as? BaseViewState.Data)?.let {
             val currentState = it.value
             setData(
@@ -101,7 +104,6 @@ class BookDetailBottomSheetViewModel @Inject constructor(
     }
 
     private fun clearState() {
-        _quantity.value = 1
         _addToCartResult.value = null
         setState(BaseViewState.Empty)
     }
