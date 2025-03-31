@@ -12,6 +12,7 @@ import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
+import tungp.android.bazarbooks.domain.model.Author
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
@@ -79,11 +80,24 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAuthors(): Flow<BazaResult<List<Author>>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.getAuthors()
+            if (response.statusCode == 200 && response.data != null) {
+                emit(BazaResult.Success(response.data.authors))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+
     override suspend fun getBookDetail(bookId: String): Flow<BazaResult<Book>> = flow {
         emit(BazaResult.Loading)
         try {
-            //val response = apiService.getBookDetails(bookId)
-            val response = apiService.getBookDetails()
+            val response = apiService.getBookDetails(bookId)
             if (response.statusCode == 200 && response.data != null) {
                 emit(BazaResult.Success(response.data.book))
             } else {

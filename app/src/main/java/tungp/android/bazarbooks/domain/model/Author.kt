@@ -8,4 +8,5 @@ data class Author(
     val title: String,
     val cover: String,
     val authorName: String,
+    val category: String
 )

@@ -27,6 +27,7 @@ import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView
+import tungp.android.bazarbooks.components.accordion.AccordionDemo
 import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.Vendor
@@ -138,7 +139,7 @@ fun HomeContentContainer(
         }
 
         item {
-            TopAuthorsContainer(homeState.authors)
+            TopAuthorsContainer(homeState.authors, navController)
         }
     }
 }
@@ -183,13 +184,14 @@ fun TopOfWeekContainer(
 @Composable
 fun TopAuthorsContainer(
     authors: List<Author>,
+    navController: NavController,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         SectionTitle(
             title = stringResource(R.string.authors_tittle_section),
             onSeeAll = {
-                // TODO: Navigate to the top of week list screen
+                navController.navigate(Graph.AuthorGraph)
             })
         AuthorsContainer(
             authors = authors,

@@ -199,7 +199,7 @@ object PreviewData {
         ),
     )
 
-    val authors = listOf(Author("1", "title", "cover", "authorName"))
+    val authors = listOf(Author("1", "title", "cover", "authorName", "Book"))
     
     // List of vendor categories for filtering
     val categories = listOf("All", "Books", "Poems", "Stationery", "Magazines")
