@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.auth
+package tungp.android.bazarbooks.screens.auth.signup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import tungp.android.bazarbooks.navigation.AuthRouteScreen
 import tungp.android.bazarbooks.navigation.Graph
+import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 @Composable
 fun SignUpScreen(navController: NavController) {
@@ -47,5 +48,7 @@ fun SignUpScreen(navController: NavController) {
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen(navController = rememberNavController())
+    BazarTheme {
+        SignUpScreen(navController = rememberNavController())
+    }
 }

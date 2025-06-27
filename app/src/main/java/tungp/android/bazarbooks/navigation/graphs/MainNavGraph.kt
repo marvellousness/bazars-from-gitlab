@@ -9,7 +9,7 @@ import tungp.android.bazarbooks.navigation.MainRouteScreen
 import tungp.android.bazarbooks.screens.main.HomeScreen
 import tungp.android.bazarbooks.screens.category.CategoryScreen
 import tungp.android.bazarbooks.screens.main.ProfileScreen
-import tungp.android.bazarbooks.screens.main.CartScreen
+import tungp.android.bazarbooks.screens.main.cart.CartScreen
 
 @Composable
 fun MainNavGraph(

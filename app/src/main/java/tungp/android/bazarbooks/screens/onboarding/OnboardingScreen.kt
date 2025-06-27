@@ -19,6 +19,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,10 +38,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.BazarSurface
+import tungp.android.bazarbooks.components.button.BazarTextButton
 import tungp.android.bazarbooks.components.button.ButtonShape
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SecondaryButton
-import tungp.android.bazarbooks.components.button.TextButton
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 
@@ -66,7 +67,7 @@ fun OnboardingScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start
             ) {
-                TextButton(
+                BazarTextButton(
                     modifier = Modifier.padding(top = 15.dp, start = 15.dp),
                     text = stringResource(R.string.skip),
                     onClick = {

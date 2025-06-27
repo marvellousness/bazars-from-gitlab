@@ -6,16 +6,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import tungp.android.bazarbooks.navigation.AuthRouteScreen
 import tungp.android.bazarbooks.navigation.Graph
-import tungp.android.bazarbooks.screens.auth.ForgetPasswordScreen
-import tungp.android.bazarbooks.screens.auth.LoginScreen
-import tungp.android.bazarbooks.screens.auth.SignUpScreen
+import tungp.android.bazarbooks.screens.auth.forgotpassword.ForgetPasswordScreen
+import tungp.android.bazarbooks.screens.auth.signin.SignInScreen
+import tungp.android.bazarbooks.screens.auth.signup.SignUpScreen
 
 fun NavGraphBuilder.authNavGraph(rootNavController: NavHostController) {
     navigation(
         route = Graph.AuthGraph, startDestination = AuthRouteScreen.Login.route
     ) {
         composable(route = AuthRouteScreen.Login.route) {
-            LoginScreen(navController = rootNavController)
+            SignInScreen(navController = rootNavController)
         }
         composable(route = AuthRouteScreen.SignUp.route) {
             SignUpScreen(navController = rootNavController)

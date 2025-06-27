@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.auth
+package tungp.android.bazarbooks.screens.auth.forgotpassword
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,44 +14,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import tungp.android.bazarbooks.navigation.AuthRouteScreen
-import tungp.android.bazarbooks.navigation.Graph
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun ForgetPasswordScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Login Screen")
+        Text(text = "Forgot Screen")
         Spacer(modifier = Modifier.height(30.dp))
         Button(onClick = {
-            navController.navigate(Graph.MainScreenGraph) {
-                popUpTo(AuthRouteScreen.Login.route) {
-                    inclusive = true
-                }
-            }
+            navController.navigateUp()
         }) {
-            Text("Login")
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(onClick = {
-            navController.navigate(AuthRouteScreen.SignUp.route)
-        }) {
-            Text("Don't have a account? Register")
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(onClick = {
-            navController.navigate(AuthRouteScreen.Forget.route)
-        }) {
-            Text("Forgot Password?")
+            Text("Reset password")
         }
     }
 }
 
 @Preview
 @Composable
-private fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController())
+private fun ForgetPasswordPreview() {
+    ForgetPasswordScreen(navController = rememberNavController())
 }

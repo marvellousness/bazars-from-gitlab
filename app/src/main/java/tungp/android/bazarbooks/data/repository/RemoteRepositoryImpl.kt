@@ -124,4 +124,60 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(BazaResult.Error(e))
         }
     }
+
+    override suspend fun getCart(): Flow<BazaResult<List<CartItem>>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.getCart()
+            if (response.statusCode == 200 && response.data != null) {
+                emit(BazaResult.Success(response.data.cartItems))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to get cart")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+
+    override suspend fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.updateCartItem(cartItemId, quantity)
+            if (response.statusCode == 200 && response.data != null) {
+                emit(BazaResult.Success(response.data.cartItem))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to update cart item")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+
+    override suspend fun removeFromCart(cartItemId: String): Flow<BazaResult<Boolean>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.removeFromCart(cartItemId)
+            if (response.statusCode == 200) {
+                emit(BazaResult.Success(true))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to remove cart item")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+
+    override suspend fun clearCart(): Flow<BazaResult<Boolean>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.clearCart()
+            if (response.statusCode == 200) {
+                emit(BazaResult.Success(true))
+            } else {
+                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to clear cart")))
+            }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
 }

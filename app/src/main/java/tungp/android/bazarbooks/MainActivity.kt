@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BazarTheme {
-                RootNavGraph(isAuth = true)
+                RootNavGraph(isAuth = false)
             }
         }
     }

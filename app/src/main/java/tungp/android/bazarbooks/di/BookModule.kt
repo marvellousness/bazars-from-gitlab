@@ -10,6 +10,10 @@ import tungp.android.bazarbooks.domain.usecase.GetBookDetailUseCase
 import tungp.android.bazarbooks.domain.usecase.GetCategoriesUseCase
 import tungp.android.bazarbooks.domain.usecase.GetHomeFeedsUseCase
 import tungp.android.bazarbooks.domain.usecase.GetVendorsUseCase
+import tungp.android.bazarbooks.domain.usecase.GetCartUseCase
+import tungp.android.bazarbooks.domain.usecase.UpdateCartItemUseCase
+import tungp.android.bazarbooks.domain.usecase.RemoveCartItemUseCase
+import tungp.android.bazarbooks.domain.usecase.ClearCartUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -38,5 +42,25 @@ object BookModule {
     @Provides
     fun providesAddToCartUseCase(repository: RemoteRepository): AddToCartUseCase {
         return AddToCartUseCase(repository = repository)
+    }
+
+    @Provides
+    fun providesGetCartUseCase(repository: RemoteRepository): GetCartUseCase {
+        return GetCartUseCase(repository = repository)
+    }
+
+    @Provides
+    fun providesUpdateCartItemUseCase(repository: RemoteRepository): UpdateCartItemUseCase {
+        return UpdateCartItemUseCase(repository = repository)
+    }
+
+    @Provides
+    fun providesRemoveCartItemUseCase(repository: RemoteRepository): RemoveCartItemUseCase {
+        return RemoveCartItemUseCase(repository = repository)
+    }
+
+    @Provides
+    fun providesClearCartUseCase(repository: RemoteRepository): ClearCartUseCase {
+        return ClearCartUseCase(repository = repository)
     }
 }
