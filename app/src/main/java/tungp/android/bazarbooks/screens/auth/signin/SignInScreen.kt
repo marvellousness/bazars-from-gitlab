@@ -124,6 +124,7 @@ fun SignInScreen(
                     ),
                     iconResourceId = R.drawable.ic_ography_password_outline,
                     error = state.passwordError,
+                    isSecure = true
                 )
                 BazarTextButton(
                     text = stringResource(R.string.forgot_password),

@@ -2,6 +2,7 @@ package tungp.android.bazarbooks.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,12 +50,18 @@ fun BazarTextField(
     },
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
-    visualTransformation: VisualTransformation = VisualTransformation.None,
     error: String? = null,
     onBlur: () -> Unit = {},
+    isSecure: Boolean = false,
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    // Password visibility toggle state
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    val visualTransform =
+        if (isSecure && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None
 
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
@@ -68,11 +76,19 @@ fun BazarTextField(
                 },
             value = value,
             onValueChange = onValueChange,
-            trailingIcon = trailingIcon,
+            trailingIcon = if (isSecure) {
+                {
+                    BazarIcon(
+                        iconResourceId = if (passwordVisible) R.drawable.ic_ography_unpassword_outline else R.drawable.ic_ography_password_outline,
+                        contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                        modifier = Modifier.clickable { passwordVisible = !passwordVisible }
+                    )
+                }
+            } else trailingIcon,
             placeholder = placeholder,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            visualTransformation = visualTransformation,
+            visualTransformation = visualTransform,
             shape = BazarTheme.shapes.medium,
             isError = error != null,
             supportingText = {
