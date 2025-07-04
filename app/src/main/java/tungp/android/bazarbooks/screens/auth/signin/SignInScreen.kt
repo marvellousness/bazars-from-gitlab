@@ -1,5 +1,7 @@
 package tungp.android.bazarbooks.screens.auth.signin
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,11 +18,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,6 +49,7 @@ fun SignInScreen(
     navController: NavController,
     viewModel: SignInViewModel = hiltViewModel(),
 ) {
+    val focusManager = LocalFocusManager.current
     val scrollableState = rememberScrollState()
     val state by viewModel.state.collectAsState()
 
@@ -54,7 +60,14 @@ fun SignInScreen(
                 navigationIcon = {
                     BazarBackButton(onClick = { })
                 })
-        }) { innerPadding ->
+        },
+        modifier = Modifier
+            .clickable(
+                onClick = { focusManager.clearFocus() },
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            )
+    ) { innerPadding ->
         Column(
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
@@ -85,31 +98,32 @@ fun SignInScreen(
             ) {
                 BazarTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = state.email,
+                    value = state.email ?: "",
                     onValueChange = {
                         viewModel.onTriggerEvent(SignInEvent.EmailChanged(it))
                     },
                     labelText = stringResource(R.string.email),
                     placeHolderResourceId = R.string.email_placeholder,
-                    error =state.emailError,
-                    onBlur = {
-                        viewModel.onTriggerEvent(SignInEvent.ValidateEmail)
-                    }
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Default
+                    ),
+                    error = state.emailError
                 )
                 BazarTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = state.password,
+                    value = state.password ?: "",
                     onValueChange = {
                         viewModel.onTriggerEvent(SignInEvent.PasswordChanged(it))
                     },
                     labelText = stringResource(R.string.password),
                     placeHolderResourceId = R.string.password_placeholder,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    ),
                     iconResourceId = R.drawable.ic_ography_password_outline,
                     error = state.passwordError,
-                    onBlur = {
-                        viewModel.onTriggerEvent(SignInEvent.ValidatePassword)
-                    }
                 )
                 BazarTextButton(
                     text = stringResource(R.string.forgot_password),
@@ -128,14 +142,9 @@ fun SignInScreen(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.login),
                     onClick = {
-                        viewModel.onTriggerEvent(
-                            SignInEvent.SignInClicked(
-                                state.email,
-                                state.password
-                            )
-                        )
+                        viewModel.onTriggerEvent(SignInEvent.SignInClicked)
                     },
-                    enabled = state.emailError == null && state.passwordError == null && !state.isLoading,
+                    enabled = viewModel.validateForm(),
                 )
 
                 SignInTextLink(onClick = {})

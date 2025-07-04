@@ -19,7 +19,8 @@ fun RootNavGraph(isAuth: Boolean) {
     NavHost(
         navController = rootNavController,
         route = Graph.RootGraph,
-        startDestination = if (isAuth) Graph.MainScreenGraph else Graph.OnboardingGraph
+        //startDestination = if (isAuth) Graph.MainScreenGraph else Graph.OnboardingGraph
+        startDestination = if (isAuth) Graph.MainScreenGraph else Graph.AuthGraph
     ) {
         onboardingNavGraph(rootNavController)
         authNavGraph(rootNavController = rootNavController)

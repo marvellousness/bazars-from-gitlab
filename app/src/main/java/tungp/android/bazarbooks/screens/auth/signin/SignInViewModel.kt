@@ -17,30 +17,22 @@ class SignInViewModel @Inject constructor() : MviViewModel<SignInState, SignInEv
     override fun onTriggerEvent(eventType: SignInEvent) {
         when (eventType) {
             is SignInEvent.SignInClicked -> {
-                signIn(eventType.email, eventType.password)
+                signIn()
             }
 
             is SignInEvent.EmailChanged -> {
+                val email = eventType.email
+                val emailError = validateEmail(email)
                 _state.update { currentState ->
-                    currentState.copy(email = eventType.email)
+                    currentState.copy(email = email, emailError = emailError)
                 }
             }
 
             is SignInEvent.PasswordChanged -> {
+                val password = eventType.password
+                val passwordError = validatePassword(password)
                 _state.update { currentState ->
-                    currentState.copy(password = eventType.password)
-                }
-            }
-
-            is SignInEvent.ValidateEmail -> {
-                _state.update { currentState ->
-                    currentState.copy(emailError = validateEmail(currentState.email))
-                }
-            }
-
-            is SignInEvent.ValidatePassword -> {
-                _state.update { currentState ->
-                    currentState.copy(passwordError = validatePassword(currentState.password))
+                    currentState.copy(password = password, passwordError = passwordError)
                 }
             }
 
@@ -51,7 +43,7 @@ class SignInViewModel @Inject constructor() : MviViewModel<SignInState, SignInEv
     private fun validateEmail(email: String): String? {
         return when {
             email.isBlank() -> "Email cannot be empty"
-            email.length < 2 -> "Email must be at least 3 characters long"
+            email.length < 3 -> "Email must be at least 3 characters long"
             else -> null
         }
     }
@@ -59,18 +51,25 @@ class SignInViewModel @Inject constructor() : MviViewModel<SignInState, SignInEv
     private fun validatePassword(password: String): String? {
         return when {
             password.isBlank() -> "Password cannot be empty"
-            password.length < 2 -> "Password must be at least 1 characters long"
+            password.length < 3 -> "Password must be at least 3 characters long"
             else -> null
         }
     }
 
-    private fun signIn(email: String, password: String) {
-        Log.d(TAG, "signIn: email: $email, password: $password")
+    private fun signIn() {
+        Log.d(TAG, "signIn: email: ${state.value.email}, password: ${state.value.password}")
+    }
 
+    fun validateForm(): Boolean {
+        val currentState = state.value
+        return currentState.emailError == null &&
+               currentState.passwordError == null &&
+               !currentState.email.isNullOrBlank() &&
+               !currentState.password.isNullOrBlank()
     }
 
     companion object {
-        const val TAG = "~~~SignInViewModel"
+        const val TAG = "SignInViewModel"
     }
 
 }

@@ -62,12 +62,9 @@ fun BazarTextField(
         Text(text = labelText, style = BazarTheme.typography.bodyMedium)
         OutlinedTextField(
             modifier = modifier
-                .onFocusChanged {
-                    if (isFocused && !it.isFocused) {
-                        onBlur()
-                        keyboardController?.hide()
-                    }
-                    isFocused = it.isFocused
+                .onFocusChanged { focusState ->
+                    onBlur()
+                    isFocused = focusState.isFocused
                 },
             value = value,
             onValueChange = onValueChange,
