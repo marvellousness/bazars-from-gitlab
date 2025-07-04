@@ -1,25 +1,23 @@
 package tungp.android.bazarbooks.screens.auth.signin
 
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import tungp.android.bazarbooks.mvi.MviViewModel
+import tungp.android.bazarbooks.util.CredentialsStorage
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor() : MviViewModel<SignInState, SignInEvent>() {
+class SignInViewModel @Inject constructor(
+    private val credentialsStorage: CredentialsStorage,
+) : MviViewModel<SignInState, SignInEvent>() {
     private val _state = MutableStateFlow(SignInState())
     val state: StateFlow<SignInState> = _state.asStateFlow()
 
     override fun onTriggerEvent(eventType: SignInEvent) {
         when (eventType) {
-            is SignInEvent.SignInClicked -> {
-                signIn()
-            }
-
             is SignInEvent.EmailChanged -> {
                 val email = eventType.email
                 val emailError = validateEmail(email)
@@ -34,6 +32,13 @@ class SignInViewModel @Inject constructor() : MviViewModel<SignInState, SignInEv
                 _state.update { currentState ->
                     currentState.copy(password = password, passwordError = passwordError)
                 }
+            }
+
+            is SignInEvent.SignIn -> {
+                _state.update { currentState ->
+                    currentState.copy(isSignInSuccess = true)
+                }
+                credentialsStorage.saveCredentials(state.value.email, state.value.email)
             }
 
             else -> {}
@@ -56,16 +61,12 @@ class SignInViewModel @Inject constructor() : MviViewModel<SignInState, SignInEv
         }
     }
 
-    private fun signIn() {
-        Log.d(TAG, "signIn: email: ${state.value.email}, password: ${state.value.password}")
-    }
-
     fun validateForm(): Boolean {
         val currentState = state.value
         return currentState.emailError == null &&
-               currentState.passwordError == null &&
-               !currentState.email.isNullOrBlank() &&
-               !currentState.password.isNullOrBlank()
+                currentState.passwordError == null &&
+                !currentState.email.isNullOrBlank() &&
+                !currentState.password.isNullOrBlank()
     }
 
     companion object {

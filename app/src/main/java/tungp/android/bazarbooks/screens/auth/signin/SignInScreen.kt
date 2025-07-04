@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -41,6 +42,7 @@ import tungp.android.bazarbooks.components.button.BazarBackButton
 import tungp.android.bazarbooks.components.button.BazarTextButton
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SignInButton
+import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +54,16 @@ fun SignInScreen(
     val focusManager = LocalFocusManager.current
     val scrollableState = rememberScrollState()
     val state by viewModel.state.collectAsState()
+
+    // Navigate to MainScreenGraph after successful login
+    LaunchedEffect(state.isSignInSuccess) {
+        if (state.isSignInSuccess) {
+            navController.navigate(Graph.MainScreenGraph) {
+                popUpTo(Graph.AuthGraph) { inclusive = true }
+                launchSingleTop = true
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -143,7 +155,7 @@ fun SignInScreen(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.login),
                     onClick = {
-                        viewModel.onTriggerEvent(SignInEvent.SignInClicked)
+                        viewModel.onTriggerEvent(SignInEvent.SignIn)
                     },
                     enabled = viewModel.validateForm(),
                 )
