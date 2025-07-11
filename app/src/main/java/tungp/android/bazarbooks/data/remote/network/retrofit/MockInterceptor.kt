@@ -12,12 +12,13 @@ import tungp.android.bazarbooks.util.FileUtils
 class MockInterceptor(val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        val originalResponse = chain.proceed(chain.request())
         if (chain.request().url.toUri().toString().contains("mock")) {
             val fileName = "${chain.request().url.encodedPathSegments.last()}.json"
             val response = FileUtils.readJsonFromAsset(context, fileName)
 
             response?.let { resString ->
-                return chain.proceed(chain.request())
+                return originalResponse
                     .newBuilder()
                     .code(200)
                     .protocol(Protocol.HTTP_2)
@@ -34,6 +35,6 @@ class MockInterceptor(val context: Context) : Interceptor {
             }
         }
 
-        return chain.proceed(chain.request())
+        return originalResponse
     }
 }
