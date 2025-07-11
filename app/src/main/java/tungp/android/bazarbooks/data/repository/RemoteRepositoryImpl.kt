@@ -19,7 +19,7 @@ class RemoteRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : RemoteRepository {
 
-    override suspend fun getHomeFeeds(): Flow<BazaResult<HomeFeedsDomainModel>> = flow {
+    override fun getHomeFeeds(): Flow<BazaResult<HomeFeedsDomainModel>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getHomeFeeds()
@@ -39,8 +39,8 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(BazaResult.Error(e))
         }
     }
-    
-    override suspend fun getCategories(): Flow<BazaResult<Categories>> = flow {
+
+    override fun getCategories(): Flow<BazaResult<Categories>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getCategories()
@@ -65,8 +65,8 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(BazaResult.Error(e))
         }
     }
-    
-    override suspend fun getVendors(): Flow<BazaResult<List<Vendor>>> = flow {
+
+    override fun getVendors(): Flow<BazaResult<List<Vendor>>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getVendors()
@@ -80,7 +80,7 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAuthors(): Flow<BazaResult<List<Author>>> = flow {
+    override fun getAuthors(): Flow<BazaResult<List<Author>>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getAuthors()
@@ -94,7 +94,7 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getBookDetail(bookId: String): Flow<BazaResult<Book>> = flow {
+    override fun getBookDetail(bookId: String): Flow<BazaResult<Book>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getBookDetails(bookId)
@@ -107,13 +107,13 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(BazaResult.Error(e))
         }
     }
-    
-    override suspend fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
+
+    override fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
         emit(BazaResult.Loading)
         try {
             val request = AddToCartRequest(bookId = bookId, quantity = quantity)
             val response = apiService.addToCart(request)
-            
+
             if (response.statusCode == 200 && response.data != null) {
                 // Return success flag from response
                 emit(BazaResult.Success(response.data.cartItem))
@@ -125,7 +125,7 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCart(): Flow<BazaResult<List<CartItem>>> = flow {
+    override fun getCart(): Flow<BazaResult<List<CartItem>>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getCart()
@@ -139,7 +139,7 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
+    override fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.updateCartItem(cartItemId, quantity)
@@ -153,7 +153,7 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeFromCart(cartItemId: String): Flow<BazaResult<Boolean>> = flow {
+    override fun removeFromCart(cartItemId: String): Flow<BazaResult<Boolean>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.removeFromCart(cartItemId)
@@ -167,7 +167,7 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun clearCart(): Flow<BazaResult<Boolean>> = flow {
+    override fun clearCart(): Flow<BazaResult<Boolean>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.clearCart()
