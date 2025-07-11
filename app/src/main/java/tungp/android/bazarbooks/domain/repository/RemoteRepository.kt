@@ -18,6 +18,6 @@ interface RemoteRepository {
     fun addToCart(bookId: String, quantity: Int): Flow<BazaResult<CartItem>>
     fun getCart(): Flow<BazaResult<List<CartItem>>>
     fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>>
-    fun removeFromCart(cartItemId: String): Flow<BazaResult<Boolean>>
+    fun removeFromCart(cartItemId: String): Flow<BazaResult<List<CartItem>>>
     fun clearCart(): Flow<BazaResult<Boolean>>
 }

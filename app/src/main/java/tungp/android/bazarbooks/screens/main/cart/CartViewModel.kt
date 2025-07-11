@@ -9,6 +9,7 @@ import tungp.android.bazarbooks.domain.usecase.ClearCartUseCase
 import tungp.android.bazarbooks.domain.usecase.GetCartUseCase
 import tungp.android.bazarbooks.domain.usecase.NoParams
 import tungp.android.bazarbooks.domain.usecase.RemoveCartItemUseCase
+import tungp.android.bazarbooks.domain.usecase.RemoveItemFromCartParams
 import tungp.android.bazarbooks.domain.usecase.UpdateCartItemParams
 import tungp.android.bazarbooks.domain.usecase.UpdateCartItemUseCase
 import tungp.android.bazarbooks.mvi.BaseViewState
@@ -20,7 +21,7 @@ class CartViewModel @Inject constructor(
     private val getCartUseCase: GetCartUseCase,
     private val updateCartItemUseCase: UpdateCartItemUseCase,
     private val removeCartItemUseCase: RemoveCartItemUseCase,
-    private val clearCartUseCase: ClearCartUseCase
+    private val clearCartUseCase: ClearCartUseCase,
 ) : MviViewModel<CartState, CartEvent>() {
 
     private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
@@ -53,7 +54,7 @@ class CartViewModel @Inject constructor(
 
     private fun updateQuantity(cartItemId: String, quantity: Int) = safeLaunch {
         if (quantity < 1) return@safeLaunch
-        
+
         execute(updateCartItemUseCase(UpdateCartItemParams(cartItemId, quantity))) { updatedItem ->
             val currentItems = (_cartItems.value).toMutableList()
             val index = currentItems.indexOfFirst { it.id == cartItemId }
@@ -70,16 +71,28 @@ class CartViewModel @Inject constructor(
     }
 
     private fun removeFromCart(cartItemId: String) = safeLaunch {
-        execute(removeCartItemUseCase(cartItemId)) { success ->
-            if (success) {
-                val currentItems = (_cartItems.value).filter { it.id != cartItemId }
-                setData(
-                    CartState(
-                        cartItems = currentItems,
-                        totalPrice = calculateTotalPrice(currentItems)
-                    )
+        // Get the current cart items from the state
+        val currentState = (uiState.value as? BaseViewState.Data)?.value
+        val currentItems = currentState?.cartItems?.toMutableList() ?: return@safeLaunch
+
+        // Remove the item locally
+        val newItems = currentItems.filter { it.id != cartItemId }
+
+        setData(
+            CartState(
+                cartItems = newItems,
+                totalPrice = calculateTotalPrice(newItems)
+            )
+        )
+
+        // Call backend to remove the item
+        execute(removeCartItemUseCase(RemoveItemFromCartParams(cartItemId))) { remainItems ->
+            setData(
+                CartState(
+                    cartItems = remainItems,
+                    totalPrice = calculateTotalPrice(remainItems)
                 )
-            }
+            )
         }
     }
 

@@ -14,6 +14,7 @@ import tungp.android.bazarbooks.data.model.AuthorsResponse
 import tungp.android.bazarbooks.data.model.CartResponse
 import tungp.android.bazarbooks.data.model.ClearCartResponse
 import tungp.android.bazarbooks.data.model.RemoveCartResponse
+import tungp.android.bazarbooks.data.model.RemoveFromCartRequest
 import tungp.android.bazarbooks.data.model.UpdateCartResponse
 import tungp.android.bazarbooks.data.model.base.BaseResponse
 
@@ -40,6 +41,7 @@ interface ApiService {
     @POST("mock/addToCart")
     suspend fun addToCart(@Body request: AddToCartRequest): BaseResponse<AddToCartResponse>
 
+    @POST("mock/getCart")
     suspend fun getCart(): BaseResponse<CartResponse>
 
     suspend fun updateCartItem(
@@ -47,7 +49,8 @@ interface ApiService {
         quantity: Int
     ): BaseResponse<UpdateCartResponse>
 
-    suspend fun removeFromCart(cartItemId: String): BaseResponse<RemoveCartResponse>
+    @POST("mock/removeFromCart")
+    suspend fun removeFromCart(@Body request: RemoveFromCartRequest): BaseResponse<RemoveCartResponse>
 
     suspend fun clearCart(): BaseResponse<ClearCartResponse>
 }

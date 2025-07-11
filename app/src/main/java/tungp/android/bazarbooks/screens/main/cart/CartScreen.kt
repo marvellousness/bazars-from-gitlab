@@ -1,58 +1,76 @@
 package tungp.android.bazarbooks.screens.main.cart
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import tungp.android.bazarbooks.components.LoadingView
-import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.EmptyView
+import tungp.android.bazarbooks.components.ErrorView
+import tungp.android.bazarbooks.components.LoadingView
 import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.navigation.CartRouteScreen
-import tungp.android.bazarbooks.screens.main.cart.CartEvent
+import tungp.android.bazarbooks.ui.theme.ThemedPreview
 
 @Composable
 fun CartScreen(
     navController: NavController,
-    viewModel: CartViewModel = hiltViewModel()
+    viewModel: CartViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsState()
 
-    when (uiState) {
-        is BaseViewState.Loading -> LoadingView()
-        is BaseViewState.Error -> ErrorView(
-            e = (uiState as BaseViewState.Error).throwable,
-            action = { viewModel.onTriggerEvent(CartEvent.LoadCart) }
-        )
-        is BaseViewState.Data -> {
-            val state = (uiState as BaseViewState.Data).value
-            CartContent(
-                cartItems = state.cartItems,
-                totalPrice = state.totalPrice,
-                onUpdateQuantity = { itemId, quantity ->
-                    viewModel.onTriggerEvent(CartEvent.UpdateQuantity(itemId, quantity))
-                },
-                onRemoveItem = { itemId ->
-                    viewModel.onTriggerEvent(CartEvent.RemoveFromCart(itemId))
-                },
-                onCheckout = {
-                    navController.navigate(CartRouteScreen.CartDetail.route)
-                }
+    Column(modifier = Modifier.fillMaxSize()) {
+        when (uiState) {
+            is BaseViewState.Loading -> LoadingView()
+            is BaseViewState.Error -> ErrorView(
+                e = (uiState as BaseViewState.Error).throwable,
+                action = { viewModel.onTriggerEvent(CartEvent.LoadCart) }
             )
+
+            is BaseViewState.Data -> {
+                val data = (uiState as BaseViewState.Data<CartState>).value
+                CartContent(
+                    cartItems = data.cartItems,
+                    totalPrice = data.totalPrice,
+                    onUpdateQuantity = { itemId, quantity ->
+                        viewModel.onTriggerEvent(CartEvent.UpdateQuantity(itemId, quantity))
+                    },
+                    onRemoveItem = { itemId ->
+                        viewModel.onTriggerEvent(CartEvent.RemoveFromCart(itemId))
+                    },
+                    onCheckout = {
+                        navController.navigate(CartRouteScreen.CartDetail.route)
+                    }
+                )
+            }
+
+            BaseViewState.Empty -> EmptyView()
         }
-        BaseViewState.Empty -> EmptyView()
     }
 }
 
@@ -63,7 +81,7 @@ private fun CartContent(
     onUpdateQuantity: (String, Int) -> Unit,
     onRemoveItem: (String) -> Unit,
     onCheckout: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -121,7 +139,7 @@ private fun CartItemCard(
     cartItem: CartItem,
     onUpdateQuantity: (Int) -> Unit,
     onRemove: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -172,7 +190,7 @@ private fun CartItemCard(
 private fun QuantitySelector(
     quantity: Int,
     onQuantityChange: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
@@ -200,7 +218,7 @@ private fun QuantitySelector(
 private fun CartSummary(
     totalPrice: Double,
     onCheckout: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -223,9 +241,9 @@ private fun CartSummary(
                 color = MaterialTheme.colorScheme.primary
             )
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         Button(
             onClick = onCheckout,
             modifier = Modifier.fillMaxWidth(),
@@ -235,8 +253,27 @@ private fun CartSummary(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun CartScreenPreview() {
-    CartScreen(rememberNavController())
+fun CartScreenPreview() {
+    val items = listOf(
+        CartItem(
+            id = "cart_1",
+            bookId = "4",
+            title = "The Alchemist",
+            cover = "http://covers.openlibrary.org/b/id/13151170-L.jpg",
+            author = "Paulo Coelho",
+            quantity = 1,
+            price = 14.99,
+            totalPrice = 14.99
+        )
+    )
+    ThemedPreview {
+        CartContent(
+            cartItems = items,
+            totalPrice = 100.0,
+            onCheckout = {},
+            onUpdateQuantity = { _, _ -> },
+            onRemoveItem = {})
+    }
 }

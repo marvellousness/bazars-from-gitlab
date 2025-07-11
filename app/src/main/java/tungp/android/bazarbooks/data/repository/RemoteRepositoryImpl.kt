@@ -3,8 +3,10 @@ package tungp.android.bazarbooks.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import tungp.android.bazarbooks.data.model.AddToCartRequest
+import tungp.android.bazarbooks.data.model.RemoveFromCartRequest
 import tungp.android.bazarbooks.data.model.base.BazaResult
 import tungp.android.bazarbooks.data.remote.network.service.ApiService
+import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.domain.model.Categories
@@ -12,7 +14,6 @@ import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
-import tungp.android.bazarbooks.domain.model.Author
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
@@ -153,12 +154,12 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun removeFromCart(cartItemId: String): Flow<BazaResult<Boolean>> = flow {
+    override fun removeFromCart(cartItemId: String): Flow<BazaResult<List<CartItem>>> = flow {
         emit(BazaResult.Loading)
         try {
-            val response = apiService.removeFromCart(cartItemId)
-            if (response.statusCode == 200) {
-                emit(BazaResult.Success(true))
+            val response = apiService.removeFromCart(RemoveFromCartRequest(cartItemId))
+            if (response.statusCode == 200 && response.data != null) {
+                emit(BazaResult.Success(response.data.cartItems))
             } else {
                 emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to remove cart item")))
             }
