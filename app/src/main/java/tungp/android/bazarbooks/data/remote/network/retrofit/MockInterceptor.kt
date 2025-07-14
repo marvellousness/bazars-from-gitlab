@@ -12,29 +12,36 @@ import tungp.android.bazarbooks.util.FileUtils
 class MockInterceptor(val context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val originalResponse = chain.proceed(chain.request())
-        if (chain.request().url.toUri().toString().contains("mock")) {
-            val fileName = "${chain.request().url.encodedPathSegments.last()}.json"
-            val response = FileUtils.readJsonFromAsset(context, fileName)
+        val fileName = "${chain.request().url.encodedPathSegments.last()}.json"
+        val resString = FileUtils.readJsonFromAsset(context, fileName)
 
-            response?.let { resString ->
-                return originalResponse
-                    .newBuilder()
-                    .code(200)
-                    .protocol(Protocol.HTTP_2)
-                    .message(resString)
-                    .body(
-                        resString
-                            .toByteArray()
-                            .toResponseBody(
-                                "application/json".toMediaTypeOrNull()
-                            )
-                    )
-                    .addHeader("content-type", "application/json")
-                    .build()
-            }
+        return if (resString != null) {
+            Response.Builder()
+                .request(chain.request())
+                .protocol(Protocol.HTTP_2)
+                .code(200)
+                .message("OK")
+                .body(
+                    resString
+                        .toByteArray()
+                        .toResponseBody(CONTENT_TYPE.toMediaTypeOrNull())
+                )
+                .addHeader("content-type", CONTENT_TYPE)
+                .build()
+        } else {
+            // Return a mock 404 response instead of hitting the network
+            Response.Builder()
+                .request(chain.request())
+                .protocol(Protocol.HTTP_2)
+                .code(404)
+                .message("Mock response not found")
+                .body("".toResponseBody(CONTENT_TYPE.toMediaTypeOrNull()))
+                .addHeader("content-type", CONTENT_TYPE)
+                .build()
         }
+    }
 
-        return originalResponse
+    companion object {
+        const val CONTENT_TYPE = "application/json"
     }
 }
