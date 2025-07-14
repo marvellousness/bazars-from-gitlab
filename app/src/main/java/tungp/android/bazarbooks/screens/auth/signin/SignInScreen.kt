@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -88,92 +89,116 @@ fun SignInScreen(
                 .verticalScroll(state = scrollableState)
                 .fillMaxSize()
         ) {
-            HeaderText(
-                text = stringResource(R.string.login),
-                modifier = Modifier
-                    .padding(vertical = BazarTheme.spacing.medium)
-                    .align(alignment = Alignment.Start)
-            )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.sign_to_your_account),
-                style = BazarTheme.typography.bodyLarge,
-                color = Color(0xFFA5A5A5)
-            )
+            SignInHeader()
             Spacer(modifier = Modifier.padding(BazarTheme.spacing.medium))
-            Column(
-                verticalArrangement = Arrangement.spacedBy(
-                    BazarTheme.spacing.medium,
-                    Alignment.CenterVertically
-                ),
-                horizontalAlignment = Alignment.Start,
-            ) {
-                BazarTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = state.email ?: "",
-                    onValueChange = {
-                        viewModel.onTriggerEvent(SignInEvent.EmailChanged(it))
-                    },
-                    labelText = stringResource(R.string.email),
-                    placeHolderResourceId = R.string.email_placeholder,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Default
-                    ),
-                    error = state.emailError
-                )
-                BazarTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = state.password ?: "",
-                    onValueChange = {
-                        viewModel.onTriggerEvent(SignInEvent.PasswordChanged(it))
-                    },
-                    labelText = stringResource(R.string.password),
-                    placeHolderResourceId = R.string.password_placeholder,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
-                    ),
-                    iconResourceId = R.drawable.ic_ography_password_outline,
-                    error = state.passwordError,
-                    isSecure = true
-                )
-                BazarTextButton(
-                    text = stringResource(R.string.forgot_password),
-                    onClick = {}
-                )
-            }
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(
-                    BazarTheme.spacing.medium,
-                    Alignment.CenterVertically
-                ),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                PrimaryButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.login),
-                    onClick = {
-                        viewModel.onTriggerEvent(SignInEvent.SignIn)
-                    },
-                    enabled = viewModel.validateForm(),
-                )
-
-                SignInTextLink(onClick = {})
-                OrWithHorizontalDivider()
-                SignInButton(
-                    text = stringResource(R.string.sign_in_with_google),
-                    painter = painterResource(id = R.drawable.ic_google_original),
-                    onClick = {}
-                )
-                SignInButton(
-                    text = stringResource(R.string.sign_in_with_apple),
-                    painter = painterResource(id = R.drawable.ic_apple_original),
-                    onClick = {}
-                )
-            }
+            SignInForm(
+                state = state,
+                onEvent = viewModel::onTriggerEvent
+            )
+            SignInActions(
+                onSignIn = { viewModel.onTriggerEvent(SignInEvent.SignIn) },
+                isFormValid = viewModel.validateForm()
+            )
         }
+    }
+}
+
+@Composable
+fun ColumnScope.SignInHeader() {
+    HeaderText(
+        text = stringResource(R.string.login),
+        modifier = Modifier
+            .padding(vertical = BazarTheme.spacing.medium)
+            .align(alignment = Alignment.Start)
+    )
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(R.string.sign_to_your_account),
+        style = BazarTheme.typography.bodyLarge,
+        color = Color(0xFFA5A5A5)
+    )
+}
+
+@Composable
+fun SignInForm(
+    state: SignInState,
+    onEvent: (SignInEvent) -> Unit,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            BazarTheme.spacing.medium,
+            Alignment.CenterVertically
+        ),
+        horizontalAlignment = Alignment.Start,
+    ) {
+        BazarTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = state.email ?: "",
+            onValueChange = {
+                onEvent(SignInEvent.EmailChanged(it))
+            },
+            labelText = stringResource(R.string.email),
+            placeHolderResourceId = R.string.email_placeholder,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Default
+            ),
+            error = state.emailError
+        )
+        BazarTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = state.password ?: "",
+            onValueChange = {
+                onEvent(SignInEvent.PasswordChanged(it))
+            },
+            labelText = stringResource(R.string.password),
+            placeHolderResourceId = R.string.password_placeholder,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next
+            ),
+            iconResourceId = R.drawable.ic_ography_password_outline,
+            error = state.passwordError,
+            isSecure = true
+        )
+        BazarTextButton(
+            text = stringResource(R.string.forgot_password),
+            onClick = {}
+        )
+    }
+}
+
+@Composable
+fun SignInActions(
+    onSignIn: () -> Unit,
+    isFormValid: Boolean,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            BazarTheme.spacing.medium,
+            Alignment.CenterVertically
+        ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        PrimaryButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(id = R.string.login),
+            onClick = onSignIn,
+            enabled = isFormValid,
+        )
+
+        SignInTextLink(onClick = {})
+        OrWithHorizontalDivider()
+        SignInButton(
+            text = stringResource(R.string.sign_in_with_google),
+            painter = painterResource(id = R.drawable.ic_google_original),
+            onClick = {}
+        )
+        SignInButton(
+            text = stringResource(R.string.sign_in_with_apple),
+            painter = painterResource(id = R.drawable.ic_apple_original),
+            onClick = {}
+        )
     }
 }
 

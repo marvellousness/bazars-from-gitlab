@@ -46,6 +46,7 @@ import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView
 import tungp.android.bazarbooks.domain.model.Author
+import tungp.android.bazarbooks.domain.model.PreviewData
 import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.ThemedPreview
@@ -255,6 +256,12 @@ fun AuthorCategorySelector(
 @Composable
 fun AuthorsScreenPreview() {
     ThemedPreview {
-        AuthorsScreen(rememberNavController())
+        AuthorsContent(
+            authors = PreviewData.authors,
+            categories = PreviewData.categories,
+            selectedCategory = PreviewData.categories.first(),
+            onCategorySelected = {},
+            navController = rememberNavController(),
+        )
     }
 } 
