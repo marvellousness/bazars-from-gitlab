@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.navigation.CartRouteScreen
-import tungp.android.bazarbooks.screens.cart.CartDetailScreen
+import tungp.android.bazarbooks.screens.order.OrderScreen
 
 fun NavGraphBuilder.cartNavGraph(rootNavController: NavHostController) {
     navigation(
@@ -14,7 +14,7 @@ fun NavGraphBuilder.cartNavGraph(rootNavController: NavHostController) {
         startDestination = CartRouteScreen.CartDetail.route
     ) {
         composable(route = CartRouteScreen.CartDetail.route) {
-            CartDetailScreen(rootNavController = rootNavController)
+            OrderScreen(rootNavController = rootNavController)
         }
     }
 }
