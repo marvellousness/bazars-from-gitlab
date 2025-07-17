@@ -1,11 +1,9 @@
 package tungp.android.bazarbooks.screens.order
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -21,8 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.CreditCard
+import androidx.compose.material.icons.filled.Payment
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -30,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,9 +70,27 @@ fun OrderContainer(
     onActionClicked: () -> Unit,
 ) {
 
-    val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+    val paymentDetailsSheetState = rememberModalBottomSheetState()
+    var showPaymentDetailsSheet by remember { mutableStateOf(false) }
+
+    val paymentMethodItems = listOf(
+        SelectionItem(
+            id = "knet",
+            title = "KNET",
+            icon = Icons.Default.Payment,
+            iconColor = Color(0xFF2196F3)
+        ),
+        SelectionItem(
+            id = "credit_card",
+            title = "Credit Card",
+            icon = Icons.Default.CreditCard,
+            iconColor = Color(0xFFFF9800)
+        )
+    )
+
+    val paymentMethodSheetState = rememberModalBottomSheetState()
+    var showPaymentMethodSheet by remember { mutableStateOf(false) }
+    var paymentMethodSelectedItem by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -87,25 +102,24 @@ fun OrderContainer(
             )
         }) { paddingValues ->
 
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                onDismissRequest = {
-                    showBottomSheet = false
-                },
-                sheetState = sheetState
-            ) {
-                ConfirmOrderDetails()
-//                // Sheet content
-//                Button(onClick = {
-//                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-//                        if (!sheetState.isVisible) {
-//                            showBottomSheet = false
-//                        }
-//                    }
-//                }) {
-//                    Text("Hide bottom sheet")
-//                }
-            }
+        if (showPaymentDetailsSheet) {
+            PaymentDetailBottomSheet(
+                data = "sample data",
+                sheetState = paymentDetailsSheetState,
+                onDismissRequest = { showPaymentDetailsSheet = false }
+            )
+        }
+
+        if (showPaymentMethodSheet) {
+            YourPaymentsBottomSheet(
+                items = paymentMethodItems,
+                modifier = Modifier,
+                sheetState = paymentMethodSheetState,
+                onDismissRequest = { showPaymentMethodSheet = false },
+                selectedId = paymentMethodSelectedItem,
+                onItemSelected = {
+                    paymentMethodSelectedItem = it
+                })
         }
 
         Column(
@@ -120,229 +134,22 @@ fun OrderContainer(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AddressSection()
-            SummarySection(onViewDetailsClicked = {
-                showBottomSheet = true
-                Log.d("~~~TAG", "View Details clicked")
-            })
+            SummarySection {
+                showPaymentDetailsSheet = true
+            }
             DataAndTimeSection()
-            PaymentSection()
-            PrimaryButton(text = "Order", onClick = { println("Pressed!") })
-        }
-    }
-}
-
-@Composable
-fun ConfirmOrderDetails() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                color = MyColors.surfaceContainerLowest,
+            PaymentSection {
+                showPaymentMethodSheet = true
+            }
+            PrimaryButton(
+                text = "Order", onClick = { println("Pressed!") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
-            .padding(vertical = 16.dp)
-    ) {
-        Text(
-            "Payment Details",
-            color = Color(0xFF121212),
-            fontSize = 18.sp,
-            modifier = Modifier
-                .padding(bottom = 17.dp, start = 27.dp)
-        )
-        Column(
-            modifier = Modifier
-                .padding(bottom = 47.dp, start = 24.dp, end = 24.dp)
-                .border(
-                    width = 1.dp,
-                    color = Color(0xFFE8E8E8),
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .clip(shape = RoundedCornerShape(8.dp))
-                .fillMaxWidth()
-                .padding(vertical = 19.dp)
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(bottom = 20.dp, start = 17.dp, end = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "Price",
-                    color = Color(0xFF121212),
-                    fontSize = MyFontSize.body_medium,
-                )
-                Text(
-                    "$87.10",
-                    color = Color(0xFF121212),
-                    fontSize = MyFontSize.body_medium,
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(bottom = 12.dp, start = 17.dp, end = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Box {
-                    Column(
-                        modifier = Modifier
-                            .width(74.dp)
-                            .padding(start = 1.dp)
-                    ) {
-                        Text(
-                            "Payment",
-                            color = Color(0xFF121212),
-                            fontSize = 18.sp,
-                        )
-                    }
-                    Text(
-                        "Squid Sweet and Sour Salad",
-                        color = Color(0xFFA5A5A5),
-                        fontSize = MyFontSize.body_small,
-                        modifier = Modifier
-                            .offset(x = 1.dp, y = 9.dp)
-                            .align(Alignment.TopStart)
-                    )
-                    Text(
-                        "Japan Hainanese Sashimi",
-                        color = Color(0xFFA5A5A5),
-                        fontSize = MyFontSize.body_small,
-                        modifier = Modifier
-                            .offset(x = -1.dp, y = 9.dp)
-                            .align(Alignment.BottomStart)
-                            .padding(bottom = 9.dp)
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .width(35.dp)
-                ) {
-                    Text(
-                        "$19.99",
-                        color = Color(0xFFA5A5A5),
-                        fontSize = MyFontSize.body_small,
-                        modifier = Modifier
-                            .padding(bottom = 12.dp)
-                    )
-                    Text(
-                        "$39.99",
-                        color = Color(0xFFA5A5A5),
-                        fontSize = MyFontSize.body_small,
-                    )
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(bottom = 9.dp, start = 17.dp, end = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Box {
-                    Column(
-                        modifier = Modifier
-                            .width(104.dp)
-                    ) {
-                        Text(
-                            "Cash on Delivery",
-                            color = Color(0xFF121212),
-                            fontSize = MyFontSize.body_medium,
-                        )
-                    }
-                    Text(
-                        "Black Pepper Beef Lumpia",
-                        color = Color(0xFFA5A5A5),
-                        fontSize = MyFontSize.body_small,
-                        modifier = Modifier
-                            .offset(x = 26.dp, y = 0.dp)
-                            .align(Alignment.TopEnd)
-                    )
-                }
-                Text(
-                    "$27.12",
-                    color = Color(0xFFA5A5A5),
-                    fontSize = MyFontSize.body_small,
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .padding(bottom = 12.dp, start = 77.dp, end = 77.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        "$89.10",
-                        color = Color(0xFF7A7A7A),
-                        fontSize = MyFontSize.body_medium,
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .offset(x = 61.dp, y = 6.dp)
-                        .align(Alignment.TopStart)
-                        .padding(bottom = 6.dp)
-                        .width(295.dp)
-                        .height(1.dp)
-                        .background(
-                            color = Color(0xFFE8E8E8),
-                        )
-                ) {
-                }
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(bottom = 17.dp, start = 17.dp, end = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "Shipping",
-                    color = Color(0xFF121212),
-                    fontSize = MyFontSize.body_medium,
-                )
-                Text(
-                    "$2",
-                    color = Color(0xFF121212),
-                    fontSize = MyFontSize.body_medium,
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(bottom = 19.dp, start = 16.dp, end = 16.dp)
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(
-                        color = Color(0xFFE8E8E8),
-                    )
-            ) {
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(horizontal = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "Total Payment",
-                    color = Color(0xFF121212),
-                    fontSize = MyFontSize.body_medium,
-                )
-                Text(
-                    "$89.10",
-                    color = Color(0xFF121212),
-                    fontSize = MyFontSize.body_medium,
-                )
-            }
         }
     }
 }
-
 
 @Composable
 private fun AddressSection() {
@@ -367,14 +174,14 @@ private fun AddressSection() {
             ) {
                 Text(
                     "Utama Street No.20",
-                    color = Color(0xFF121212),
+                    color = GrayScale900,
                     fontSize = MyFontSize.body_large,
                     modifier = Modifier.padding(bottom = 7.dp)
                 )
                 Text(
                     "Dumbo Street No.20, Dumbo, New York 10001, United States",
                     color = Color(0xFFA5A5A5),
-                    fontSize = MyFontSize.body_medium,
+                    style = BazarTheme.typography.bodyMedium,
                 )
             }
             CoilImage(
@@ -412,12 +219,12 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
             Text(
                 "Price",
                 color = GrayScale900,
-                fontSize = MyFontSize.body_medium,
+                style = BazarTheme.typography.bodyMedium,
             )
             Text(
                 "$87.10",
                 color = GrayScale900,
-                fontSize = MyFontSize.body_medium,
+                style = BazarTheme.typography.bodyMedium,
             )
         }
         Row(
@@ -430,12 +237,12 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
             Text(
                 "Shipping",
                 color = GrayScale900,
-                fontSize = MyFontSize.body_medium,
+                style = BazarTheme.typography.bodyMedium,
             )
             Text(
                 "$2",
                 color = GrayScale900,
-                fontSize = MyFontSize.body_medium,
+                style = BazarTheme.typography.bodyMedium,
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -451,12 +258,12 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
             Text(
                 "Total Payment",
                 color = GrayScale900,
-                fontSize = MyFontSize.body_medium,
+                style = BazarTheme.typography.bodyMedium,
             )
             Text(
                 "$89.10",
                 color = GrayScale900,
-                fontSize = MyFontSize.body_medium,
+                style = BazarTheme.typography.bodyMedium,
             )
         }
         Column(
@@ -478,7 +285,6 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
                 "See details",
                 style = BazarTheme.typography.bodyMedium,
                 color = Primary500,
-                fontSize = MyFontSize.body_medium,
                 modifier = Modifier
                     .padding(end = 11.dp)
                     .clickable(onClick = onViewDetailsClicked)
@@ -540,13 +346,14 @@ private fun DataAndTimeSection() {
 }
 
 @Composable
-private fun PaymentSection() {
+private fun PaymentSection(onPaymentMethodSelected: () -> Unit){
     OrderCard(title = "Payment") {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
+                .clickable { onPaymentMethodSelected() }
         ) {
             CoilImage(
                 imageModel = { R.drawable.ic_ography_card_outline },
@@ -602,7 +409,7 @@ fun OrderCard(
     ) {
         Text(
             text = title,
-            color = Color(0xFF121212),
+            color = GrayScale900,
             fontSize = 18.sp,
             modifier = Modifier.padding(bottom = 11.dp, start = 16.dp)
         )
@@ -627,7 +434,7 @@ private fun OrderScreenPreview() {
             AddressSection()
             SummarySection(onViewDetailsClicked = {})
             DataAndTimeSection()
-            PaymentSection()
+            PaymentSection {}
         }
     }
 }

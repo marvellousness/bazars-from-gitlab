@@ -1,7 +1,6 @@
 package tungp.android.bazarbooks.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,14 +11,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import tungp.android.bazarbooks.ui.theme.GrayScale200
 
 @Composable
 fun Divider(
+    modifier: Modifier = Modifier.padding(16.dp),
     thickness: Dp,
-    color: Color,
+    color: Color = GrayScale200,
 ) {
     Canvas(
-        Modifier
+        modifier
             .fillMaxWidth()
             .height(thickness)
     ) {
