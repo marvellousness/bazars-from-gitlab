@@ -50,9 +50,7 @@ fun PaymentDetailsBottomSheetContent(paymentDetails: PaymentDetails) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = MyColors.surfaceContainerLowest,
-            )
+            .background(color = BazarTheme.colors.background,)
             .padding(vertical = 16.dp)
     ) {
         Text(

@@ -71,4 +71,10 @@ object OrderSampleData {
         )
     )
 
+    val addressDetails = AddressDetails(
+        title = "Utama Street No.20",
+        subTitle = "Dumbo Street No.20, Dumbo, New York 10001, United States of America"
+    )
+    val officeAddresses = listOf("Home", "Office")
+
 }

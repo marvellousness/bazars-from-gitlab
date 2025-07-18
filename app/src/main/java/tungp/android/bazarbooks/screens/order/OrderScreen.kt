@@ -51,7 +51,6 @@ import tungp.android.bazarbooks.ui.theme.GrayScale900
 import tungp.android.bazarbooks.ui.theme.Primary500
 import tungp.android.bazarbooks.ui.theme.constants.MyColors
 import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
-import java.math.BigDecimal
 
 @Composable
 fun OrderScreen(
@@ -83,6 +82,11 @@ fun OrderContainer(
     var showDateTimeSheet by remember { mutableStateOf(false) }
     var dateSelectedId by remember { mutableStateOf("") }
     var timeSelectedId by remember { mutableStateOf("") }
+
+    // For Payment method selection
+    val addressDetailsSheetState = rememberModalBottomSheetState()
+    var showAddressDetailsSheet by remember { mutableStateOf(false) }
+    var addressDetailsSelectedItem by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -127,7 +131,23 @@ fun OrderContainer(
                 },
                 onSelectedTime = {
                     timeSelectedId = it
+                },
+                onConfirmed = {
+                    showDateTimeSheet = false
                 }
+            )
+        }
+
+        if (showAddressDetailsSheet) {
+            AddressDetailsBottomSheet(
+                addressDetails = OrderSampleData.addressDetails,
+                sheetState = addressDetailsSheetState,
+                onDismissRequest = { showAddressDetailsSheet = false },
+                selectedOffice = addressDetailsSelectedItem,
+                onOfficeSelected = {
+                    addressDetailsSelectedItem = it
+                },
+                onConfirmed = {showAddressDetailsSheet = false}
             )
         }
 
@@ -142,7 +162,9 @@ fun OrderContainer(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AddressSection()
+            AddressSection {
+                showAddressDetailsSheet = true
+            }
             SummarySection(viewModel.paymentDetails) {
                 showPaymentDetailsSheet = true
             }
@@ -163,7 +185,7 @@ fun OrderContainer(
 }
 
 @Composable
-private fun AddressSection() {
+private fun AddressSection(onViewDetailsClicked: () -> Unit) {
     OrderCard(title = "Address") {
         Row(
             modifier = Modifier
@@ -211,7 +233,7 @@ private fun AddressSection() {
             modifier = Modifier.fillMaxWidth()
         ) {
             SecondaryButton(
-                text = "Change", onClick = {}, modifier = Modifier.width(120.dp)
+                text = "Change", onClick = onViewDetailsClicked, modifier = Modifier.width(120.dp)
             )
         }
     }
@@ -446,8 +468,8 @@ private fun OrderScreenPreview() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AddressSection()
-            SummarySection(OrderSampleData.paymentDetails , onViewDetailsClicked = {})
+            AddressSection(onViewDetailsClicked = {})
+            SummarySection(OrderSampleData.paymentDetails, onViewDetailsClicked = {})
             DataAndTimeSection(
                 onViewDetailsClicked = {}
             )

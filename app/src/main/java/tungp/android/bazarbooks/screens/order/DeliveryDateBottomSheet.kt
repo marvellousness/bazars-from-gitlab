@@ -50,6 +50,7 @@ fun DeliveryDateBottomSheet(
     selectedTimeId: String? = null,
     onSelectedDate: (String) -> Unit,
     onSelectedTime: (String) -> Unit,
+    onConfirmed: () -> Unit
 ) {
     ModalBottomSheet(
         onDismissRequest = {
@@ -63,7 +64,8 @@ fun DeliveryDateBottomSheet(
             onSelectedDate,
             timeItems,
             selectedTimeId,
-            onSelectedTime
+            onSelectedTime,
+            onConfirmed
         )
     }
 }
@@ -76,6 +78,7 @@ private fun DeliveryBottomSheetContainer(
     timeItems: List<DeliveryDateItem>,
     selectedTimeId: String?,
     onSelectedTime: (String) -> Unit,
+    onConfirm: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -95,7 +98,7 @@ private fun DeliveryBottomSheetContainer(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onClick = {}
+            onClick = onConfirm
         )
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
     }
@@ -270,7 +273,8 @@ fun SingleDeliverySelectionListPreview() {
             {},
             OrderSampleData.timeItems,
             timeSelectedId,
-            {})
+            {},
+            onConfirm = {})
     }
 
 }

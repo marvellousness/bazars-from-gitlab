@@ -15,3 +15,8 @@ data class OrderItem(
     val quantity: Int,
     val price: BigDecimal,
 )
+
+data class AddressDetails(
+    val title: String,
+    val subTitle: String,
+)
