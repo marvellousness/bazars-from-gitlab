@@ -18,8 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CreditCard
-import androidx.compose.material.icons.filled.Payment
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -53,6 +51,7 @@ import tungp.android.bazarbooks.ui.theme.GrayScale900
 import tungp.android.bazarbooks.ui.theme.Primary500
 import tungp.android.bazarbooks.ui.theme.constants.MyColors
 import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
+import java.math.BigDecimal
 
 @Composable
 fun OrderScreen(
@@ -70,27 +69,20 @@ fun OrderContainer(
     onActionClicked: () -> Unit,
 ) {
 
+    // For Payment details
     val paymentDetailsSheetState = rememberModalBottomSheetState()
     var showPaymentDetailsSheet by remember { mutableStateOf(false) }
 
-    val paymentMethodItems = listOf(
-        SelectionItem(
-            id = "knet",
-            title = "KNET",
-            icon = Icons.Default.Payment,
-            iconColor = Color(0xFF2196F3)
-        ),
-        SelectionItem(
-            id = "credit_card",
-            title = "Credit Card",
-            icon = Icons.Default.CreditCard,
-            iconColor = Color(0xFFFF9800)
-        )
-    )
-
+    // For Payment method selection
     val paymentMethodSheetState = rememberModalBottomSheetState()
     var showPaymentMethodSheet by remember { mutableStateOf(false) }
     var paymentMethodSelectedItem by remember { mutableStateOf("") }
+
+    // For Date & Time selection
+    val dateTimeSheetState = rememberModalBottomSheetState()
+    var showDateTimeSheet by remember { mutableStateOf(false) }
+    var dateSelectedId by remember { mutableStateOf("") }
+    var timeSelectedId by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -104,7 +96,7 @@ fun OrderContainer(
 
         if (showPaymentDetailsSheet) {
             PaymentDetailBottomSheet(
-                data = "sample data",
+                paymentDetails = viewModel.paymentDetails,
                 sheetState = paymentDetailsSheetState,
                 onDismissRequest = { showPaymentDetailsSheet = false }
             )
@@ -112,7 +104,7 @@ fun OrderContainer(
 
         if (showPaymentMethodSheet) {
             YourPaymentsBottomSheet(
-                items = paymentMethodItems,
+                items = viewModel.paymentMethodItems,
                 modifier = Modifier,
                 sheetState = paymentMethodSheetState,
                 onDismissRequest = { showPaymentMethodSheet = false },
@@ -120,6 +112,23 @@ fun OrderContainer(
                 onItemSelected = {
                     paymentMethodSelectedItem = it
                 })
+        }
+
+        if (showDateTimeSheet) {
+            DeliveryDateBottomSheet(
+                sheetState = dateTimeSheetState,
+                onDismissRequest = { showDateTimeSheet = false },
+                dateItems = OrderSampleData.dateItems,
+                timeItems = OrderSampleData.timeItems,
+                selectedDateId = dateSelectedId,
+                selectedTimeId = timeSelectedId,
+                onSelectedDate = {
+                    dateSelectedId = it
+                },
+                onSelectedTime = {
+                    timeSelectedId = it
+                }
+            )
         }
 
         Column(
@@ -134,10 +143,12 @@ fun OrderContainer(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AddressSection()
-            SummarySection {
+            SummarySection(viewModel.paymentDetails) {
                 showPaymentDetailsSheet = true
             }
-            DataAndTimeSection()
+            DataAndTimeSection {
+                showDateTimeSheet = true
+            }
             PaymentSection {
                 showPaymentMethodSheet = true
             }
@@ -163,7 +174,7 @@ private fun AddressSection() {
                 imageModel = { R.drawable.ic_ography_location_location },
                 imageOptions = ImageOptions(contentScale = ContentScale.Crop),
                 modifier = Modifier
-                    .padding(end = 17.dp)
+                    .padding(end = 16.dp)
                     .width(44.dp)
                     .height(44.dp)
             )
@@ -207,7 +218,10 @@ private fun AddressSection() {
 }
 
 @Composable
-private fun SummarySection(onViewDetailsClicked: () -> Unit) {
+private fun SummarySection(
+    paymentDetails: PaymentDetails,
+    onViewDetailsClicked: () -> Unit,
+) {
     OrderCard(title = "Summary") {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -222,7 +236,7 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
                 style = BazarTheme.typography.bodyMedium,
             )
             Text(
-                "$87.10",
+                "${paymentDetails.currency} ${paymentDetails.price}",
                 color = GrayScale900,
                 style = BazarTheme.typography.bodyMedium,
             )
@@ -240,7 +254,7 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
                 style = BazarTheme.typography.bodyMedium,
             )
             Text(
-                "$2",
+                "${paymentDetails.currency} ${paymentDetails.shipping}",
                 color = GrayScale900,
                 style = BazarTheme.typography.bodyMedium,
             )
@@ -261,7 +275,7 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
                 style = BazarTheme.typography.bodyMedium,
             )
             Text(
-                "$89.10",
+                "${paymentDetails.currency} ${paymentDetails.total}",
                 color = GrayScale900,
                 style = BazarTheme.typography.bodyMedium,
             )
@@ -301,13 +315,14 @@ private fun SummarySection(onViewDetailsClicked: () -> Unit) {
 }
 
 @Composable
-private fun DataAndTimeSection() {
+private fun DataAndTimeSection(onViewDetailsClicked: () -> Unit) {
     OrderCard(title = "Date and time") {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
+                .clickable { onViewDetailsClicked() }
         ) {
             CoilImage(
                 imageModel = { R.drawable.ic_ography_calendar },
@@ -346,7 +361,7 @@ private fun DataAndTimeSection() {
 }
 
 @Composable
-private fun PaymentSection(onPaymentMethodSelected: () -> Unit){
+private fun PaymentSection(onPaymentMethodSelected: () -> Unit) {
     OrderCard(title = "Payment") {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -432,8 +447,10 @@ private fun OrderScreenPreview() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AddressSection()
-            SummarySection(onViewDetailsClicked = {})
-            DataAndTimeSection()
+            SummarySection(OrderSampleData.paymentDetails , onViewDetailsClicked = {})
+            DataAndTimeSection(
+                onViewDetailsClicked = {}
+            )
             PaymentSection {}
         }
     }

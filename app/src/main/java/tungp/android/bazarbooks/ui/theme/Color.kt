@@ -42,7 +42,7 @@ internal val LightColorScheme = lightColorScheme(
     secondary = GrayScale200,
     tertiary = Primary200,
     outline = GrayScale200,
-
+    background = Color(0xFFFFFFFF),
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),

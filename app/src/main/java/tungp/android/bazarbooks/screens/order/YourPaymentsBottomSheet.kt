@@ -96,7 +96,7 @@ fun YourPaymentsSheetContent(
             style = BazarTheme.typography.titleLarge,
             color = GrayScale900,
             modifier = Modifier
-                .padding(bottom = 17.dp, start = 27.dp)
+                .padding(bottom = 16.dp, start = 27.dp)
         )
         SingleSelectionList(
             items = items,

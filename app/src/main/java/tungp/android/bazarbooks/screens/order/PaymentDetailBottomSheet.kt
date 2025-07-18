@@ -25,11 +25,12 @@ import tungp.android.bazarbooks.ui.theme.GrayScale200
 import tungp.android.bazarbooks.ui.theme.GrayScale600
 import tungp.android.bazarbooks.ui.theme.GrayScale900
 import tungp.android.bazarbooks.ui.theme.constants.MyColors
+import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentDetailBottomSheet(
-    data: String,
+    paymentDetails: PaymentDetails,
     modifier: Modifier = Modifier,
     sheetState: SheetState,
     onDismissRequest: () -> Unit,
@@ -40,12 +41,12 @@ fun PaymentDetailBottomSheet(
         },
         sheetState = sheetState
     ) {
-        PaymentDetailsBottomSheetContent()
+        PaymentDetailsBottomSheetContent(paymentDetails)
     }
 }
 
 @Composable
-fun PaymentDetailsBottomSheetContent() {
+fun PaymentDetailsBottomSheetContent(paymentDetails: PaymentDetails) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,7 +60,7 @@ fun PaymentDetailsBottomSheetContent() {
             style = BazarTheme.typography.titleLarge,
             color = GrayScale900,
             modifier = Modifier
-                .padding(bottom = 17.dp, start = 27.dp)
+                .padding(bottom = 16.dp, start = 27.dp)
         )
         Column(
             modifier = Modifier
@@ -71,13 +72,13 @@ fun PaymentDetailsBottomSheetContent() {
                 )
                 .clip(shape = RoundedCornerShape(8.dp))
                 .fillMaxWidth()
-                .padding(vertical = 19.dp)
+                .padding(vertical = 20.dp)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(bottom = 20.dp, start = 17.dp, end = 17.dp)
+                    .padding(bottom = 20.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
             ) {
                 Text(
@@ -86,76 +87,38 @@ fun PaymentDetailsBottomSheetContent() {
                     style = BazarTheme.typography.bodyLarge,
                 )
                 Text(
-                    "$87.10",
+                    "${paymentDetails.currency} ${paymentDetails.price}",
                     color = GrayScale900,
                     style = BazarTheme.typography.bodyLarge,
                 )
             }
 
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(bottom = 20.dp, start = 17.dp, end = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "Squid Sweet and Sour Salad",
-                    color = GrayScale600,
-                    style = BazarTheme.typography.bodySmall,
-                )
-                Text(
-                    "$19.99",
-                    color = GrayScale600,
-                    style = BazarTheme.typography.bodySmall,
-                )
-            }
-
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(bottom = 20.dp, start = 17.dp, end = 17.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "Japan Hainanese Sashimi",
-                    color = GrayScale600,
-                    style = BazarTheme.typography.bodySmall,
-                )
-                Text(
-                    "$39.99",
-                    color = GrayScale600,
-                    style = BazarTheme.typography.bodySmall,
-                )
-            }
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "Black Pepper Beef Lumpia",
-                    color = GrayScale600,
-                    style = BazarTheme.typography.bodySmall,
-                )
-                Text(
-                    "$27.12",
-                    color = GrayScale600,
-                    style = BazarTheme.typography.bodySmall,
-                )
+            paymentDetails.orders.forEachIndexed { index, order ->
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(bottom = 20.dp, start = 16.dp, end = 16.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        order.name,
+                        color = GrayScale600,
+                        style = BazarTheme.typography.bodySmall,
+                    )
+                    Text(
+                        "${paymentDetails.currency} ${order.price}",
+                        color = GrayScale600,
+                        style = BazarTheme.typography.bodySmall,
+                    )
+                }
             }
             Divider(thickness = 1.dp, color = GrayScale200)
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(bottom = 17.dp, start = 17.dp, end = 17.dp)
+                    .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
             ) {
                 Text(
@@ -164,14 +127,14 @@ fun PaymentDetailsBottomSheetContent() {
                     style = BazarTheme.typography.bodyLarge,
                 )
                 Text(
-                    "$2",
+                    "${paymentDetails.currency} ${paymentDetails.shipping}",
                     color = GrayScale900,
                     style = BazarTheme.typography.bodyLarge,
                 )
             }
             Column(
                 modifier = Modifier
-                    .padding(bottom = 19.dp, start = 16.dp, end = 16.dp)
+                    .padding(bottom = 20.dp, start = 16.dp, end = 16.dp)
                     .height(1.dp)
                     .fillMaxWidth()
                     .background(color = GrayScale200)
@@ -181,7 +144,7 @@ fun PaymentDetailsBottomSheetContent() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(horizontal = 17.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth()
             ) {
                 Text(
@@ -190,7 +153,7 @@ fun PaymentDetailsBottomSheetContent() {
                     color = GrayScale900,
                 )
                 Text(
-                    "$89.10",
+                    "${paymentDetails.currency} ${paymentDetails.total}",
                     color = GrayScale900,
                     style = BazarTheme.typography.bodyLarge,
                 )
@@ -202,5 +165,5 @@ fun PaymentDetailsBottomSheetContent() {
 @Preview
 @Composable
 private fun ConfirmOrderDetailsPreview() {
-    PaymentDetailsBottomSheetContent()
+    PaymentDetailsBottomSheetContent(OrderSampleData.paymentDetails)
 }

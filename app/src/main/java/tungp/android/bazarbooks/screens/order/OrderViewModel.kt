@@ -9,6 +9,8 @@ import javax.inject.Inject
 class OrderViewModel @Inject constructor(
     private val confirmOrderUseCase: ConfirmOrderUseCase,
 ) : MviViewModel<OrderState, OrderEvent>() {
+    val paymentMethodItems = OrderSampleData.paymentMethodItems
+    val paymentDetails = OrderSampleData.paymentDetails
 
     override fun onTriggerEvent(eventType: OrderEvent) {
 
