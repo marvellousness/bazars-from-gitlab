@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tungp.android.bazarbooks.components.Divider
+import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale200
 import tungp.android.bazarbooks.ui.theme.GrayScale600

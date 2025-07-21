@@ -16,7 +16,7 @@ import tungp.android.bazarbooks.ui.theme.GrayScale200
 @Composable
 fun Divider(
     modifier: Modifier = Modifier.padding(16.dp),
-    thickness: Dp,
+    thickness: Dp = 1.dp,
     color: Color = GrayScale200,
 ) {
     Canvas(

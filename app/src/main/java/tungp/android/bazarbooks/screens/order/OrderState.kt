@@ -6,9 +6,5 @@ data class OrderState(
     val cartItem: CartItem,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val totalPrice: Double = 0.0
+    val totalPrice: Long = 0
 )
-
-sealed class OrderEvent {
-    object LoadCartDetail : OrderEvent()
-}

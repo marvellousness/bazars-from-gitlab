@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,13 +45,13 @@ import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.Divider
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SecondaryButton
+import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale200
 import tungp.android.bazarbooks.ui.theme.GrayScale600
 import tungp.android.bazarbooks.ui.theme.GrayScale900
 import tungp.android.bazarbooks.ui.theme.Primary500
 import tungp.android.bazarbooks.ui.theme.constants.MyColors
-import tungp.android.bazarbooks.ui.theme.constants.MyFontSize
 
 @Composable
 fun OrderScreen(
@@ -147,7 +148,7 @@ fun OrderContainer(
                 onOfficeSelected = {
                     addressDetailsSelectedItem = it
                 },
-                onConfirmed = {showAddressDetailsSheet = false}
+                onConfirmed = { showAddressDetailsSheet = false }
             )
         }
 
@@ -155,9 +156,7 @@ fun OrderContainer(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .background(
-                    color = MyColors.surfaceContainerLowest,
-                )
+                .background(color = BazarTheme.colors.background)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -189,7 +188,7 @@ private fun AddressSection(onViewDetailsClicked: () -> Unit) {
     OrderCard(title = "Address") {
         Row(
             modifier = Modifier
-                .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
+                .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                 .fillMaxWidth()
         ) {
             CoilImage(
@@ -208,8 +207,8 @@ private fun AddressSection(onViewDetailsClicked: () -> Unit) {
                 Text(
                     "Utama Street No.20",
                     color = GrayScale900,
-                    fontSize = MyFontSize.body_large,
-                    modifier = Modifier.padding(bottom = 7.dp)
+                    style = BazarTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
                     "Dumbo Street No.20, Dumbo, New York 10001, United States",
@@ -267,7 +266,7 @@ private fun SummarySection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp)
                 .fillMaxWidth()
         ) {
             Text(
@@ -281,9 +280,7 @@ private fun SummarySection(
                 style = BazarTheme.typography.bodyMedium,
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Divider(thickness = 1.dp, color = BazarTheme.colors.secondary)
-        Spacer(modifier = Modifier.height(16.dp))
+        Divider()
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -294,23 +291,16 @@ private fun SummarySection(
             Text(
                 "Total Payment",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyMedium,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             )
             Text(
                 "${paymentDetails.currency} ${paymentDetails.total}",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyMedium,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             )
         }
-        Column(
-            modifier = Modifier
-                .padding(bottom = 20.dp)
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(
-                    color = BazarTheme.colors.secondary,
-                )
-        ) {}
+        Divider(modifier = Modifier.padding(horizontal = 0.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -319,10 +309,10 @@ private fun SummarySection(
         ) {
             Text(
                 "See details",
-                style = BazarTheme.typography.bodyMedium,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 color = Primary500,
                 modifier = Modifier
-                    .padding(end = 11.dp)
+                    .padding(end = 12.dp)
                     .clickable(onClick = onViewDetailsClicked)
             )
             CoilImage(
@@ -362,11 +352,11 @@ private fun DataAndTimeSection(onViewDetailsClicked: () -> Unit) {
                 Text(
                     text = "Date & time",
                     color = GrayScale900,
-                    style = BazarTheme.typography.bodyMedium,
+                    style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(bottom = 10.dp)
                 )
                 Text(
-                    text = "Choose date and time ",
+                    text = "Choose date and time",
                     style = BazarTheme.typography.bodyMedium,
                     color = GrayScale600
                 )
@@ -407,7 +397,7 @@ private fun PaymentSection(onPaymentMethodSelected: () -> Unit) {
             ) {
                 Text(
                     "Payment",
-                    style = BazarTheme.typography.bodyMedium,
+                    style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                     color = GrayScale900,
                     modifier = Modifier.padding(bottom = 9.dp)
                 )
@@ -436,19 +426,19 @@ fun OrderCard(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = 16.dp, start = 24.dp, end = 24.dp)
+            .padding(16.dp)
             .border(
                 width = 1.dp, color = GrayScale200, shape = RoundedCornerShape(8.dp)
             )
             .clip(shape = RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .padding(vertical = 21.dp)
+            .padding(vertical = 16.dp)
     ) {
         Text(
             text = title,
             color = GrayScale900,
             fontSize = 18.sp,
-            modifier = Modifier.padding(bottom = 11.dp, start = 16.dp)
+            modifier = Modifier.padding(bottom = 12.dp, start = 16.dp)
         )
         content()
     }

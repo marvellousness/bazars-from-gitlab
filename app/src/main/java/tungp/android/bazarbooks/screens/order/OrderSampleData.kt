@@ -4,7 +4,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Payment
 import androidx.compose.ui.graphics.Color
-import java.math.BigDecimal
+import tungp.android.bazarbooks.screens.order.model.AddressDetails
+import tungp.android.bazarbooks.screens.order.model.OrderItem
+import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 
 object OrderSampleData {
     val paymentMethodItems = listOf(
@@ -23,25 +25,25 @@ object OrderSampleData {
     )
 
     val paymentDetails = PaymentDetails(
-        price = BigDecimal(100.00),
-        shipping = BigDecimal(100),
-        total = BigDecimal(200),
+        price = 100,
+        shipping = 100,
+        total = 200,
         currency = "$",
         orders = listOf(
             OrderItem(
                 name = "Squid Sweet and Sour Salad",
                 quantity = 2,
-                price = BigDecimal(40.00)
+                price = 400
             ),
             OrderItem(
                 name = "Japan Hainanese Sashimi",
                 quantity = 1,
-                price = BigDecimal(20.00)
+                price = 200
             ),
             OrderItem(
                 name = "Black Pepper Beef Lumpia",
                 quantity = 1,
-                price = BigDecimal(20.00)
+                price = 200
             )
         )
     )

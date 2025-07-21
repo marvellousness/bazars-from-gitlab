@@ -32,8 +32,10 @@ import androidx.compose.ui.unit.sp
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.Divider
 import tungp.android.bazarbooks.components.button.PrimaryButton
+import tungp.android.bazarbooks.screens.order.model.AddressDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale900
+import tungp.android.bazarbooks.ui.theme.Primary500
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -99,13 +101,13 @@ fun AddressDetailCard(
                 modifier = Modifier
                     .size(40.dp)
                     .background(
-                        color = Color(0xFF6B46C1), shape = CircleShape
+                        color = BazarTheme.colors.surface, shape = CircleShape
                     ), contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_ography_location_outline),
                     contentDescription = "Location",
-                    tint = Color.White,
+                    tint = Primary500,
                     modifier = Modifier.size(20.dp)
                 )
             }
