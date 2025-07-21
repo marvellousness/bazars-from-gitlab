@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -12,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -51,7 +54,6 @@ import tungp.android.bazarbooks.ui.theme.GrayScale200
 import tungp.android.bazarbooks.ui.theme.GrayScale600
 import tungp.android.bazarbooks.ui.theme.GrayScale900
 import tungp.android.bazarbooks.ui.theme.Primary500
-import tungp.android.bazarbooks.ui.theme.constants.MyColors
 
 @Composable
 fun OrderScreen(
@@ -158,7 +160,7 @@ fun OrderContainer(
                 .fillMaxSize()
                 .background(color = BazarTheme.colors.background)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AddressSection {
@@ -188,17 +190,24 @@ private fun AddressSection(onViewDetailsClicked: () -> Unit) {
     OrderCard(title = "Address") {
         Row(
             modifier = Modifier
-                .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp)
                 .fillMaxWidth()
         ) {
-            CoilImage(
-                imageModel = { R.drawable.ic_ography_location_location },
-                imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+            Box(
                 modifier = Modifier
                     .padding(end = 16.dp)
                     .width(44.dp)
                     .height(44.dp)
-            )
+                    .background(
+                        color = BazarTheme.colors.surface, shape = CircleShape
+                    ), contentAlignment = Alignment.Center
+            ) {
+                CoilImage(
+                    imageModel = { R.drawable.ic_ography_location_location },
+                    imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
             Column(
                 modifier = Modifier
                     .padding(top = 5.dp, end = 4.dp)
@@ -336,14 +345,21 @@ private fun DataAndTimeSection(onViewDetailsClicked: () -> Unit) {
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
                 .clickable { onViewDetailsClicked() }
         ) {
-            CoilImage(
-                imageModel = { R.drawable.ic_ography_calendar },
-                imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+            Box(
                 modifier = Modifier
                     .padding(end = 16.dp)
                     .width(44.dp)
                     .height(44.dp)
-            )
+                    .background(
+                        color = BazarTheme.colors.surface, shape = CircleShape
+                    ), contentAlignment = Alignment.Center
+            ) {
+                CoilImage(
+                    imageModel = { R.drawable.ic_ography_calendar },
+                    imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
             Column(
                 modifier = Modifier
                     .padding(end = 16.dp)
@@ -382,14 +398,21 @@ private fun PaymentSection(onPaymentMethodSelected: () -> Unit) {
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp)
                 .clickable { onPaymentMethodSelected() }
         ) {
-            CoilImage(
-                imageModel = { R.drawable.ic_ography_card_outline },
-                imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+            Box(
                 modifier = Modifier
                     .padding(end = 16.dp)
                     .width(44.dp)
                     .height(44.dp)
-            )
+                    .background(
+                        color = BazarTheme.colors.surface, shape = CircleShape
+                    ), contentAlignment = Alignment.Center
+            ) {
+                CoilImage(
+                    imageModel = { R.drawable.ic_ography_card_outline },
+                    imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
             Column(
                 modifier = Modifier
                     .padding(end = 4.dp)
@@ -425,8 +448,9 @@ fun OrderCard(
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
     Column(
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
-            .padding(16.dp)
+            .padding(8.dp)
             .border(
                 width = 1.dp, color = GrayScale200, shape = RoundedCornerShape(8.dp)
             )
@@ -451,9 +475,7 @@ private fun OrderScreenPreview() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    color = MyColors.surfaceContainerLowest,
-                )
+                .background(color = BazarTheme.colors.background)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
