@@ -7,6 +7,8 @@ import androidx.navigation.navigation
 import tungp.android.bazarbooks.navigation.Graph
 import tungp.android.bazarbooks.navigation.CartRouteScreen
 import tungp.android.bazarbooks.screens.order.OrderScreen
+import tungp.android.bazarbooks.screens.order.location.LocationScreen
+import tungp.android.bazarbooks.screens.order.success.OrderSuccessScreen
 
 fun NavGraphBuilder.cartNavGraph(rootNavController: NavHostController) {
     navigation(
@@ -15,6 +17,12 @@ fun NavGraphBuilder.cartNavGraph(rootNavController: NavHostController) {
     ) {
         composable(route = CartRouteScreen.CartDetail.route) {
             OrderScreen(rootNavController = rootNavController)
+        }
+        composable(route = CartRouteScreen.LocationDetails.route) {
+            LocationScreen(navController = rootNavController)
+        }
+        composable(route = CartRouteScreen.OrderSuccess.route) {
+            OrderSuccessScreen(navController = rootNavController)
         }
     }
 }

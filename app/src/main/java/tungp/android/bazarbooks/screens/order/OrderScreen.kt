@@ -48,6 +48,7 @@ import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.Divider
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SecondaryButton
+import tungp.android.bazarbooks.navigation.CartRouteScreen
 import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale200
@@ -60,7 +61,18 @@ fun OrderScreen(
     rootNavController: NavController,
     viewModel: OrderViewModel = hiltViewModel(),
 ) {
-    OrderContainer(viewModel = viewModel, onNavigationClicked = { }, onActionClicked = { })
+    OrderContainer(
+        viewModel = viewModel,
+        onNavigationClicked = {
+            rootNavController.popBackStack()
+        },
+        onActionClicked = { },
+        onLocationChanged = {
+            rootNavController.navigate(CartRouteScreen.LocationDetails.route)
+        },
+        onOrderClicked = {
+            rootNavController.navigate(CartRouteScreen.OrderSuccess.route)
+        })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,6 +81,8 @@ fun OrderContainer(
     viewModel: OrderViewModel,
     onNavigationClicked: () -> Unit,
     onActionClicked: () -> Unit,
+    onLocationChanged: () -> Unit,
+    onOrderClicked: () -> Unit,
 ) {
 
     // For Payment details
@@ -165,6 +179,8 @@ fun OrderContainer(
         ) {
             AddressSection {
                 showAddressDetailsSheet = true
+                // TODO: Navigate to location screen instead
+                //onLocationChanged()
             }
             SummarySection(viewModel.paymentDetails) {
                 showPaymentDetailsSheet = true
@@ -176,7 +192,8 @@ fun OrderContainer(
                 showPaymentMethodSheet = true
             }
             PrimaryButton(
-                text = "Order", onClick = { println("Pressed!") },
+                text = "Order",
+                onClick = onOrderClicked,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
