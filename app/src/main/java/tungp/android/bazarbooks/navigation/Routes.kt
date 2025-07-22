@@ -35,6 +35,7 @@ sealed class CartRouteScreen(val route: String) {
     object CartDetail : CartRouteScreen("cartDetail")
     object LocationDetails : CartRouteScreen("locationChange")
     object OrderSuccess : CartRouteScreen("orderSuccess")
+    object OrderRating : CartRouteScreen("orderRating")
 }
 
 sealed class CategoryRouteScreen(val route: String) {

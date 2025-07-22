@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.order.success
+package tungp.android.bazarbooks.screens.order.status
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.Divider
 import tungp.android.bazarbooks.components.button.PrimaryButton
+import tungp.android.bazarbooks.navigation.CartRouteScreen
 import tungp.android.bazarbooks.screens.order.OrderSampleData
 import tungp.android.bazarbooks.screens.order.model.OrderItem
 import tungp.android.bazarbooks.screens.order.model.PaymentDetails
@@ -55,13 +56,15 @@ fun OrderSuccessScreen(
             HeaderSection()
             OrderDetailSection(paymentDetails)
             Spacer(modifier = Modifier.weight(1f))
-            OrderActionSection(onClick = {})
+            OrderActionSection(onNavigateToRating = {
+                navController.navigate(CartRouteScreen.OrderRating.route)
+            })
         }
     }
 }
 
 @Composable
-private fun OrderActionSection(onClick: () -> Unit) {
+private fun OrderActionSection(onNavigateToRating: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,7 +73,7 @@ private fun OrderActionSection(onClick: () -> Unit) {
         PrimaryButton(
             text = "Order Status",
             modifier = Modifier.fillMaxWidth(),
-            onClick = onClick
+            onClick = onNavigateToRating
         )
     }
 }
