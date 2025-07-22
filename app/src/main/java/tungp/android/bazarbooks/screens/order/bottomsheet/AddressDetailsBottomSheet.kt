@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.order
+package tungp.android.bazarbooks.screens.order.bottomsheet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.Divider
 import tungp.android.bazarbooks.components.button.PrimaryButton
+import tungp.android.bazarbooks.screens.order.OrderSampleData
 import tungp.android.bazarbooks.screens.order.model.AddressDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale900

@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.screens.order
+package tungp.android.bazarbooks.screens.order.bottomsheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,13 +20,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tungp.android.bazarbooks.components.Divider
+import tungp.android.bazarbooks.screens.order.OrderSampleData
 import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale200
 import tungp.android.bazarbooks.ui.theme.GrayScale600
 import tungp.android.bazarbooks.ui.theme.GrayScale900
-import tungp.android.bazarbooks.ui.theme.constants.MyColors
-import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
