@@ -9,6 +9,27 @@ import tungp.android.bazarbooks.screens.order.model.OrderItem
 import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 
 object OrderSampleData {
+    val ordersList: List<OrderItem> = listOf(
+        OrderItem(
+            id = 1,
+            name = "Carrie Fisher",
+            price = 1999,
+            quantity = 1
+        ),
+        OrderItem(
+            id = 2,
+            name = "The Da Vinci Code",
+            price = 3999,
+            quantity = 1
+        ),
+        OrderItem(
+            id = 3,
+            name = "Squid Sweet and Sour Salad",
+            quantity = 2,
+            price = 400
+        ),
+    )
+
     val paymentMethodItems = listOf(
         SelectionItem(
             id = "knet",
@@ -29,23 +50,7 @@ object OrderSampleData {
         shipping = 100,
         total = 200,
         currency = "$",
-        orders = listOf(
-            OrderItem(
-                name = "Squid Sweet and Sour Salad",
-                quantity = 2,
-                price = 400
-            ),
-            OrderItem(
-                name = "Japan Hainanese Sashimi",
-                quantity = 1,
-                price = 200
-            ),
-            OrderItem(
-                name = "Black Pepper Beef Lumpia",
-                quantity = 1,
-                price = 200
-            )
-        )
+        orders = ordersList
     )
 
     val dateItems = listOf(

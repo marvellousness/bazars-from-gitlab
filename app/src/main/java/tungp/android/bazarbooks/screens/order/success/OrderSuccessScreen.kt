@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -20,105 +19,98 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.Divider
-import tungp.android.bazarbooks.screens.order.OrderSampleData.paymentDetails
+import tungp.android.bazarbooks.components.button.PrimaryButton
+import tungp.android.bazarbooks.screens.order.OrderSampleData
+import tungp.android.bazarbooks.screens.order.model.OrderItem
+import tungp.android.bazarbooks.screens.order.model.PaymentDetails
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale200
-import tungp.android.bazarbooks.ui.theme.GrayScale500
 import tungp.android.bazarbooks.ui.theme.GrayScale900
 import tungp.android.bazarbooks.ui.theme.Primary50
 import tungp.android.bazarbooks.ui.theme.Primary500
+import tungp.android.bazarbooks.ui.theme.paddingDefault
 
 
 @Composable
 fun OrderSuccessScreen(
     navController: NavController,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize()
-            .background(color = BazarTheme.colors.background)
-            .verticalScroll(rememberScrollState()),
-    ) {
-        Spacer(modifier = Modifier.requiredHeight(24.dp))
-        HeaderSection()
-        CancelLink()
-        OrderDetails()
-    }
-}
+    val paymentDetails = OrderSampleData.paymentDetails
 
-@Composable
-fun CancelLink() {
-    Text(
-        lineHeight = 10.sp, text = buildAnnotatedString {
-            withStyle(
-                style = SpanStyle(
-                    color = GrayScale500, fontSize = 14.sp
-                )
-            ) { append("Do you want to cancel your order? ") }
-            withStyle(
-                style = SpanStyle(
-                    color = Primary500, fontSize = 14.sp
-                )
-            ) { append("Cancel") }
-        })
-}
-
-@Composable
-fun HeaderSection(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.requiredHeight(24.dp))
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(Primary50)
-            .fillMaxSize()
-            .padding(
-                start = 32.dp, end = 32.dp, top = 24.dp, bottom = 16.dp
-            )
-    ) {
+    BazarSurface(backgroundColor = BazarTheme.colors.background) {
         Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxSize()
+                .paddingDefault()
+                .verticalScroll(rememberScrollState()),
         ) {
-            Text(
-                text = "Thankyou 👋",
-                color = GrayScale900,
-                textAlign = TextAlign.Center,
-                lineHeight = 9.38.em,
-                style = BazarTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Lorem ipsum dolor sit",
-                color = Primary500,
-                textAlign = TextAlign.Center,
-                lineHeight = 5.63.em,
-                style = BazarTheme.typography.headlineSmall
-            )
-            Text(
-                text = "Order #2930541",
-                color = GrayScale900,
-                textAlign = TextAlign.Center,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium
-            )
+            HeaderSection()
+            OrderDetailSection(paymentDetails)
+            Spacer(modifier = Modifier.weight(1f))
+            OrderActionSection(onClick = {})
         }
     }
 }
 
 @Composable
-fun OrderDetails(modifier: Modifier = Modifier) {
+private fun OrderActionSection(onClick: () -> Unit) {
+    Column(
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        PrimaryButton(
+            text = "Order Status",
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onClick
+        )
+    }
+}
+
+@Composable
+fun HeaderSection(modifier: Modifier = Modifier) {
+    Spacer(modifier = Modifier.requiredHeight(32.dp))
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .background(Primary50)
+            .fillMaxSize()
+            .padding(vertical = 24.dp)
+    ) {
+        Text(
+            text = "Thankyou 👋",
+            color = GrayScale900,
+            style = BazarTheme.typography.bodyMedium
+        )
+        Spacer(modifier = Modifier.requiredHeight(8.dp))
+        Text(
+            text = "Lorem ipsum dolor sit",
+            color = Primary500,
+            style = BazarTheme.typography.headlineSmall
+        )
+        Spacer(modifier = Modifier.requiredHeight(16.dp))
+        Text(
+            text = "Order #2930541",
+            color = GrayScale900,
+            style = BazarTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+fun OrderDetailSection(
+    paymentDetails: PaymentDetails,
+    modifier: Modifier = Modifier,
+) {
     Spacer(modifier = Modifier.height(16.dp))
     Text(
         text = "Order Details",
@@ -128,7 +120,8 @@ fun OrderDetails(modifier: Modifier = Modifier) {
     )
     Spacer(modifier = Modifier.height(16.dp))
     Column(
-        verticalArrangement = Arrangement.Center, modifier = modifier
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
             .border(
                 width = 1.dp, color = GrayScale200, shape = RoundedCornerShape(8.dp)
             )
@@ -136,81 +129,76 @@ fun OrderDetails(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        OrderList()
-        Divider(modifier = Modifier.padding(16.dp))
+        OrderList(paymentDetails.orders)
+        Divider(modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 "Subtotal",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             )
             Text(
-                "${paymentDetails.currency} ${paymentDetails.shipping}",
+                "$100",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             )
         }
-        Divider(modifier = Modifier.padding(horizontal = 16.dp))
-        Spacer(modifier = Modifier.height(16.dp))
+        Divider(modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp)
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 "Shipping",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             )
             Text(
-                "${paymentDetails.currency} ${paymentDetails.shipping}",
+                "$100",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             )
         }
-        Divider(thickness = 1.dp, color = GrayScale200)
+        Divider(modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+                .padding(vertical = 4.dp)
         ) {
             Text(
                 "Total Payment",
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 color = GrayScale900,
             )
             Text(
                 "${paymentDetails.currency} ${paymentDetails.total}",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
             )
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+                .padding(vertical = 4.dp)
         ) {
             Text(
                 "Delivery in",
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium,
                 color = GrayScale900,
             )
             Text(
                 "10 - 15 minus",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium,
             )
         }
 
@@ -218,110 +206,64 @@ fun OrderDetails(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+                .padding(vertical = 4.dp)
         ) {
             Text(
                 "Time",
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium,
                 color = GrayScale900,
             )
             Text(
                 "15.24 - 15.39",
                 color = GrayScale900,
-                style = BazarTheme.typography.bodyLarge,
+                style = BazarTheme.typography.bodyMedium,
             )
         }
     }
 }
 
 @Composable
-fun OrderList(modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top), modifier = modifier
+fun OrderItemView(
+    item: OrderItem,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth()
     ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(1.dp, Alignment.Start)
-        ) {
-            Text(
-                text = "1x",
-                color = GrayScale900,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium,
-                modifier = Modifier.requiredWidth(width = 24.dp)
-            )
-            Text(
-                text = "Carrie Fisher",
-                color = GrayScale900,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium,
-                modifier = Modifier.requiredWidth(width = 214.dp)
-            )
-            Text(
-                text = "$19.99",
-                color = GrayScale900,
-                textAlign = TextAlign.End,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium,
-                modifier = Modifier.requiredWidth(width = 55.dp)
-            )
-        }
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.End
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(1.dp, Alignment.Start)
-            ) {
-                Text(
-                    text = "1x",
-                    color = GrayScale900,
-                    lineHeight = 10.em,
-                    style = BazarTheme.typography.bodyMedium,
-                    modifier = Modifier.requiredWidth(width = 24.dp)
-                )
-                Text(
-                    text = "The Da vinci Code",
-                    color = GrayScale900,
-                    lineHeight = 10.em,
-                    style = BazarTheme.typography.bodyMedium,
-                    modifier = Modifier.requiredWidth(width = 214.dp)
-                )
-                Text(
-                    text = "$39.99",
-                    color = GrayScale900,
-                    textAlign = TextAlign.End,
-                    lineHeight = 10.em,
-                    style = BazarTheme.typography.bodyMedium,
-                    modifier = Modifier.requiredWidth(width = 55.dp)
-                )
-            }
-        }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(1.dp, Alignment.Start)
-        ) {
-            Text(
-                text = "1x",
-                color = GrayScale900,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium,
-                modifier = Modifier.requiredWidth(width = 24.dp)
-            )
-            Text(
-                text = "Arcu ipsum feugiat leo odio ",
-                color = GrayScale900,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium,
-                modifier = Modifier.requiredWidth(width = 214.dp)
-            )
-            Text(
-                text = "$27.12",
-                color = GrayScale900,
-                textAlign = TextAlign.End,
-                lineHeight = 10.em,
-                style = BazarTheme.typography.bodyMedium,
-                modifier = Modifier.requiredWidth(width = 55.dp)
-            )
+        Text(
+            modifier = Modifier.padding(end = 16.dp),
+            text = item.quantity.toString() + "x",
+            color = GrayScale900,
+            style = BazarTheme.typography.bodyMedium,
+        )
+        Text(
+            text = item.name,
+            color = GrayScale900,
+            style = BazarTheme.typography.bodyMedium,
+            modifier = Modifier
+                .weight(1f)
+        )
+        Text(
+            text = "$ ${item.price}",
+            color = GrayScale900,
+            textAlign = TextAlign.End,
+            style = BazarTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+fun OrderList(orders: List<OrderItem>, modifier: Modifier = Modifier) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+        modifier = modifier
+    ) {
+        orders.forEachIndexed { index, item ->
+            OrderItemView(item = item, modifier = modifier)
         }
     }
 }
