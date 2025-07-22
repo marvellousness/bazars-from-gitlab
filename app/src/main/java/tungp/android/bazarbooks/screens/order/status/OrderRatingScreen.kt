@@ -27,6 +27,10 @@ import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.RatingDisplay
 import tungp.android.bazarbooks.components.RatingStarStyle
 import tungp.android.bazarbooks.components.button.PrimaryButton
+import tungp.android.bazarbooks.navigation.AuthRouteScreen
+import tungp.android.bazarbooks.navigation.CartRouteScreen
+import tungp.android.bazarbooks.navigation.Graph
+import tungp.android.bazarbooks.navigation.MainRouteScreen
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.GrayScale500
 import tungp.android.bazarbooks.ui.theme.GrayScale900
@@ -37,7 +41,14 @@ import tungp.android.bazarbooks.ui.theme.paddingDefault
 
 @Composable
 fun OrderRatingScreen(navController: NavController) {
-    OrderRatingContainer(onDone = { navController.navigateUp() })
+    OrderRatingContainer(onDone = {
+        navController.navigate(MainRouteScreen.Home.route) {
+            popUpTo(Graph.CartGraph) {
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
+    })
 }
 
 @Composable
@@ -51,7 +62,7 @@ fun OrderRatingContainer(onDone: () -> Unit) {
         ) {
             RatingHeader()
             RatingBody()
-            RatingActionSection(onDone = {})
+            RatingActionSection(onDone = onDone)
         }
     }
 }
