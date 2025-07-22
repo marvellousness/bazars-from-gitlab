@@ -1,0 +1,16 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "cartItem": {
+      "id": "cart_1",
+      "bookId": "4",
+      "title": "The Alchemist",
+      "cover": "https://covers.openlibrary.org/b/id/13151170-L.jpg",
+      "author": "Paulo Coelho",
+      "quantity": 1,
+      "price": 14.99,
+      "totalPrice": 14.99
+    }
+  }
+} 

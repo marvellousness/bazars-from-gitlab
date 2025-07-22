@@ -16,4 +16,29 @@
     <string name="category">Category</string>
     <string name="cart">Cart</string>
     <string name="profile">Profile</string>
+    <string name="text_no_data_found">No data found</string>
+    <string name="text_retry">Retry</string>
+    <string name="best_vendors_title_section">Best Vendors</string>
+    <string name="best_authors_title_section">Best Authors</string>
+    <string name="top_of_week_title_section">Top of Week</string>
+    <string name="authors_tittle_section">Authors</string>
+    <string name="special_offer">Special Offer</string>
+    <string name="discount_percent">Discount 25%</string>
+    <string name="order_now">Order Now</string>
+
+    <string name="filled_star">Filled rating star</string>
+    <string name="empty_star">Empty rating star</string>
+    <string name="back">Navigate Up</string>
+    <string name="email_placeholder">Your email</string>
+    <string name="password_placeholder">Your password</string>
+    <string name="welcome_header_text">Welcome👋</string>
+    <string name="sign_to_your_account">Sign to your account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_in_with_google">Sign in With Google</string>
+    <string name="sign_in_with_apple">Sign in With Apple</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

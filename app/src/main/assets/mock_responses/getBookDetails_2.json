@@ -1,0 +1,25 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "book": {
+      "bookId": "2",
+      "isbn": "9781400033416",
+      "title": "The Kite Runner",
+      "cover": "https://covers.openlibrary.org/b/id/12634691-L.jpg",
+      "author": "Khaled Hosseini",
+      "price": 16.99,
+      "genre": [
+        "Fiction",
+        "Historical Fiction",
+        "Drama"
+      ],
+      "publishedYear": 2003,
+      "description": "A story of friendship, betrayal, and redemption set against the backdrop of Afghanistan's tumultuous history.",
+      "publisher": "Riverhead Books",
+      "numberOfPages": 371,
+      "quantityInStock": 27,
+      "rating": 5
+    }
+  }
+} 

@@ -1,0 +1,113 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "categories": [
+      {
+        "id": "cat-001",
+        "name": "Fiction",
+        "description": "Novels, short stories, and other imaginative literature",
+        "imageUrl": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=387&auto=format&fit=crop",
+        "bookCount": 157
+      },
+      {
+        "id": "cat-002",
+        "name": "Non-Fiction",
+        "description": "Factual literature based on real events, people, and information",
+        "imageUrl": "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=1776&auto=format&fit=crop",
+        "bookCount": 143
+      },
+      {
+        "id": "cat-003",
+        "name": "Science Fiction",
+        "description": "Fiction with imaginative concepts like futuristic science and technology",
+        "imageUrl": "https://images.unsplash.com/photo-1518497927675-245083503cdc?q=80&w=1770&auto=format&fit=crop",
+        "bookCount": 98
+      },
+      {
+        "id": "cat-004",
+        "name": "Mystery",
+        "description": "Fiction dealing with the solution of a crime or the unraveling of secrets",
+        "imageUrl": "https://images.unsplash.com/photo-1567301074221-5c754f2fb48e?q=80&w=1771&auto=format&fit=crop",
+        "bookCount": 112
+      },
+      {
+        "id": "cat-005",
+        "name": "Romance",
+        "description": "Stories centered on romantic relationships and love",
+        "imageUrl": "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?q=80&w=1771&auto=format&fit=crop",
+        "bookCount": 134
+      },
+      {
+        "id": "cat-006",
+        "name": "Fantasy",
+        "description": "Fiction featuring magical and supernatural elements",
+        "imageUrl": "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?q=80&w=1888&auto=format&fit=crop",
+        "bookCount": 87
+      },
+      {
+        "id": "cat-007",
+        "name": "Biography",
+        "description": "Detailed description of a person's life and achievements",
+        "imageUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1770&auto=format&fit=crop",
+        "bookCount": 76
+      },
+      {
+        "id": "cat-008",
+        "name": "History",
+        "description": "Books focusing on past events and their implications",
+        "imageUrl": "https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=1774&auto=format&fit=crop",
+        "bookCount": 95
+      },
+      {
+        "id": "cat-009",
+        "name": "Self-Help",
+        "description": "Books offering advice for personal improvement",
+        "imageUrl": "https://images.unsplash.com/photo-1535572290543-960a8046f5af?q=80&w=1770&auto=format&fit=crop",
+        "bookCount": 68
+      },
+      {
+        "id": "cat-010",
+        "name": "Thriller",
+        "description": "Fiction designed to hold tension and excitement for readers",
+        "imageUrl": "https://images.unsplash.com/photo-1543847473-dc60889684ec?q=80&w=1887&auto=format&fit=crop",
+        "bookCount": 103
+      },
+      {
+        "id": "cat-011",
+        "name": "Business",
+        "description": "Books about entrepreneurship, management, and corporate strategies",
+        "imageUrl": "https://images.unsplash.com/photo-1553028826-cc8584e3e767?q=80&w=1770&auto=format&fit=crop",
+        "bookCount": 81
+      },
+      {
+        "id": "cat-012",
+        "name": "Science",
+        "description": "Books about scientific discoveries, theories, and research",
+        "imageUrl": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=1770&auto=format&fit=crop",
+        "bookCount": 73
+      },
+      {
+        "id": "cat-013",
+        "name": "Travel",
+        "description": "Books about destinations, cultures, and travel experiences",
+        "imageUrl": "https://images.unsplash.com/photo-1499591934245-40b55745b905?q=80&w=1772&auto=format&fit=crop",
+        "bookCount": 59
+      },
+      {
+        "id": "cat-014",
+        "name": "Cooking",
+        "description": "Books featuring recipes, cooking techniques, and culinary journeys",
+        "imageUrl": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1770&auto=format&fit=crop",
+        "bookCount": 64
+      },
+      {
+        "id": "cat-015",
+        "name": "Comics & Graphic Novels",
+        "description": "Illustrated stories and narratives in sequential art form",
+        "imageUrl": "https://images.unsplash.com/photo-1608889476518-53c1fa250402?q=80&w=1780&auto=format&fit=crop",
+        "bookCount": 92
+      }
+    ]
+  }
+} 
