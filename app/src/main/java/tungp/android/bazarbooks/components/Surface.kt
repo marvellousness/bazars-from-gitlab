@@ -4,8 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,7 +22,7 @@ import tungp.android.bazarbooks.ui.theme.BazarTheme
 fun BazarSurface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    color: Color = Color.White,
+    backgroundColor: Color = Color.White,
     contentColor: Color = BazarTheme.colors.onBackground,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
@@ -36,7 +34,7 @@ fun BazarSurface(
             .zIndex(elevation.value)
             .then(if (border != null) Modifier.border(border, shape) else Modifier)
             .background(
-                color = color,
+                color = backgroundColor,
                 shape = shape
             )
             .clip(shape)

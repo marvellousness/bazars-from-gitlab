@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.ThemedPreview
@@ -21,23 +22,25 @@ import tungp.android.bazarbooks.ui.theme.ThemedPreview
 @Composable
 fun BazarAppBar(
     title: String,
-    onSearchClick: () -> Unit,
-    onNotificationClick: () -> Unit,
+    navigationIcon: ImageVector = Icons.Default.Search,
+    actionIcon: ImageVector = Icons.Default.Notifications,
+    onNavigationClicked: () -> Unit = {},
+    onActionClicked: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
             Text(text = title)
         },
         navigationIcon = {
-            IconButton(onClick = onSearchClick) {
+            IconButton(onClick = onNavigationClicked) {
                 Icon(
-                    imageVector = Icons.Default.Search,
+                    imageVector = navigationIcon,
                     contentDescription = "Search"
                 )
             }
         },
         actions = {
-            IconButton(onClick = onNotificationClick) {
+            IconButton(onClick = onActionClicked) {
                 BadgedBox(badge = {
                     Badge(
                         containerColor = Color.Red,
@@ -47,7 +50,7 @@ fun BazarAppBar(
                     }
                 }) {
                     Icon(
-                        imageVector = Icons.Default.Notifications,
+                        imageVector = actionIcon,
                         contentDescription = "Notifications"
                     )
                 }
@@ -70,8 +73,8 @@ fun CustomAppBarPreview() {
     ThemedPreview {
         BazarAppBar(
             title = "Custom App Bar Title",
-            onSearchClick = { /* Handle search click */ },
-            onNotificationClick = { /* Handle notification click */ }
+            onNavigationClicked = { /* Handle search click */ },
+            onActionClicked = { /* Handle notification click */ }
         )
     }
 }

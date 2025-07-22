@@ -45,8 +45,8 @@ fun MainScreen(
         topBar = {
             BazarAppBar(
                 title = topBarTitle,
-                onSearchClick = {},
-                onNotificationClick = {}
+                onNavigationClicked = {},
+                onActionClicked = {}
             )
         },
         bottomBar = {

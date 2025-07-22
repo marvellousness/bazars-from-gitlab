@@ -3,6 +3,7 @@ package tungp.android.bazarbooks.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import tungp.android.bazarbooks.data.model.AddToCartRequest
+import tungp.android.bazarbooks.data.model.ConfirmOrderResponse
 import tungp.android.bazarbooks.data.model.RemoveFromCartRequest
 import tungp.android.bazarbooks.data.model.base.BazaResult
 import tungp.android.bazarbooks.data.remote.network.service.ApiService
@@ -177,6 +178,16 @@ class RemoteRepositoryImpl @Inject constructor(
             } else {
                 emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to clear cart")))
             }
+        } catch (e: Exception) {
+            emit(BazaResult.Error(e))
+        }
+    }
+
+    override fun confirmOrder(): Flow<BazaResult<ConfirmOrderResponse>> = flow {
+        emit(BazaResult.Loading)
+        try {
+            val response = apiService.confirmOrder()
+            emit(BazaResult.Success(response.data ?: throw Exception("Failed to confirm order")))
         } catch (e: Exception) {
             emit(BazaResult.Error(e))
         }

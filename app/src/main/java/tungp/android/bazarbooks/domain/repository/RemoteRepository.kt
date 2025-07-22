@@ -1,6 +1,7 @@
 package tungp.android.bazarbooks.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import tungp.android.bazarbooks.data.model.ConfirmOrderResponse
 import tungp.android.bazarbooks.domain.model.Categories
 import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
 import tungp.android.bazarbooks.domain.model.Vendor
@@ -20,4 +21,5 @@ interface RemoteRepository {
     fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>>
     fun removeFromCart(cartItemId: String): Flow<BazaResult<List<CartItem>>>
     fun clearCart(): Flow<BazaResult<Boolean>>
+    fun confirmOrder(): Flow<BazaResult<ConfirmOrderResponse>>
 }
