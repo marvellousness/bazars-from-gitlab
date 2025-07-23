@@ -1,46 +1,57 @@
 package tungp.android.bazarbooks.data.repository
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import tungp.android.bazarbooks.data.model.AddToCartRequest
-import tungp.android.bazarbooks.data.model.ConfirmOrderResponse
-import tungp.android.bazarbooks.data.model.RemoveFromCartRequest
-import tungp.android.bazarbooks.data.model.base.BazaResult
+import kotlinx.coroutines.flow.flowOn
+import tungp.android.bazarbooks.data.local.database.BookDatabase
+import tungp.android.bazarbooks.data.remote.model.request.AddToCartRequest
+import tungp.android.bazarbooks.data.remote.model.response.ConfirmOrderResponse
+import tungp.android.bazarbooks.data.remote.model.request.RemoveFromCartRequest
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 import tungp.android.bazarbooks.data.remote.network.service.ApiService
 import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.model.Book
 import tungp.android.bazarbooks.domain.model.CartItem
 import tungp.android.bazarbooks.domain.model.Categories
 import tungp.android.bazarbooks.domain.model.Category
-import tungp.android.bazarbooks.domain.model.HomeFeedsDomainModel
+import tungp.android.bazarbooks.domain.model.HomeFeeds
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
+    private val database: BookDatabase,
     private val apiService: ApiService,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RemoteRepository {
 
-    override fun getHomeFeeds(): Flow<BazaResult<HomeFeedsDomainModel>> = flow {
+    override fun getHomeFeeds(): Flow<BazaResult<HomeFeeds>> = flow {
         emit(BazaResult.Loading)
         try {
             val response = apiService.getHomeFeeds()
-            if (response.statusCode == 200 && response.data != null) {
-                // Convert API response to domain model
-                val domainModel = HomeFeedsDomainModel(
-                    specialOffers = response.data.specialOffers,
-                    topOfWeek = response.data.topOfWeek,
-                    bestVendors = response.data.bestVendors,
-                    authors = response.data.authors
-                )
-                emit(BazaResult.Success(domainModel))
-            } else {
-                emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+            when {
+                response.statusCode == 200 && response.data != null -> {
+                    // Convert API response to domain model
+                    val domainModel = HomeFeeds(
+                        specialOffers = response.data.specialOffers.map { bookDto -> bookDto.asDomain() },
+                        topOfWeek = response.data.topOfWeek.map { bookDto -> bookDto.asDomain() },
+                        bestVendors = response.data.bestVendors.map { vendorDto -> vendorDto.asDomain() },
+                        authors = response.data.authors.map { authorDto -> authorDto.asDomain() }
+                    )
+                    emit(BazaResult.Success(domainModel))
+                }
+
+                else -> {
+                    val errorMessage = response.statusMessage ?: "Unknown error occurred"
+                    emit(BazaResult.Error(Exception(errorMessage)))
+                }
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))
         }
-    }
+    }.flowOn(ioDispatcher)
 
     override fun getCategories(): Flow<BazaResult<Categories>> = flow {
         emit(BazaResult.Loading)
@@ -61,7 +72,13 @@ class RemoteRepositoryImpl @Inject constructor(
                 )
                 emit(BazaResult.Success(domainModel))
             } else {
-                emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+                emit(
+                    BazaResult.Error(
+                        Exception(
+                            response.statusMessage ?: "Unknown error occurred"
+                        )
+                    )
+                )
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))
@@ -75,7 +92,13 @@ class RemoteRepositoryImpl @Inject constructor(
             if (response.statusCode == 200 && response.data != null) {
                 emit(BazaResult.Success(response.data.vendors))
             } else {
-                emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+                emit(
+                    BazaResult.Error(
+                        Exception(
+                            response.statusMessage ?: "Unknown error occurred"
+                        )
+                    )
+                )
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))
@@ -89,7 +112,13 @@ class RemoteRepositoryImpl @Inject constructor(
             if (response.statusCode == 200 && response.data != null) {
                 emit(BazaResult.Success(response.data.authors))
             } else {
-                emit(BazaResult.Error(Exception(response.statusMessage ?: "Unknown error occurred")))
+                emit(
+                    BazaResult.Error(
+                        Exception(
+                            response.statusMessage ?: "Unknown error occurred"
+                        )
+                    )
+                )
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))
@@ -141,19 +170,26 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>> = flow {
-        emit(BazaResult.Loading)
-        try {
-            val response = apiService.updateCartItem(cartItemId, quantity)
-            if (response.statusCode == 200 && response.data != null) {
-                emit(BazaResult.Success(response.data.cartItem))
-            } else {
-                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to update cart item")))
+    override fun updateCartItem(cartItemId: String, quantity: Int): Flow<BazaResult<CartItem>> =
+        flow {
+            emit(BazaResult.Loading)
+            try {
+                val response = apiService.updateCartItem(cartItemId, quantity)
+                if (response.statusCode == 200 && response.data != null) {
+                    emit(BazaResult.Success(response.data.cartItem))
+                } else {
+                    emit(
+                        BazaResult.Error(
+                            Exception(
+                                response.statusMessage ?: "Failed to update cart item"
+                            )
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                emit(BazaResult.Error(e))
             }
-        } catch (e: Exception) {
-            emit(BazaResult.Error(e))
         }
-    }
 
     override fun removeFromCart(cartItemId: String): Flow<BazaResult<List<CartItem>>> = flow {
         emit(BazaResult.Loading)
@@ -162,7 +198,13 @@ class RemoteRepositoryImpl @Inject constructor(
             if (response.statusCode == 200 && response.data != null) {
                 emit(BazaResult.Success(response.data.cartItems))
             } else {
-                emit(BazaResult.Error(Exception(response.statusMessage ?: "Failed to remove cart item")))
+                emit(
+                    BazaResult.Error(
+                        Exception(
+                            response.statusMessage ?: "Failed to remove cart item"
+                        )
+                    )
+                )
             }
         } catch (e: Exception) {
             emit(BazaResult.Error(e))

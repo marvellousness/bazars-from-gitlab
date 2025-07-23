@@ -17,7 +17,7 @@ import tungp.android.bazarbooks.domain.usecase.ClearCartUseCase
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object BookModule {
+object UseCasesModule {
 
     @Provides
     fun providesGetHomeFeedsUseCase(repository: RemoteRepository): GetHomeFeedsUseCase {

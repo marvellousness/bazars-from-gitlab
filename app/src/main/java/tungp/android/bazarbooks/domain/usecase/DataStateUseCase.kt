@@ -1,10 +1,11 @@
 package tungp.android.bazarbooks.domain.usecase
 
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import tungp.android.bazarbooks.data.model.base.BazaResult
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 
 abstract class DataStateUseCase<in Params, ReturnType> where ReturnType : Any {
 

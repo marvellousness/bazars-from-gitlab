@@ -5,8 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt.plugin)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.serialization)
+    id("androidx.room")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -16,7 +17,7 @@ android {
     defaultConfig {
         applicationId = "tungp.android.bazarbooks"
         minSdk = 34
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -43,17 +44,9 @@ android {
         compose = true
         buildConfig = true
     }
-
-    kapt {
-        correctErrorTypes = true
+    room {
+        schemaDirectory(path = "$projectDir/schemas")
     }
-
-//    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-//        kotlinOptions {
-//            freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-//            freeCompilerArgs += "-opt-in=kotlin.Experimental"
-//        }
-//    }
 }
 
 dependencies {
@@ -73,7 +66,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.dagger.hilt)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.androidx.material.icons.extended.android)
 
     // Retrofit
@@ -99,4 +92,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    testImplementation(libs.androidx.room.testing)
 }

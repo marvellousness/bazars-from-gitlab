@@ -1,13 +1,8 @@
-package tungp.android.bazarbooks.data.model
+package tungp.android.bazarbooks.domain.model
 
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import tungp.android.bazarbooks.domain.model.Author
-import tungp.android.bazarbooks.domain.model.Book
-import tungp.android.bazarbooks.domain.model.Vendor
 
-@Serializable
-data class HomeFeedsResponse(
+data class HomeFeeds(
     @SerialName("specialOffers")
     val specialOffers: List<Book> = emptyList(),
 

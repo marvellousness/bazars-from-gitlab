@@ -1,16 +1,13 @@
 package tungp.android.bazarbooks.screens.author
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import tungp.android.bazarbooks.data.model.base.BazaResult
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 import tungp.android.bazarbooks.domain.model.Author
 import tungp.android.bazarbooks.domain.usecase.GetAuthorsUseCase
 import tungp.android.bazarbooks.domain.usecase.NoParams
-import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.mvi.MviViewModel
 import javax.inject.Inject
 

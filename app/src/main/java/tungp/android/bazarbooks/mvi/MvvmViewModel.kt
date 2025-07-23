@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import tungp.android.bazarbooks.data.model.base.BazaResult
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 
 abstract class MvvmViewModel : ViewModel() {
 

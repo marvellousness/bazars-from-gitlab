@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.data.model
+package tungp.android.bazarbooks.data.remote.model.response
 
 import kotlinx.serialization.Serializable
 

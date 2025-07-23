@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.data.model
+package tungp.android.bazarbooks.data.remote.model.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -24,4 +24,4 @@ data class RemoveCartResponse(
 @Serializable
 data class ClearCartResponse(
     val success: Boolean
-) 
+)

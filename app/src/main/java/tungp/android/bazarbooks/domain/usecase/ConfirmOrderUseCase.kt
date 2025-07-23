@@ -1,9 +1,8 @@
 package tungp.android.bazarbooks.domain.usecase
 
 import kotlinx.coroutines.flow.FlowCollector
-import tungp.android.bazarbooks.data.model.ConfirmOrderResponse
-import tungp.android.bazarbooks.data.model.base.BazaResult
-import tungp.android.bazarbooks.domain.model.CartItem
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
+import tungp.android.bazarbooks.data.remote.model.response.ConfirmOrderResponse
 import tungp.android.bazarbooks.domain.repository.RemoteRepository
 import javax.inject.Inject
 

@@ -1,16 +1,13 @@
 package tungp.android.bazarbooks.screens.vendor
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import tungp.android.bazarbooks.data.model.base.BazaResult
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 import tungp.android.bazarbooks.domain.model.Vendor
 import tungp.android.bazarbooks.domain.usecase.GetVendorsUseCase
 import tungp.android.bazarbooks.domain.usecase.NoParams
-import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.mvi.MviViewModel
 import javax.inject.Inject
 

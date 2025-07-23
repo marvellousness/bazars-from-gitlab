@@ -3,21 +3,20 @@ package tungp.android.bazarbooks.data.remote.network.service
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
-import tungp.android.bazarbooks.data.model.AddToCartRequest
-import tungp.android.bazarbooks.data.model.AddToCartResponse
-import tungp.android.bazarbooks.data.model.BookDetailResponse
-import tungp.android.bazarbooks.data.model.CategoriesResponse
-import tungp.android.bazarbooks.data.model.HomeFeedsResponse
-import tungp.android.bazarbooks.data.model.VendorsResponse
-import tungp.android.bazarbooks.data.model.AuthorsResponse
-import tungp.android.bazarbooks.data.model.CartResponse
-import tungp.android.bazarbooks.data.model.ClearCartResponse
-import tungp.android.bazarbooks.data.model.ConfirmOrderResponse
-import tungp.android.bazarbooks.data.model.RemoveCartResponse
-import tungp.android.bazarbooks.data.model.RemoveFromCartRequest
-import tungp.android.bazarbooks.data.model.UpdateCartResponse
-import tungp.android.bazarbooks.data.model.base.BaseResponse
+import tungp.android.bazarbooks.data.remote.model.request.AddToCartRequest
+import tungp.android.bazarbooks.data.remote.model.response.AddToCartResponse
+import tungp.android.bazarbooks.data.remote.model.response.BookDetailResponse
+import tungp.android.bazarbooks.data.remote.model.response.CategoriesResponse
+import tungp.android.bazarbooks.data.remote.model.response.HomeFeedsResponse
+import tungp.android.bazarbooks.data.remote.model.response.VendorsResponse
+import tungp.android.bazarbooks.data.remote.model.response.AuthorsResponse
+import tungp.android.bazarbooks.data.remote.model.response.CartResponse
+import tungp.android.bazarbooks.data.remote.model.response.ClearCartResponse
+import tungp.android.bazarbooks.data.remote.model.response.ConfirmOrderResponse
+import tungp.android.bazarbooks.data.remote.model.response.RemoveCartResponse
+import tungp.android.bazarbooks.data.remote.model.request.RemoveFromCartRequest
+import tungp.android.bazarbooks.data.remote.model.response.UpdateCartResponse
+import tungp.android.bazarbooks.data.remote.model.base.BaseResponse
 
 interface ApiService {
 
