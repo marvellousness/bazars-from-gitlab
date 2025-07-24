@@ -19,7 +19,7 @@ data class BookDto(
     val quantityInStock: Int = 0,
     val rating: Int = 0
 ) {
-    fun asDomain(): Book {
+    fun asDomainModel(): Book {
         return Book(
             bookId = bookId ?: "",
             isbn = isbn,

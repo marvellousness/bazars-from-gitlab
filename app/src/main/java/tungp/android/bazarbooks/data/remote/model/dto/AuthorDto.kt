@@ -12,7 +12,7 @@ data class AuthorDto(
     val category: String,
     val rating: Int,
 ) {
-    fun asDomain(): Author {
+    fun asDomainModel(): Author {
         return Author(
             id = id,
             title = title,

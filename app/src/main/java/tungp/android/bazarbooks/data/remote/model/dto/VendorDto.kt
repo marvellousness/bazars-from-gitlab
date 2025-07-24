@@ -13,7 +13,7 @@ data class VendorDto(
     val rating: Int,
     val category: String = "Books" // Default category
 ) {
-    fun asDomain(): Vendor {
+    fun asDomainModel(): Vendor {
         return Vendor(
             id = id,
             title = title,
