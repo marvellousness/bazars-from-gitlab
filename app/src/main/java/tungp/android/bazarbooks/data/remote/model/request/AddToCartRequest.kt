@@ -1,4 +1,4 @@
-package tungp.android.bazarbooks.data.model
+package tungp.android.bazarbooks.data.remote.model.request
 
 import kotlinx.serialization.Serializable
 
@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 data class AddToCartRequest(
     val bookId: String,
     val quantity: Int
-) 
+)

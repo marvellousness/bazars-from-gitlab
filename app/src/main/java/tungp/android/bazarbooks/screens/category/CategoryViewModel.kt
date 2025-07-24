@@ -1,19 +1,15 @@
 package tungp.android.bazarbooks.screens.category
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import tungp.android.bazarbooks.data.model.base.BazaResult
+import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 import tungp.android.bazarbooks.domain.model.Book
-import tungp.android.bazarbooks.domain.model.Categories
 import tungp.android.bazarbooks.domain.model.Category
 import tungp.android.bazarbooks.domain.model.PreviewData
 import tungp.android.bazarbooks.domain.usecase.GetCategoriesUseCase
 import tungp.android.bazarbooks.domain.usecase.NoParams
-import tungp.android.bazarbooks.mvi.BaseViewState
 import tungp.android.bazarbooks.mvi.MviViewModel
 import javax.inject.Inject
 

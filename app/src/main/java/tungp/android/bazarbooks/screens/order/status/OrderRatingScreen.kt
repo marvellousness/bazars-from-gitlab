@@ -42,8 +42,8 @@ import tungp.android.bazarbooks.ui.theme.paddingDefault
 @Composable
 fun OrderRatingScreen(navController: NavController) {
     OrderRatingContainer(onDone = {
-        navController.navigate(MainRouteScreen.Home.route) {
-            popUpTo(Graph.CartGraph) {
+        navController.navigate(Graph.MainScreenGraph) {
+            popUpTo(Graph.MainScreenGraph) {
                 inclusive = true
             }
             launchSingleTop = true
