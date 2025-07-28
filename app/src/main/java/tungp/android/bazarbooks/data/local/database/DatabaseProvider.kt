@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 object DatabaseProvider {
     @Volatile
-    private var INSTANCE: BookDatabase? = null
+    private var INSTANCE: BazarBooksDatabase? = null
 
     private val roomDatabaseCallback = object : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -24,12 +24,12 @@ object DatabaseProvider {
         }
     }
 
-    fun getDatabase(context: Context): BookDatabase {
+    fun getDatabase(context: Context): BazarBooksDatabase {
         return INSTANCE ?: synchronized(this) {
             val instance = Room.databaseBuilder(
                 context.applicationContext,
-                BookDatabase::class.java,
-                BookDatabase.DATABASE_NAME
+                BazarBooksDatabase::class.java,
+                BazarBooksDatabase.DATABASE_NAME
             ).addCallback(roomDatabaseCallback)
                 .build()
             INSTANCE = instance
@@ -37,7 +37,7 @@ object DatabaseProvider {
         }
     }
 
-    private suspend fun populateDatabase(database: BookDatabase) {
+    private suspend fun populateDatabase(database: BazarBooksDatabase) {
         // Clear existing data (optional, but good for testing)
     }
 }

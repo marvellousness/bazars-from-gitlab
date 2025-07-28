@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import tungp.android.bazarbooks.data.local.dao.AuthorDao
-import tungp.android.bazarbooks.data.local.database.BookDatabase
 import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 import tungp.android.bazarbooks.data.remote.network.service.ApiService
 import tungp.android.bazarbooks.domain.model.Author

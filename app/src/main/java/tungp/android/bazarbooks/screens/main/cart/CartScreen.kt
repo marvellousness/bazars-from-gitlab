@@ -265,7 +265,8 @@ fun CartScreenPreview() {
             author = "Paulo Coelho",
             quantity = 1,
             price = 14.99,
-            totalPrice = 14.99
+            totalPrice = 14.99,
+            userId = "user_1"
         )
     )
     ThemedPreview {

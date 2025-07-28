@@ -171,7 +171,7 @@ fun RatingValuesRow() {
             }
             
             if (value < 5) {
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier.padding(vertical = 4.dp),
                     color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
                 )
