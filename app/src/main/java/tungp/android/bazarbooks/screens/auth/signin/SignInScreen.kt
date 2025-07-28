@@ -66,6 +66,23 @@ fun SignInScreen(
         }
     }
 
+    LaunchedEffect(state.error) {
+        state.error?.let {
+            // Handle error, e.g., show a Toast or Snackbar
+            // Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect { event ->
+            // Handle one-time events here, e.g., show Toast/Snackbar for errors
+            // For example:
+            // when (event) {
+            //     is SignInEvent.ShowToast -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            // }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -93,11 +110,11 @@ fun SignInScreen(
             Spacer(modifier = Modifier.padding(BazarTheme.spacing.medium))
             SignInForm(
                 state = state,
-                onEvent = viewModel::onTriggerEvent
+                onEvent = viewModel::onEvent
             )
             SignInActions(
-                onSignIn = { viewModel.onTriggerEvent(SignInEvent.SignIn) },
-                isFormValid = viewModel.validateForm()
+                onSignIn = { viewModel.onEvent(SignInEvent.SignIn) },
+                isLoading = state.isLoading
             )
         }
     }
@@ -171,7 +188,7 @@ fun SignInForm(
 @Composable
 fun SignInActions(
     onSignIn: () -> Unit,
-    isFormValid: Boolean,
+    isLoading: Boolean,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -184,7 +201,7 @@ fun SignInActions(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.login),
             onClick = onSignIn,
-            enabled = isFormValid,
+            enabled = !isLoading,
         )
 
         SignInTextLink(onClick = {})
