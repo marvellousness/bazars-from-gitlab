@@ -24,8 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import tungp.android.bazarbooks.components.BackNavigationAction
 import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.HeaderText
+import tungp.android.bazarbooks.components.NotificationAction
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 
 @Composable
@@ -47,34 +49,12 @@ fun LocationContainer(
     onNavigationClicked: () -> Unit,
     onActionClicked: () -> Unit,
 ) {
-    val navigationIcon: @Composable () -> Unit = {
-        IconButton(onClick = onNavigationClicked) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-        }
-    }
-    val notificationActions: @Composable RowScope.() -> Unit = {
-        IconButton(onClick = onActionClicked) {
-            BadgedBox(badge = {
-                Badge(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
-                ) {
-                    Text("3")
-                }
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Notifications"
-                )
-            }
-        }
-    }
     Scaffold(
         topBar = {
             BazarAppBar(
                 title = { HeaderText(text = "Location") },
-                navigationIcon = navigationIcon,
-                actions = notificationActions
+                navigationIcon = { BackNavigationAction(onClick = onNavigationClicked) },
+                actions = { NotificationAction(onClick = onActionClicked) }
             )
         }) { paddingValues ->
         Column(

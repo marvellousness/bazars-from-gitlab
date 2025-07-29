@@ -55,9 +55,9 @@ fun BazarAppBar(
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(name = "Top App Bar")
+@Preview(name = "Bazar App Bar")
 @Composable
-fun TopAppBarPreview() {
+fun BazarAppBarPreview() {
 
     val actions: @Composable RowScope.() -> Unit = {
         IconButton(onClick = { }) {
@@ -65,29 +65,11 @@ fun TopAppBarPreview() {
         }
     }
 
-    val notificationActions: @Composable RowScope.() -> Unit = {
-        IconButton(onClick = {}) {
-            BadgedBox(badge = {
-                Badge(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
-                ) {
-                    Text("3")
-                }
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Notifications"
-                )
-            }
-        }
-    }
-
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TopAppBar(
+        BazarAppBar(
             title = {
                 HeaderText(text = "Bazar.books")
             },
@@ -98,14 +80,14 @@ fun TopAppBarPreview() {
             },
             actions = actions
         )
-        TopAppBar(
+        BazarAppBar(
             title = { },
             navigationIcon = {
                 IconButton(onClick = { }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
             },
-            actions = notificationActions
+            actions = { NotificationAction(onClick = { }) }
         )
 
     }

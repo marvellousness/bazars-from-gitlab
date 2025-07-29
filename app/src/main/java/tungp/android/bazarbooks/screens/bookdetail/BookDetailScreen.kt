@@ -42,6 +42,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import tungp.android.bazarbooks.components.BackNavigationAction
+import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView

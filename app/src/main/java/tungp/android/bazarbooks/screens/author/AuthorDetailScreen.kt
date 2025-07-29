@@ -41,6 +41,8 @@ import androidx.navigation.NavController
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import tungp.android.bazarbooks.R
+import tungp.android.bazarbooks.components.BackNavigationAction
+import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.RatingDisplay
 import tungp.android.bazarbooks.components.RatingStarStyle
 import tungp.android.bazarbooks.domain.model.Author
@@ -55,7 +57,7 @@ fun AuthorDetailScreen(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            BazarAppBar(
                 title = {
                     Text(
                         text = "Author Detail",
@@ -63,14 +65,7 @@ fun AuthorDetailScreen(
                         fontWeight = FontWeight.Bold
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                }
+                navigationIcon = { BackNavigationAction(onClick = { navController.navigateUp() }) }
             )
         }
     ) { paddingValues ->

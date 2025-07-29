@@ -42,6 +42,8 @@ import androidx.navigation.compose.rememberNavController
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import tungp.android.bazarbooks.R
+import tungp.android.bazarbooks.components.BackNavigationAction
+import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.EmptyView
 import tungp.android.bazarbooks.components.ErrorView
 import tungp.android.bazarbooks.components.LoadingView
@@ -61,7 +63,7 @@ fun AuthorsScreen(
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            BazarAppBar(
                 title = {
                     Text(
                         text = stringResource(R.string.best_authors_title_section),
@@ -69,14 +71,7 @@ fun AuthorsScreen(
                         fontWeight = FontWeight.Bold
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
+                navigationIcon = { BackNavigationAction(onClick = { navController.navigateUp() }) },
                 actions = {
                     IconButton(onClick = { /* action */ }) {
                         Icon(

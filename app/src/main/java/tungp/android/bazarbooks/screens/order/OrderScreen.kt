@@ -50,9 +50,11 @@ import androidx.navigation.NavController
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import tungp.android.bazarbooks.R
+import tungp.android.bazarbooks.components.BackNavigationAction
 import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.Divider
 import tungp.android.bazarbooks.components.HeaderText
+import tungp.android.bazarbooks.components.NotificationAction
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SecondaryButton
 import tungp.android.bazarbooks.navigation.CartRouteScreen
@@ -116,35 +118,12 @@ fun OrderContainer(
     var showAddressDetailsSheet by remember { mutableStateOf(false) }
     var addressDetailsSelectedItem by remember { mutableStateOf("") }
 
-    val navigationIcon: @Composable () -> Unit = {
-        IconButton(onClick = onNavigationClicked) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-        }
-    }
-    val notificationActions: @Composable RowScope.() -> Unit = {
-        IconButton(onClick = onActionClicked) {
-            BadgedBox(badge = {
-                Badge(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
-                ) {
-                    Text("3")
-                }
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Notifications"
-                )
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             BazarAppBar(
                 title = { HeaderText(text = "Confirm Order") },
-                navigationIcon = navigationIcon,
-                actions = notificationActions
+                navigationIcon = { BackNavigationAction(onClick = onNavigationClicked) },
+                actions = { NotificationAction(onClick = onActionClicked) }
             )
         }) { paddingValues ->
 

@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,12 +29,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import tungp.android.bazarbooks.R
+import tungp.android.bazarbooks.components.BackNavigationAction
+import tungp.android.bazarbooks.components.BazarAppBar
 import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.BazarTextField
 import tungp.android.bazarbooks.components.HeaderText
 import tungp.android.bazarbooks.components.OrWithHorizontalDivider
 import tungp.android.bazarbooks.components.SignInTextLink
-import tungp.android.bazarbooks.components.button.BazarBackButton
 import tungp.android.bazarbooks.components.button.BazarTextButton
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SignInButton
@@ -75,11 +75,9 @@ fun SignInScreen(
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {},
-                    navigationIcon = {
-                        BazarBackButton(onClick = onBackClick)
-                    })
+                BazarAppBar(
+                    navigationIcon = { BackNavigationAction(onClick = onBackClick) }
+                )
             },
             modifier = Modifier
                 .clickable(
