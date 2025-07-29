@@ -15,7 +15,17 @@ fun NavGraphBuilder.authNavGraph(rootNavController: NavHostController) {
         route = Graph.AuthGraph, startDestination = AuthRouteScreen.Login.route
     ) {
         composable(route = AuthRouteScreen.Login.route) {
-            SignInScreen(navController = rootNavController)
+            SignInScreen(
+                onSignInSuccess = {
+                    rootNavController.navigate(Graph.MainScreenGraph) {
+                        popUpTo(Graph.AuthGraph) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+                onSignUpClick = {},
+                onForgotPasswordClick = {},
+                onBackClick = {},
+            )
         }
         composable(route = AuthRouteScreen.SignUp.route) {
             SignUpScreen(navController = rootNavController)

@@ -1,19 +1,30 @@
 package tungp.android.bazarbooks.screens.main
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.BazarAppBar
+import tungp.android.bazarbooks.components.BazarSurface
+import tungp.android.bazarbooks.components.HeaderText
 import tungp.android.bazarbooks.navigation.BottomNavigationBar
 import tungp.android.bazarbooks.navigation.bottomNavigationItemsList
 import tungp.android.bazarbooks.navigation.graphs.MainNavGraph
@@ -41,12 +52,37 @@ fun MainScreen(
             }
         }
     }
+
+    val searchIcon: @Composable () -> Unit = {
+        IconButton(onClick = { }) {
+            Icon(Icons.Default.Search, contentDescription = "Search")
+        }
+    }
+
+    val notificationActions: @Composable RowScope.() -> Unit = {
+        IconButton(onClick = {}) {
+            BadgedBox(badge = {
+                Badge(
+                    containerColor = Color.Red,
+                    contentColor = Color.White
+                ) {
+                    Text("3")
+                }
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = "Notifications"
+                )
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             BazarAppBar(
-                title = topBarTitle,
-                onNavigationClicked = {},
-                onActionClicked = {}
+                title = { HeaderText(text = topBarTitle) },
+                navigationIcon = searchIcon,
+                actions = notificationActions
             )
         },
         bottomBar = {
