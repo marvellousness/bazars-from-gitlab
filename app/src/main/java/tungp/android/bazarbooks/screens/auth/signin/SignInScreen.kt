@@ -36,6 +36,7 @@ import tungp.android.bazarbooks.components.BazarTextField
 import tungp.android.bazarbooks.components.HeaderText
 import tungp.android.bazarbooks.components.OrWithHorizontalDivider
 import tungp.android.bazarbooks.components.SignInTextLink
+import tungp.android.bazarbooks.components.SubHeaderText
 import tungp.android.bazarbooks.components.button.BazarTextButton
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SignInButton
@@ -95,16 +96,8 @@ fun SignInScreen(
                     .verticalScroll(state = scrollableState)
                     .fillMaxSize()
             ) {
-                HeaderText(
-                    text = stringResource(R.string.login)
-                )
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.sign_to_your_account),
-                    style = BazarTheme.typography.bodyLarge,
-                    color = GrayScale500
-                )
-
+                HeaderText(text = stringResource(R.string.login))
+                SubHeaderText(stringResource(R.string.sign_to_your_account))
                 Spacer(modifier = Modifier.padding(BazarTheme.spacing.medium))
 
                 Column(
