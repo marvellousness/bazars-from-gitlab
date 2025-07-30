@@ -2,6 +2,8 @@ package tungp.android.bazarbooks.screens.main
 
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -12,8 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import tungp.android.bazarbooks.components.BazarSurface
+import tungp.android.bazarbooks.components.BackNavigationAction
 import tungp.android.bazarbooks.components.BazarAppBar
+import tungp.android.bazarbooks.components.BazarSurface
+import tungp.android.bazarbooks.components.HeaderText
+import tungp.android.bazarbooks.components.NotificationAction
 import tungp.android.bazarbooks.navigation.BottomNavigationBar
 import tungp.android.bazarbooks.navigation.bottomNavigationItemsList
 import tungp.android.bazarbooks.navigation.graphs.MainNavGraph
@@ -41,12 +46,15 @@ fun MainScreen(
             }
         }
     }
+
+
     Scaffold(
         topBar = {
             BazarAppBar(
-                title = topBarTitle,
-                onNavigationClicked = {},
-                onActionClicked = {}
+                title = { HeaderText(text = topBarTitle) },
+                navigationIcon = {
+                    BackNavigationAction(icon = Icons.Default.Search, onClick = {})
+                }, actions = { NotificationAction(badgeNumber = 3, onClick = { }) }
             )
         },
         bottomBar = {

@@ -16,6 +16,8 @@ import tungp.android.bazarbooks.domain.repository.BookRepository
 import tungp.android.bazarbooks.data.repository.BookRepositoryImpl
 import tungp.android.bazarbooks.data.repository.CartRepositoryImpl
 import tungp.android.bazarbooks.domain.repository.CartRepository
+import tungp.android.bazarbooks.data.repository.AuthRepositoryImpl
+import tungp.android.bazarbooks.domain.repository.AuthRepository
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -42,4 +44,8 @@ abstract class RepositoryModule {
     @Binds
     @ViewModelScoped
     abstract fun bindCartRepository(cartRepositoryImpl: CartRepositoryImpl): CartRepository
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 }

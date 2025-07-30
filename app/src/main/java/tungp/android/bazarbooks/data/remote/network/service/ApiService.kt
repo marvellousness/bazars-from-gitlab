@@ -17,6 +17,9 @@ import tungp.android.bazarbooks.data.remote.model.response.RemoveCartResponse
 import tungp.android.bazarbooks.data.remote.model.request.RemoveFromCartRequest
 import tungp.android.bazarbooks.data.remote.model.response.UpdateCartResponse
 import tungp.android.bazarbooks.data.remote.model.base.BaseResponse
+import tungp.android.bazarbooks.data.remote.model.request.SignInRequest
+import tungp.android.bazarbooks.data.remote.model.request.SignUpRequest
+import tungp.android.bazarbooks.data.remote.model.response.UserResponse
 
 interface ApiService {
 
@@ -56,5 +59,11 @@ interface ApiService {
 
     @POST("mock/confirmOrder")
     suspend fun confirmOrder(): BaseResponse<ConfirmOrderResponse>
+
+    @POST("mock/signIn")
+    suspend fun signIn(@Body request: SignInRequest): BaseResponse<UserResponse>
+
+    @POST("mock/signUp")
+    suspend fun signUp(@Body request: SignUpRequest): BaseResponse<UserResponse>
 
 }

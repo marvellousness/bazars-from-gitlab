@@ -9,18 +9,24 @@ import tungp.android.bazarbooks.data.local.dao.CategoryDao
 import tungp.android.bazarbooks.data.local.entity.AuthorEntity
 import tungp.android.bazarbooks.data.local.entity.BookEntity
 import tungp.android.bazarbooks.data.local.entity.CategoryEntity
+import tungp.android.bazarbooks.data.local.entity.OrderEntity
+import tungp.android.bazarbooks.data.local.entity.UserEntity
+import tungp.android.bazarbooks.data.local.entity.VendorEntity
 
 @Database(
     entities = [
         AuthorEntity::class,
         CategoryEntity::class,
         BookEntity::class,
+        VendorEntity::class,
+        UserEntity::class,
+        OrderEntity::class
     ],
-    version = BookDatabase.Companion.LATEST_VERSION,
+    version = BazarBooksDatabase.Companion.LATEST_VERSION,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class BookDatabase : RoomDatabase() {
+abstract class BazarBooksDatabase : RoomDatabase() {
     abstract fun authorDao(): AuthorDao
     abstract fun categoryDao(): CategoryDao
     abstract fun bookDao(): BookDao

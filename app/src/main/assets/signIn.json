@@ -1,0 +1,12 @@
+{
+  "statusCode": 200,
+  "statusMessage": "Success",
+  "data": {
+    "user": {
+      "id": "user_1",
+      "email": "test@gmail.com",
+      "address": "123 New york",
+      "phone": "0905240247"
+    }
+  }
+}
