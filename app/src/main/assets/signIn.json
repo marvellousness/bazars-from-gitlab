@@ -4,6 +4,8 @@
   "data": {
     "user": {
       "id": "user_1",
+      "username": "me",
+      "password": "123456",
       "email": "test@gmail.com",
       "address": "123 New york",
       "phone": "0905240247"

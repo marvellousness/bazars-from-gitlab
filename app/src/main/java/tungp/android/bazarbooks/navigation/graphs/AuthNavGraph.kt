@@ -22,13 +22,37 @@ fun NavGraphBuilder.authNavGraph(rootNavController: NavHostController) {
                         launchSingleTop = true
                     }
                 },
-                onSignUpClick = {},
-                onForgotPasswordClick = {},
-                onBackClick = {},
+                onSignUpClick = {
+                    rootNavController.navigate(AuthRouteScreen.SignUp.route) {
+                        launchSingleTop = true
+                    }
+                },
+                onForgotPasswordClick = { rootNavController.navigate(AuthRouteScreen.Forget.route) },
+                onBackClick = { rootNavController.navigateUp() },
             )
         }
         composable(route = AuthRouteScreen.SignUp.route) {
-            SignUpScreen(navController = rootNavController)
+            SignUpScreen(
+                onSignInSuccess = {
+                    // Navigate Home Screen
+                    rootNavController.navigate(Graph.MainScreenGraph) {
+                        popUpTo(Graph.AuthGraph) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onSignInClick = {
+                    rootNavController.navigate(AuthRouteScreen.Login.route) {
+                        popUpTo(AuthRouteScreen.SignUp.route) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                },
+                onBackClick = {
+                    rootNavController.navigateUp()
+                }
+            )
         }
         composable(route = AuthRouteScreen.Forget.route) {
             ForgetPasswordScreen(navController = rootNavController)
