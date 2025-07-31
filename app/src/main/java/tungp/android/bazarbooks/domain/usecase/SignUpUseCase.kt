@@ -7,11 +7,12 @@ import tungp.android.bazarbooks.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
 ) : DataStateUseCase<SignUpUseCase.Params, User>() {
-    data class Params(val email: String, val password: String, val address: String, val phone: String)
+    data class Params(val email: String, val password: String, val username: String)
+
     override suspend fun FlowCollector<BazaResult<User>>.execute(params: Params) {
-        repository.signUp(params.email, params.password, params.address, params.phone).collect { result ->
+        repository.signUp(params.email, params.password, params.username).collect { result ->
             emit(result)
         }
     }

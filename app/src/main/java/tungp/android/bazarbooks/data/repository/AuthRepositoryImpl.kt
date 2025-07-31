@@ -36,12 +36,11 @@ class AuthRepositoryImpl @Inject constructor(
     override fun signUp(
         email: String,
         password: String,
-        address: String,
-        phone: String,
+        username: String
     ): Flow<BazaResult<User>> = flow {
         emit(BazaResult.Loading)
         try {
-            val response = apiService.signUp(SignUpRequest(email, password, address, phone))
+            val response = apiService.signUp(SignUpRequest(email, password, username))
             val user = response.data?.user?.asDomainModel()
             if (response.statusCode == 200 && user != null) {
                 emit(BazaResult.Success(user))

@@ -13,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,13 +34,12 @@ import tungp.android.bazarbooks.components.BazarSurface
 import tungp.android.bazarbooks.components.BazarTextField
 import tungp.android.bazarbooks.components.HeaderText
 import tungp.android.bazarbooks.components.OrWithHorizontalDivider
-import tungp.android.bazarbooks.components.SignInTextLink
+import tungp.android.bazarbooks.components.TextAnnotatedLinkClickable
 import tungp.android.bazarbooks.components.SubHeaderText
 import tungp.android.bazarbooks.components.button.BazarTextButton
 import tungp.android.bazarbooks.components.button.PrimaryButton
 import tungp.android.bazarbooks.components.button.SignInButton
 import tungp.android.bazarbooks.ui.theme.BazarTheme
-import tungp.android.bazarbooks.ui.theme.GrayScale500
 import tungp.android.bazarbooks.ui.theme.paddingDefault
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -157,7 +155,11 @@ fun SignInScreen(
                         enabled = !state.isLoading,
                     )
 
-                    SignInTextLink(onClick = onSignUpClick)
+                    TextAnnotatedLinkClickable(
+                        text1 = stringResource(id = R.string.dont_have_an_account),
+                        text2 = stringResource(id = R.string.sign_up),
+                        onClick = onSignUpClick
+                    )
                     OrWithHorizontalDivider()
                     SignInButton(
                         text = stringResource(R.string.sign_in_with_google),

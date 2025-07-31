@@ -6,5 +6,5 @@ import tungp.android.bazarbooks.domain.model.User
 
 interface AuthRepository {
     fun signIn(email: String, password: String): Flow<BazaResult<User>>
-    fun signUp(email: String, password: String, address: String, phone: String): Flow<BazaResult<User>>
+    fun signUp(email: String, password: String, username: String): Flow<BazaResult<User>>
 } 

@@ -39,6 +39,15 @@
     <string name="sign_in_with_google">Sign in With Google</string>
     <string name="sign_in_with_apple">Sign in With Apple</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="have_an_account">Have an account?</string>
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
+    <string name="sign_up_subtitle">Create account and choose favorite menu</string>
+    <string name="username">Name</string>
+    <string name="username_placeholder">Name</string>
+    <string name="register">Register</string>
+
+    <string name="term_of_service_first">By clicking Register, you agree to our</string>
+    <string name="term_of_service_second">\nTerms, Data Policy.</string>
+
 </resources>

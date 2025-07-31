@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import tungp.android.bazarbooks.util.CredentialsStorage
 import tungp.android.bazarbooks.data.remote.model.base.BazaResult
 import tungp.android.bazarbooks.domain.usecase.SignUpUseCase
+import tungp.android.bazarbooks.util.CredentialsStorage
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,18 +33,20 @@ class SignUpViewModel @Inject constructor(
                 val emailError = validateEmail(email)
                 _state.update { it.copy(email = email, emailError = emailError) }
             }
+
             is SignUpEvent.PasswordChanged -> {
                 val password = event.password
                 val passwordError = validatePassword(password)
                 _state.update { it.copy(password = password, passwordError = passwordError) }
             }
-            is SignUpEvent.AddressChanged -> {
-                _state.update { it.copy(address = event.address) }
+
+            is SignUpEvent.UsernameChanged -> {
+                val username = event.username
+                val usernameError = validateUsername(username)
+                _state.update { it.copy(username = event.username, usernameError = usernameError) }
             }
-            is SignUpEvent.PhoneChanged -> {
-                _state.update { it.copy(phone = event.phone) }
-            }
-            is SignUpEvent.SignUp -> {
+
+            is SignUpEvent.Register -> {
                 signUp()
             }
         }
@@ -72,17 +74,25 @@ class SignUpViewModel @Inject constructor(
                 SignUpUseCase.Params(
                     currentState.email ?: "",
                     currentState.password ?: "",
-                    currentState.address ?: "",
-                    currentState.phone ?: ""
+                    currentState.username ?: ""
                 )
             ).collect { result ->
                 when (result) {
                     is BazaResult.Loading -> _state.update { it.copy(isLoading = true) }
                     is BazaResult.Success -> {
-                        credentialsStorage.saveCredentials(currentState.email, currentState.password)
+                        credentialsStorage.saveCredentials(
+                            currentState.email,
+                            currentState.password
+                        )
                         _state.update { it.copy(isSignUpSuccess = true, isLoading = false) }
                     }
-                    is BazaResult.Error -> _state.update { it.copy(error = result.message ?: result.exception.message ?: "Unknown error", isLoading = false) }
+
+                    is BazaResult.Error -> _state.update {
+                        it.copy(
+                            error = result.message ?: result.exception.message ?: "Unknown error",
+                            isLoading = false
+                        )
+                    }
                 }
             }
         }
@@ -100,6 +110,13 @@ class SignUpViewModel @Inject constructor(
         return when {
             password.isBlank() -> "Password cannot be empty"
             password.length < 6 -> "Password must be at least 6 characters long"
+            else -> null
+        }
+    }
+
+    private fun validateUsername(username: String): String? {
+        return when {
+            username.isBlank() -> "Username cannot be empty"
             else -> null
         }
     }
