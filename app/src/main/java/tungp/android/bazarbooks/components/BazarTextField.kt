@@ -31,20 +31,14 @@ fun BazarTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    @StringRes placeHolderResourceId: Int,
+    placeholderText: String? = null,
     @DrawableRes iconResourceId: Int? = null,
     labelText: String,
-    placeholder: @Composable (() -> Unit) = {
-        Text(
-            text = stringResource(id = placeHolderResourceId),
-            color = BazarTheme.colors.outlineVariant
-        )
-    },
     trailingIcon: @Composable (() -> Unit) = {
         iconResourceId?.let {
             BazarIcon(
                 iconResourceId = it,
-                contentDescription = stringResource(id = placeHolderResourceId)
+                contentDescription = placeholderText
             )
         }
     },
@@ -85,7 +79,14 @@ fun BazarTextField(
                     )
                 }
             } else trailingIcon,
-            placeholder = placeholder,
+            placeholder = {
+                if (placeholderText != null) {
+                    Text(
+                        text = placeholderText,
+                        color = BazarTheme.colors.outlineVariant
+                    )
+                }
+            },
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             visualTransformation = visualTransform,
@@ -107,7 +108,7 @@ fun PrevTextField() {
         value = "",
         onValueChange = {},
         labelText = "Email",
-        placeHolderResourceId = R.string.email_placeholder,
+        placeholderText = "Email",
         iconResourceId = R.drawable.ic_ography_password_outline
     )
 }
@@ -119,7 +120,7 @@ fun PrevTextFieldTrailingIcon() {
         value = "",
         onValueChange = {},
         labelText = "Password",
-        placeHolderResourceId = R.string.email_placeholder,
+        placeholderText = "Password",
         iconResourceId = R.drawable.ic_ography_password_outline
     )
 }

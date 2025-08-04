@@ -112,7 +112,7 @@ fun SignInScreen(
                             viewModel.onEvent(SignInEvent.EmailChanged(it))
                         },
                         labelText = stringResource(R.string.email),
-                        placeHolderResourceId = R.string.email_placeholder,
+                        placeholderText = stringResource(R.string.email_placeholder),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Default
@@ -126,7 +126,7 @@ fun SignInScreen(
                             viewModel.onEvent(SignInEvent.PasswordChanged(it))
                         },
                         labelText = stringResource(R.string.password),
-                        placeHolderResourceId = R.string.password_placeholder,
+                        placeholderText = stringResource(R.string.password_placeholder),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password,
                             imeAction = ImeAction.Next

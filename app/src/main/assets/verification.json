@@ -1,0 +1,7 @@
+{
+  "title": "Check your email for a code",
+  "subtitle": "We've sent a 6-digit code to your email address. The code expires in 10 minutes.",
+  "code_placeholder": "Enter code",
+  "verify_button": "Verify",
+  "resend_button": "Resend code"
+}

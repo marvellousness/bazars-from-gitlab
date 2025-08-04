@@ -23,7 +23,7 @@ fun RootNavGraph(isAuth: Boolean) {
         startDestination = if (isAuth) Graph.MainScreenGraph else Graph.AuthGraph
     ) {
         onboardingNavGraph(rootNavController)
-        authNavGraph(rootNavController = rootNavController)
+        authNavGraph(navController = rootNavController)
         composable(route = Graph.MainScreenGraph) {
             MainScreen(rootNavController = rootNavController)
         }

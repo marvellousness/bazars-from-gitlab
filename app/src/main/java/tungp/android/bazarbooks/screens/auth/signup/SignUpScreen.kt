@@ -1,5 +1,6 @@
 package tungp.android.bazarbooks.screens.auth.signup
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -14,13 +15,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tungp.android.bazarbooks.R
 import tungp.android.bazarbooks.components.BackNavigationAction
 import tungp.android.bazarbooks.components.BazarAppBar
@@ -30,23 +31,28 @@ import tungp.android.bazarbooks.components.HeaderText
 import tungp.android.bazarbooks.components.SubHeaderText
 import tungp.android.bazarbooks.components.TextAnnotatedLinkClickable
 import tungp.android.bazarbooks.components.button.PrimaryButton
+import tungp.android.bazarbooks.domain.model.User
 import tungp.android.bazarbooks.ui.theme.BazarTheme
 import tungp.android.bazarbooks.ui.theme.paddingDefault
 
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel = hiltViewModel(),
-    onSignInClick: () -> Unit = {},
-    onSignInSuccess: () -> Unit = {},
-    onBackClick: () -> Unit = {},
+    onNavigateToLogin: () -> Unit,
+    onNavigateToOtpVerification: (user: User) -> Unit,
+    onNavigationBack: () -> Unit,
 ) {
+    val TAG = "~~~SignUpScreen"
     val scrollableState = rememberScrollState()
-    val state by viewModel.state.collectAsState()
+    val signUpState by viewModel.signUpState.collectAsStateWithLifecycle()
 
-    // TODO: Navigate to Home screen when isSignUpSuccess
-    LaunchedEffect(key1 = state.isSignUpSuccess) {
-        if (state.isSignUpSuccess) {
-            onSignInSuccess()
+    LaunchedEffect(key1 = signUpState.isSignUpSuccess) {
+
+        Log.d(TAG, "SignUpScreen: LaunchedEffect: ${signUpState.isSignUpSuccess}")
+
+        if (signUpState.isSignUpSuccess && signUpState.user != null) {
+            Log.d(TAG, "SignUpScreen: isSignUpSuccess && signUpState.user NOT NULL")
+            onNavigateToOtpVerification(signUpState.user!!)
         }
     }
 
@@ -54,7 +60,7 @@ fun SignUpScreen(
         Scaffold(
             topBar = {
                 BazarAppBar(
-                    navigationIcon = { BackNavigationAction(onClick = onBackClick) })
+                    navigationIcon = { BackNavigationAction(onClick = onNavigationBack) })
             }
         ) { innerPadding ->
             Column(
@@ -68,7 +74,11 @@ fun SignUpScreen(
                 HeaderText(text = stringResource(R.string.sign_up))
                 SubHeaderText(stringResource(R.string.sign_up_subtitle))
                 Spacer(modifier = Modifier.height(BazarTheme.spacing.small))
-                SignUpForm(state, viewModel, onSignInClick)
+                SignUpForm(
+                    state = signUpState,
+                    viewModel = viewModel,
+                    onSignInClick = onNavigateToLogin
+                )
             }
         }
     }
@@ -87,7 +97,7 @@ private fun ColumnScope.SignUpForm(
             viewModel.onEvent(SignUpEvent.UsernameChanged(it))
         },
         labelText = stringResource(R.string.username),
-        placeHolderResourceId = R.string.username_placeholder,
+        placeholderText = stringResource(R.string.username_placeholder),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Default
@@ -101,7 +111,7 @@ private fun ColumnScope.SignUpForm(
             viewModel.onEvent(SignUpEvent.EmailChanged(it))
         },
         labelText = stringResource(R.string.email),
-        placeHolderResourceId = R.string.email_placeholder,
+        placeholderText = stringResource(R.string.email_placeholder),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Default
@@ -115,7 +125,7 @@ private fun ColumnScope.SignUpForm(
             viewModel.onEvent(SignUpEvent.PasswordChanged(it))
         },
         labelText = stringResource(R.string.password),
-        placeHolderResourceId = R.string.password_placeholder,
+        placeholderText = stringResource(R.string.password_placeholder),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Next
@@ -128,7 +138,7 @@ private fun ColumnScope.SignUpForm(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(id = R.string.register),
         onClick = {
-            viewModel.onEvent(SignUpEvent.Register)
+            viewModel.onEvent(SignUpEvent.RegisterNewUser)
         },
         enabled = !state.isLoading,
     )

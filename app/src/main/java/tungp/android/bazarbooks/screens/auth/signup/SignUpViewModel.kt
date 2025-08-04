@@ -3,11 +3,9 @@ package tungp.android.bazarbooks.screens.auth.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tungp.android.bazarbooks.data.remote.model.base.BazaResult
@@ -20,33 +18,30 @@ class SignUpViewModel @Inject constructor(
     private val credentialsStorage: CredentialsStorage,
     private val signUpUseCase: SignUpUseCase,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(SignUpState())
-    val state: StateFlow<SignUpState> = _state.asStateFlow()
-
-    private val _eventChannel = Channel<SignUpEvent>()
-    val eventFlow = _eventChannel.receiveAsFlow()
+    private val _signUpstate = MutableStateFlow(SignUpState())
+    val signUpState: StateFlow<SignUpState> = _signUpstate.asStateFlow()
 
     fun onEvent(event: SignUpEvent) {
         when (event) {
             is SignUpEvent.EmailChanged -> {
                 val email = event.email
-                val emailError = validateEmail(email)
-                _state.update { it.copy(email = email, emailError = emailError) }
+                val emailError = null
+                _signUpstate.update { it.copy(email = email, emailError = emailError) }
             }
 
             is SignUpEvent.PasswordChanged -> {
                 val password = event.password
-                val passwordError = validatePassword(password)
-                _state.update { it.copy(password = password, passwordError = passwordError) }
+                val passwordError = null
+                _signUpstate.update { it.copy(password = password, passwordError = passwordError) }
             }
 
             is SignUpEvent.UsernameChanged -> {
                 val username = event.username
-                val usernameError = validateUsername(username)
-                _state.update { it.copy(username = event.username, usernameError = usernameError) }
+                val usernameError = null
+                _signUpstate.update { it.copy(username = event.username, usernameError = usernameError) }
             }
 
-            is SignUpEvent.Register -> {
+            is SignUpEvent.RegisterNewUser -> {
                 signUp()
             }
         }
@@ -54,21 +49,10 @@ class SignUpViewModel @Inject constructor(
 
     private fun signUp() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, error = null) }
-            val currentState = _state.value
+            _signUpstate.update { it.copy(isLoading = true, error = null) }
+            val currentState = _signUpstate.value
             val emailError = validateEmail(currentState.email ?: "")
             val passwordError = validatePassword(currentState.password ?: "")
-
-            if (emailError != null || passwordError != null) {
-                _state.update {
-                    it.copy(
-                        emailError = emailError,
-                        passwordError = passwordError,
-                        isLoading = false
-                    )
-                }
-                return@launch
-            }
 
             signUpUseCase(
                 SignUpUseCase.Params(
@@ -78,16 +62,18 @@ class SignUpViewModel @Inject constructor(
                 )
             ).collect { result ->
                 when (result) {
-                    is BazaResult.Loading -> _state.update { it.copy(isLoading = true) }
+                    is BazaResult.Loading -> _signUpstate.update { it.copy(isLoading = true) }
                     is BazaResult.Success -> {
-                        credentialsStorage.saveCredentials(
-                            currentState.email,
-                            currentState.password
-                        )
-                        _state.update { it.copy(isSignUpSuccess = true, isLoading = false) }
+                        _signUpstate.update {currentState ->
+                            currentState.copy(
+                                isSignUpSuccess = true,
+                                isLoading = false,
+                                user = result.data
+                            )
+                        }
                     }
 
-                    is BazaResult.Error -> _state.update {
+                    is BazaResult.Error -> _signUpstate.update {
                         it.copy(
                             error = result.message ?: result.exception.message ?: "Unknown error",
                             isLoading = false
