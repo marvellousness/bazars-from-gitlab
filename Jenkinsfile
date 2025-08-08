@@ -1,12 +1,15 @@
 pipeline {
   agent any
+
   environment {
     APP_NAME = 'Bazar Books'
   }
+
   options {
     // Stop the build early in case of compile or test failures
     skipStagesAfterUnstable()
   }
+
   stages {
 
     // Detect build type
@@ -26,7 +29,8 @@ pipeline {
     stage('Compile') {
       steps {
         // Compile the app and its dependencies
-        sh './gradlew compile${BUILD_TYPE}Sources'
+        sh "./gradlew compile${BUILD_TYPE}Sources"
       }
     }
+  }
 }
