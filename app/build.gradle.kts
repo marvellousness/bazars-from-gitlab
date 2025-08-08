@@ -1,4 +1,5 @@
 import org.gradle.kotlin.dsl.implementation
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -10,6 +11,10 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+val props = Properties()
+file("version.properties").inputStream().use { props.load(it) }
+val version: String = props.getProperty("version")
+
 android {
     namespace = "tungp.android.bazarbooks"
     compileSdk = 35
@@ -19,7 +24,7 @@ android {
         minSdk = 34
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = version
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
