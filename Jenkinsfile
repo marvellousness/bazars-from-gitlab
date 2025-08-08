@@ -12,6 +12,13 @@ pipeline {
 
   stages {
 
+      //
+      stage("Build Version") {
+          steps {
+              sh 'build.sh'
+          }
+      }
+
     // Compile
     stage('Compile') {
       steps {
