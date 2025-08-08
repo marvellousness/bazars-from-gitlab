@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+set +x
+
+COMMON_CWD=`pwd`
+
+COMMON_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+set -x
+
+cd "${COMMON_SCRIPT_DIR}"
+
+set +x
+
 VERSION_FILE_PATH=../version.properties
 if [[ -z "$LIB_VERSION" ]]; then
 
