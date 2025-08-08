@@ -16,7 +16,7 @@ pipeline {
     stage('Compile') {
       steps {
         // Compile the app and its dependencies
-        sh './gradlew clean assembleDebug assembleRelease'
+        sh './gradlew clean assembleDebug'
       }
     }
   }
